@@ -1,0 +1,20 @@
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace EFCore.PgSearch;
+
+public sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
+{
+    public void ApplyServices(IServiceCollection services)
+    {
+        services.AddSingleton<IMethodCallTranslatorPlugin, PgSearchTranslatorPlugin>();
+    }
+
+    public void Validate(IDbContextOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    public DbContextOptionsExtensionInfo Info { get; }
+}
