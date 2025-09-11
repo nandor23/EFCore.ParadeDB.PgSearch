@@ -2,31 +2,31 @@ namespace EFCore.ParadeDB.PgSearch;
 
 public sealed class Fuzzy
 {
-    private readonly int _distance;
-    private readonly bool _isPrefix;
-    private readonly bool _hasLowTranspositionCost;
+    internal readonly int Distance;
+    internal readonly bool Prefix;
+    internal readonly bool TranspositionCostOne;
 
-    private Fuzzy(int distance, bool isPrefix, bool hasLowTranspositionCost)
+    private Fuzzy(int distance, bool prefix, bool transpositionCostOne)
     {
-        _distance = distance;
-        _isPrefix = isPrefix;
-        _hasLowTranspositionCost = hasLowTranspositionCost;
+        Distance = distance;
+        Prefix = prefix;
+        TranspositionCostOne = transpositionCostOne;
     }
 
     public static Fuzzy With(
         int distance,
-        bool isPrefix = false,
-        bool lowerTranspositionCost = false
-    ) => new(distance, isPrefix, lowerTranspositionCost);
+        bool prefix = false,
+        bool transpositionCostOne = false
+    ) => new(distance, prefix, transpositionCostOne);
 
     internal string ToSql()
     {
-        return (_isPrefix, _hasLowTranspositionCost) switch
+        return (_prefix: Prefix, _transpositionCostOne: TranspositionCostOne) switch
         {
-            (false, false) => $"fuzzy({_distance})",
-            (true, false) => $"fuzzy({_distance}, t)",
-            (false, true) => $"fuzzy({_distance}, f, t)",
-            (true, true) => $"fuzzy({_distance}, t, t)",
+            (false, false) => $"fuzzy({Distance})",
+            (true, false) => $"fuzzy({Distance}, t)",
+            (false, true) => $"fuzzy({Distance}, f, t)",
+            (true, true) => $"fuzzy({Distance}, t, t)",
         };
     }
 }
