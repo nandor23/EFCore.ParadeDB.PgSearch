@@ -72,7 +72,7 @@ public sealed class MatchTranslator : IMethodCallTranslator
             args,
             nullable: true,
             argumentsPropagateNullability: argsNullability,
-            typeof(string)
+            typeof(bool)
         );
 
         return new FullTextSearchExpression(arguments[0], matchFunction);
