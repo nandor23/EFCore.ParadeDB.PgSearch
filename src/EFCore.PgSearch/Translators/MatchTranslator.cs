@@ -1,16 +1,16 @@
 using System.Reflection;
+using EFCore.PgSearch.Expressions;
 using EFCore.PgSearch.Tokenizers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.PgSearch;
+namespace EFCore.PgSearch.Translators;
 
-public sealed class MatchTranslator : IMethodCallTranslator
+internal sealed class MatchTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
-
     private static readonly MethodInfo MatchMethod = typeof(PgSearch).GetMethod(
         nameof(PgSearch.Match)
     )!;
@@ -32,22 +32,22 @@ public sealed class MatchTranslator : IMethodCallTranslator
             return null;
         }
 
-        var args = new List<SqlExpression> { arguments[1], arguments[2] };
-        var argsNullability = new List<bool> { true, true };
+        var args = new List<SqlExpression> { arguments[1] };
+        var argsNullability = new List<bool> { true };
 
-        if (arguments[3] is SqlConstantExpression { Value: Tokenizer tokenizer })
+        if (arguments[2] is SqlConstantExpression { Value: Tokenizer tokenizer })
         {
             args.Add(tokenizer.ToSqlExpression());
             argsNullability.Add(true);
         }
 
-        if (arguments[4] is SqlConstantExpression { Value: int distance })
+        if (arguments[3] is SqlConstantExpression { Value: int distance })
         {
             args.Add(new SqlFragmentExpression($"distance => {distance}"));
             argsNullability.Add(true);
         }
 
-        if (arguments[5] is SqlConstantExpression { Value: bool transpositionCostOne })
+        if (arguments[4] is SqlConstantExpression { Value: bool transpositionCostOne })
         {
             args.Add(
                 new SqlFragmentExpression($"transposition_cost_one => {transpositionCostOne}")
@@ -55,13 +55,13 @@ public sealed class MatchTranslator : IMethodCallTranslator
             argsNullability.Add(true);
         }
 
-        if (arguments[6] is SqlConstantExpression { Value: bool prefix })
+        if (arguments[5] is SqlConstantExpression { Value: bool prefix })
         {
             args.Add(new SqlFragmentExpression($"prefix => {prefix}"));
             argsNullability.Add(true);
         }
 
-        if (arguments[7] is SqlConstantExpression { Value: bool conjunctionMode })
+        if (arguments[6] is SqlConstantExpression { Value: bool conjunctionMode })
         {
             args.Add(new SqlFragmentExpression($"conjunction_mode => {conjunctionMode}"));
             argsNullability.Add(true);
@@ -75,6 +75,6 @@ public sealed class MatchTranslator : IMethodCallTranslator
             typeof(bool)
         );
 
-        return new FullTextSearchExpression(arguments[0], matchFunction);
+        return new PgSearchExpression(arguments[0], matchFunction, "@@@");
     }
 }

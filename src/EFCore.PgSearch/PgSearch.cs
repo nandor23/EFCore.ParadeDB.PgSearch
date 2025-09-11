@@ -4,8 +4,22 @@ namespace EFCore.PgSearch;
 
 public static class PgSearch
 {
-    public static bool Match<TKey, TField>(
-        TKey key,
+    public static bool MatchDisjunction<TField>(TField field, string value)
+    {
+        throw new InvalidOperationException("This method is for use in LINQ queries only");
+    }
+
+    public static bool MatchConjunction<TField>(TField field, string value)
+    {
+        throw new InvalidOperationException("This method is for use in LINQ queries only");
+    }
+
+    public static bool Phrase<TField>(TField field, string value)
+    {
+        throw new InvalidOperationException("This method is for use in LINQ queries only");
+    }
+
+    public static bool Match<TField>(
         TField field,
         string value,
         Tokenizer? tokenizer = null,

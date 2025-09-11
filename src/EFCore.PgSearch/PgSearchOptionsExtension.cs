@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EFCore.PgSearch;
 
-public sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
+internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
 {
     public void ApplyServices(IServiceCollection services)
     {
