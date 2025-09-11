@@ -6,7 +6,10 @@
     <File Path=".csharpierignore" />
   </Folder>
   <Folder Name="/samples/">
-    <Project Path="samples\EFCore.PgSearch.Api\EFCore.PgSearch.Api.csproj" Type="Classic C#" />
+    <Project
+      Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj"
+      Type="Classic C#"
+    />
   </Folder>
   <Folder Name="/src/">
     <Project

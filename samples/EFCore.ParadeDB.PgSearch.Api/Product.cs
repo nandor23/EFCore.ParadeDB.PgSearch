@@ -1,4 +1,4 @@
-namespace EFCore.PgSearch.Api;
+namespace EFCore.ParadeDB.PgSearch.Api;
 
 public sealed class Product
 {
