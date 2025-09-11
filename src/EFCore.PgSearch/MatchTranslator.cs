@@ -1,4 +1,5 @@
 using System.Reflection;
+using EFCore.PgSearch.Tokenizers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
@@ -32,12 +33,19 @@ public sealed class MatchTranslator : IMethodCallTranslator
         }
 
         var args = new List<SqlExpression> { arguments[1], arguments[2] };
+        var argsNullability = new List<bool> { true, true };
+
+        if (arguments[3] is SqlConstantExpression { Value: Tokenizer tokenizer })
+        {
+            args.Add(tokenizer.ToSqlExpression());
+            argsNullability.Add(true);
+        }
 
         var matchFunction = _sqlExpressionFactory.Function(
             "paradedb.match",
             args,
             nullable: true,
-            argumentsPropagateNullability: [true, true],
+            argumentsPropagateNullability: argsNullability,
             typeof(string)
         );
 

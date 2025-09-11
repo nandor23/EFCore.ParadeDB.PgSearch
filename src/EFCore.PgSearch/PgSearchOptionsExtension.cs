@@ -13,6 +13,7 @@ public sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
 
     public void Validate(IDbContextOptions options)
     {
+        // TODO
         throw new NotImplementedException();
     }
 
