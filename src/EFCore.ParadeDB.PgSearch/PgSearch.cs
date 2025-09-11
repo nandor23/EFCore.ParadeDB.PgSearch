@@ -1,6 +1,6 @@
-using EFCore.PgSearch.Tokenizers;
+using EFCore.ParadeDB.PgSearch.Tokenizers;
 
-namespace EFCore.PgSearch;
+namespace EFCore.ParadeDB.PgSearch;
 
 public static class PgSearch
 {

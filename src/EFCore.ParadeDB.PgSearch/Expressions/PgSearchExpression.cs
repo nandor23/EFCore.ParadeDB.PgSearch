@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace EFCore.PgSearch.Expressions;
+namespace EFCore.ParadeDB.PgSearch.Expressions;
 
 internal sealed class PgSearchExpression : SqlExpression
 {

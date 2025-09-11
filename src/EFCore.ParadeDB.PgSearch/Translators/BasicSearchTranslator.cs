@@ -1,12 +1,12 @@
 using System.Collections.Frozen;
 using System.Reflection;
-using EFCore.PgSearch.Expressions;
+using EFCore.ParadeDB.PgSearch.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.PgSearch.Translators;
+namespace EFCore.ParadeDB.PgSearch.Translators;
 
 internal class BasicSearchTranslator : IMethodCallTranslator
 {

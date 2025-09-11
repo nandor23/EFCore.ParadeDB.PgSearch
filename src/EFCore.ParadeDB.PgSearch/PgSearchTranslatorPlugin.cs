@@ -1,7 +1,7 @@
-using EFCore.PgSearch.Translators;
+using EFCore.ParadeDB.PgSearch.Translators;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace EFCore.PgSearch;
+namespace EFCore.ParadeDB.PgSearch;
 
 internal sealed class PgSearchTranslatorPlugin : IMethodCallTranslatorPlugin
 {

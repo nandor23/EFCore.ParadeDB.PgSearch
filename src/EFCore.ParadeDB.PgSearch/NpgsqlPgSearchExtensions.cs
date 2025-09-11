@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
 // ReSharper disable SuspiciousTypeConversion.Global
 
-namespace EFCore.PgSearch;
+namespace EFCore.ParadeDB.PgSearch;
 
 public static class NpgsqlPgSearchExtensions
 {

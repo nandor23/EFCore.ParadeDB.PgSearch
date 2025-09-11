@@ -9,6 +9,9 @@
     <Project Path="samples\EFCore.PgSearch.Api\EFCore.PgSearch.Api.csproj" Type="Classic C#" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src\EFCore.PgSearch\EFCore.PgSearch.csproj" Type="Classic C#" />
+    <Project
+      Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj"
+      Type="Classic C#"
+    />
   </Folder>
 </Solution>
