@@ -41,6 +41,32 @@ public sealed class MatchTranslator : IMethodCallTranslator
             argsNullability.Add(true);
         }
 
+        if (arguments[4] is SqlConstantExpression { Value: int distance })
+        {
+            args.Add(new SqlFragmentExpression($"distance => {distance}"));
+            argsNullability.Add(true);
+        }
+
+        if (arguments[5] is SqlConstantExpression { Value: bool transpositionCostOne })
+        {
+            args.Add(
+                new SqlFragmentExpression($"transposition_cost_one => {transpositionCostOne}")
+            );
+            argsNullability.Add(true);
+        }
+
+        if (arguments[6] is SqlConstantExpression { Value: bool prefix })
+        {
+            args.Add(new SqlFragmentExpression($"prefix => {prefix}"));
+            argsNullability.Add(true);
+        }
+
+        if (arguments[7] is SqlConstantExpression { Value: bool conjunctionMode })
+        {
+            args.Add(new SqlFragmentExpression($"conjunction_mode => {conjunctionMode}"));
+            argsNullability.Add(true);
+        }
+
         var matchFunction = _sqlExpressionFactory.Function(
             "paradedb.match",
             args,

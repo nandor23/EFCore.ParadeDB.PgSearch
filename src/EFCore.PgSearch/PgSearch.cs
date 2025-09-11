@@ -8,7 +8,11 @@ public static class PgSearch
         TKey key,
         TField field,
         string value,
-        Tokenizer? tokenizer = null
+        Tokenizer? tokenizer = null,
+        int? distance = null,
+        bool? transpositionCostOne = null,
+        bool? prefix = null,
+        bool? conjunctionMode = null
     )
     {
         throw new InvalidOperationException("This method is for use in LINQ queries only");
