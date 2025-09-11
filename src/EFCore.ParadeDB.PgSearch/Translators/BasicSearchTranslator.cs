@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace EFCore.ParadeDB.PgSearch.Translators;
 
-internal class BasicSearchTranslator : IMethodCallTranslator
+internal sealed class BasicSearchTranslator : IMethodCallTranslator
 {
     private static readonly FrozenDictionary<MethodInfo, string> MethodOperatorMap = new Dictionary<
         MethodInfo,
@@ -28,8 +28,20 @@ internal class BasicSearchTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        return !MethodOperatorMap.TryGetValue(method, out var op)
-            ? null
-            : new PgSearchExpression(arguments[0], arguments[1], op);
+        if (!MethodOperatorMap.TryGetValue(method, out var op))
+        {
+            return null;
+        }
+
+        if (arguments.Count > 2 && arguments[2] is SqlConstantExpression { Value: Fuzzy fuzzy })
+        {
+            return new PgSearchExpression(
+                arguments[0],
+                new SqlFragmentExpression($"{arguments[1]}::{fuzzy.ToSql()}"),
+                op
+            );
+        }
+
+        return new PgSearchExpression(arguments[0], arguments[1], op);
     }
 }
