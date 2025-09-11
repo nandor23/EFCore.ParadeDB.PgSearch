@@ -18,6 +18,7 @@ internal class BasicSearchTranslator : IMethodCallTranslator
         [typeof(PgSearch).GetMethod(nameof(PgSearch.MatchDisjunction))!] = "|||",
         [typeof(PgSearch).GetMethod(nameof(PgSearch.MatchConjunction))!] = "&&&",
         [typeof(PgSearch).GetMethod(nameof(PgSearch.Phrase))!] = "###",
+        [typeof(PgSearch).GetMethod(nameof(PgSearch.Term))!] = "===",
     }.ToFrozenDictionary();
 
     public SqlExpression? Translate(

@@ -19,6 +19,11 @@ public static class PgSearch
         throw new InvalidOperationException("This method is for use in LINQ queries only");
     }
 
+    public static bool Term<TField>(TField field, string value)
+    {
+        throw new InvalidOperationException("This method is for use in LINQ queries only");
+    }
+
     public static bool Match<TField>(
         TField field,
         string value,
