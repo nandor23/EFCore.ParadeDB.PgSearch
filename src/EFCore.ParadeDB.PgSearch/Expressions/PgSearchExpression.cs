@@ -10,6 +10,7 @@ internal sealed class PgSearchExpression : SqlExpression
     private readonly SqlExpression _left;
     private readonly SqlExpression _right;
     private readonly string _operator;
+
     private static readonly Type BoolType = typeof(bool);
     private static readonly RelationalTypeMapping BoolTypeMapping = new BoolTypeMapping("boolean");
 
@@ -46,17 +47,11 @@ internal sealed class PgSearchExpression : SqlExpression
         expressionPrinter.Visit(_right);
     }
 
-    public override bool Equals(object? obj)
-    {
-        // TODO: Maybe the TypeMapping should be compared as well
-        return obj is PgSearchExpression other
-            && _left.Equals(other._left)
-            && _right.Equals(other._right)
-            && _operator == other._operator;
-    }
+    public override bool Equals(object? obj) =>
+        obj is PgSearchExpression other
+        && _left.Equals(other._left)
+        && _right.Equals(other._right)
+        && _operator == other._operator;
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(_left, _right, _operator);
-    }
+    public override int GetHashCode() => HashCode.Combine(_left, _right, _operator);
 }

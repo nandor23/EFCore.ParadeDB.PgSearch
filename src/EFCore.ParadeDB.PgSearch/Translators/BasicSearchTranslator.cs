@@ -1,19 +1,17 @@
 using System.Collections.Frozen;
-using System.Data;
 using System.Reflection;
 using EFCore.ParadeDB.PgSearch.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EFCore.ParadeDB.PgSearch.Translators;
 
 internal sealed class BasicSearchTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
-    
+
     private static readonly FrozenDictionary<string, string> MethodOperatorMap = new Dictionary<
         string,
         string
@@ -42,14 +40,9 @@ internal sealed class BasicSearchTranslator : IMethodCallTranslator
             return null;
         }
 
-        SqlExpression valueExpr = arguments[1];
+        var left = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]);
+        var right = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]);
 
-        if (valueExpr is SqlConstantExpression { TypeMapping: null } constant)
-        {
-            valueExpr = _sqlExpressionFactory.Constant(constant.Value, typeof(string));
-        }
-        
-
-        return new PgSearchExpression(arguments[0], valueExpr, op);
+        return new PgSearchExpression(left, right, op);
     }
 }
