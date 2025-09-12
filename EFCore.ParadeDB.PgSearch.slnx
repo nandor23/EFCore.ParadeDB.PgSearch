@@ -4,6 +4,7 @@
     <File Path=".editorconfig" />
     <File Path="global.json" />
     <File Path=".csharpierignore" />
+    <File Path="docker-compose.yml" />
   </Folder>
   <Folder Name="/samples/">
     <Project

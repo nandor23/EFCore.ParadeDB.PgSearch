@@ -6,16 +6,40 @@ namespace EFCore.ParadeDB.PgSearch;
 
 internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
 {
+    public PgSearchOptionsExtension()
+    {
+        Info = new PgSearchOptionsExtensionInfo(this);
+    }
+
     public void ApplyServices(IServiceCollection services)
     {
-        services.AddSingleton<IMethodCallTranslatorPlugin, PgSearchTranslatorPlugin>();
+        services.AddScoped<IMethodCallTranslatorPlugin, PgSearchTranslatorPlugin>();
     }
 
     public void Validate(IDbContextOptions options)
     {
         // TODO
-        throw new NotImplementedException();
+        // throw new NotImplementedException();
     }
 
     public DbContextOptionsExtensionInfo Info { get; }
+
+    private sealed class PgSearchOptionsExtensionInfo : DbContextOptionsExtensionInfo
+    {
+        public PgSearchOptionsExtensionInfo(IDbContextOptionsExtension extension)
+            : base(extension) { }
+
+        public override int GetServiceProviderHashCode() => 0;
+
+        public override bool ShouldUseSameServiceProvider(DbContextOptionsExtensionInfo other) =>
+            true;
+
+        public override void PopulateDebugInfo(IDictionary<string, string> debugInfo)
+        {
+            debugInfo["PgSearch"] = "Enabled";
+        }
+
+        public override bool IsDatabaseProvider => false;
+        public override string LogFragment => "using PgSearch ";
+    }
 }

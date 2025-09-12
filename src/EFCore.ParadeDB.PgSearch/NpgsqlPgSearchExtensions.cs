@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
@@ -7,13 +8,11 @@ namespace EFCore.ParadeDB.PgSearch;
 
 public static class NpgsqlPgSearchExtensions
 {
-    public static NpgsqlDbContextOptionsBuilder UsePgSearch(
-        this NpgsqlDbContextOptionsBuilder builder
-    )
+    public static DbContextOptionsBuilder UsePgSearch(this DbContextOptionsBuilder optionsBuilder)
     {
-        ((IDbContextOptionsBuilderInfrastructure)builder).AddOrUpdateExtension(
+        ((IDbContextOptionsBuilderInfrastructure)optionsBuilder).AddOrUpdateExtension(
             new PgSearchOptionsExtension()
         );
-        return builder;
+        return optionsBuilder;
     }
 }
