@@ -7,7 +7,7 @@ internal sealed class PgSearchTranslatorPlugin : IMethodCallTranslatorPlugin
 {
     public PgSearchTranslatorPlugin(ISqlExpressionFactory sqlExpressionFactory)
     {
-        Translators = [new BasicSearchTranslator(), new MatchTranslator(sqlExpressionFactory)];
+        Translators = [new BasicSearchTranslator(sqlExpressionFactory), new MatchTranslator(sqlExpressionFactory)];
     }
 
     public IEnumerable<IMethodCallTranslator> Translators { get; }

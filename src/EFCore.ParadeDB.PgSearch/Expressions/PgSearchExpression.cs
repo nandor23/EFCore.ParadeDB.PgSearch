@@ -26,6 +26,19 @@ internal sealed class PgSearchExpression : SqlExpression
         return Expression.Quote(this);
     }
 
+    protected override Expression VisitChildren(ExpressionVisitor visitor)
+    {
+        var visitedLeft = (SqlExpression)visitor.Visit(_left);
+        var visitedRight = (SqlExpression)visitor.Visit(_right);
+
+        if (visitedLeft != _left || visitedRight != _right)
+        {
+            return new PgSearchExpression(visitedLeft, visitedRight, _operator);
+        }
+
+        return this;
+    }
+
     protected override void Print(ExpressionPrinter expressionPrinter)
     {
         expressionPrinter.Visit(_left);

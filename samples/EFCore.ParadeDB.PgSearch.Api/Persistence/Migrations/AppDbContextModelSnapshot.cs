@@ -20,6 +20,7 @@ namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
                 .HasAnnotation("ProductVersion", "9.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "pg_search");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("EFCore.ParadeDB.PgSearch.Api.Persistence.Entities.Product", b =>

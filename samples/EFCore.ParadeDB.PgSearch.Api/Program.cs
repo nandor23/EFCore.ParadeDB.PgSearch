@@ -8,7 +8,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContextPool<AppDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")).UsePgSearch();
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"), o => o.UsePgSearch());
 });
 
 var app = builder.Build();
@@ -25,7 +25,9 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.EnsureCreated();
 
-    var products = dbContext.Products.ToList();
+    var products = dbContext
+        .Products.Where(p => PgSearch.MatchDisjunction(p.Description, "shoe"))
+        .ToList();
 }
 
 app.Run();

@@ -1,6 +1,6 @@
 services:
-  postgres:
-    image: postgres:17.6
+  paradedb:
+    image: paradedb/paradedb:latest-pg15
     container_name: demo-postgres
     ports:
       - "5432:5432"

@@ -14,6 +14,8 @@ public sealed class AppDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.HasPostgresExtension("pg_search");
+
         modelBuilder.Entity<Product>().HasKey(p => p.Id);
     }
 }
