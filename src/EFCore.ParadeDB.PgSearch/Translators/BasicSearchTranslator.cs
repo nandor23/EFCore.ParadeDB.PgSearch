@@ -1,4 +1,3 @@
-using System.Collections.Frozen;
 using System.Linq.Expressions;
 using System.Reflection;
 using EFCore.ParadeDB.PgSearch.Expressions;
@@ -13,15 +12,6 @@ internal sealed class BasicSearchTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
 
-    private static readonly FrozenDictionary<string, PdbOperatorType> MethodOperatorMap =
-        new Dictionary<string, PdbOperatorType>
-        {
-            [nameof(PgSearch.MatchDisjunction)] = PdbOperatorType.Disjunction,
-            [nameof(PgSearch.MatchConjunction)] = PdbOperatorType.Conjunction,
-            [nameof(PgSearch.Phrase)] = PdbOperatorType.Phrase,
-            [nameof(PgSearch.Term)] = PdbOperatorType.Term,
-        }.ToFrozenDictionary();
-
     public BasicSearchTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
         _sqlExpressionFactory = sqlExpressionFactory;
@@ -34,7 +24,16 @@ internal sealed class BasicSearchTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (!MethodOperatorMap.TryGetValue(method.Name, out var operatorType))
+        PdbOperatorType? operatorType = method.Name switch
+        {
+            nameof(PgSearch.MatchDisjunction) => PdbOperatorType.Disjunction,
+            nameof(PgSearch.MatchConjunction) => PdbOperatorType.Conjunction,
+            nameof(PgSearch.Phrase) => PdbOperatorType.Phrase,
+            nameof(PgSearch.Term) => PdbOperatorType.Term,
+            _ => null,
+        };
+
+        if (operatorType is null)
         {
             return null;
         }
@@ -52,6 +51,6 @@ internal sealed class BasicSearchTranslator : IMethodCallTranslator
             );
         }
 
-        return new PdbBoolExpression(left, right, operatorType);
+        return new PdbBoolExpression(left, right, operatorType.Value);
     }
 }
