@@ -14,16 +14,16 @@ namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
             migrationBuilder.AlterDatabase().Annotation("Npgsql:PostgresExtension:pg_search", ",,");
 
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "products",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "text", nullable: false),
+                    description = table.Column<string>(type: "text", nullable: false),
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("pk_products", x => x.id);
                 }
             );
         }
@@ -31,7 +31,7 @@ namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(name: "Products");
+            migrationBuilder.DropTable(name: "products");
         }
     }
 }

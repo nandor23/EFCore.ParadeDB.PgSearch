@@ -1,4 +1,5 @@
 using System.Collections.Frozen;
+using System.Linq.Expressions;
 using System.Reflection;
 using EFCore.ParadeDB.PgSearch.Expressions;
 using Microsoft.EntityFrameworkCore;
@@ -12,16 +13,14 @@ internal sealed class BasicSearchTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
 
-    private static readonly FrozenDictionary<string, string> MethodOperatorMap = new Dictionary<
-        string,
-        string
-    >
-    {
-        [nameof(PgSearch.MatchDisjunction)] = "|||",
-        [nameof(PgSearch.MatchConjunction)] = "&&&",
-        [nameof(PgSearch.Phrase)] = "###",
-        [nameof(PgSearch.Term)] = "===",
-    }.ToFrozenDictionary();
+    private static readonly FrozenDictionary<string, PdbOperatorType> MethodOperatorMap =
+        new Dictionary<string, PdbOperatorType>
+        {
+            [nameof(PgSearch.MatchDisjunction)] = PdbOperatorType.Disjunction,
+            [nameof(PgSearch.MatchConjunction)] = PdbOperatorType.Conjunction,
+            [nameof(PgSearch.Phrase)] = PdbOperatorType.Phrase,
+            [nameof(PgSearch.Term)] = PdbOperatorType.Term,
+        }.ToFrozenDictionary();
 
     public BasicSearchTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
@@ -35,14 +34,24 @@ internal sealed class BasicSearchTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (!MethodOperatorMap.TryGetValue(method.Name, out var op))
+        if (!MethodOperatorMap.TryGetValue(method.Name, out var operatorType))
         {
             return null;
         }
 
-        var left = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]);
+        var left = arguments[0];
         var right = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]);
 
-        return new PgSearchExpression(left, right, op);
+        if (arguments.Count > 2 && arguments[2] is SqlConstantExpression { Value: Fuzzy fuzzy })
+        {
+            right = new SqlUnaryExpression(
+                ExpressionType.Convert,
+                right,
+                typeof(string),
+                new FuzzyTypeMapping(fuzzy)
+            );
+        }
+
+        return new PdbBoolExpression(left, right, operatorType);
     }
 }
