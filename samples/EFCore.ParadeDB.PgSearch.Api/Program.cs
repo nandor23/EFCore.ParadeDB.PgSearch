@@ -29,7 +29,7 @@ using (var scope = app.Services.CreateScope())
 
     var products = dbContext
         .Products.Where(p => PgSearch.MatchDisjunction(p.Description, "shoe", Fuzzy.With(1)))
-        .Select(p => new { Score = PgSearch.Score(p.Name) })
+        .Select(p => new { Score = PgSearch.Snippet(p.Description, 3) })
         .ToList();
 
     Console.WriteLine(products);
