@@ -19,7 +19,6 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
 app.UseHttpsRedirection();
 
 using (var scope = app.Services.CreateScope())
@@ -28,8 +27,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 
     var products = dbContext
-        .Products.Where(p => PgSearch.MatchDisjunction(p.Description, "shoe", Fuzzy.With(1)))
-        .Select(p => new { Score = PgSearch.Snippet(p.Description, "a", "b", 100) })
+        .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "shoe", Fuzzy.With(1)))
+        .Select(p => new { Score = EF.Functions.Score(p.Description) })
         .ToList();
 
     Console.WriteLine(products);

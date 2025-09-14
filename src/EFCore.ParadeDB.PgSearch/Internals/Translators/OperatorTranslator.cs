@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using EFCore.ParadeDB.PgSearch.Internals.Expressions;
+using EFCore.ParadeDB.PgSearch.Internals.TypeMappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
@@ -26,10 +27,10 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
     {
         PdbOperatorType? operatorType = method.Name switch
         {
-            nameof(PgSearch.MatchDisjunction) => PdbOperatorType.Disjunction,
-            nameof(PgSearch.MatchConjunction) => PdbOperatorType.Conjunction,
-            nameof(PgSearch.Phrase) => PdbOperatorType.Phrase,
-            nameof(PgSearch.Term) => PdbOperatorType.Term,
+            nameof(PgSearchFunctionsExtensions.MatchDisjunction) => PdbOperatorType.Disjunction,
+            nameof(PgSearchFunctionsExtensions.MatchConjunction) => PdbOperatorType.Conjunction,
+            nameof(PgSearchFunctionsExtensions.Phrase) => PdbOperatorType.Phrase,
+            nameof(PgSearchFunctionsExtensions.Term) => PdbOperatorType.Term,
             _ => null,
         };
 
@@ -38,10 +39,10 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
             return null;
         }
 
-        var left = arguments[0];
-        var right = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]);
+        var left = arguments[1];
+        var right = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]);
 
-        if (arguments.Count > 2 && arguments[2] is SqlConstantExpression { Value: Fuzzy fuzzy })
+        if (arguments.Count > 3 && arguments[3] is SqlConstantExpression { Value: Fuzzy fuzzy })
         {
             right = new SqlUnaryExpression(
                 ExpressionType.Convert,

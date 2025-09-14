@@ -22,7 +22,7 @@ internal sealed class ScoreTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearch.Score))
+        if (method.Name != nameof(PgSearchFunctionsExtensions.Score))
         {
             return null;
         }
@@ -32,7 +32,7 @@ internal sealed class ScoreTranslator : IMethodCallTranslator
             name: "score",
             schema: "paradedb",
             nullable: false,
-            arguments: arguments,
+            arguments: [arguments[1]],
             argumentsPropagateNullability: [false],
             returnType: typeof(double)
         );

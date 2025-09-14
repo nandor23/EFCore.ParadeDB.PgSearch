@@ -25,12 +25,12 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearch.Snippet))
+        if (method.Name != nameof(PgSearchFunctionsExtensions.Snippet))
         {
             return null;
         }
 
-        List<SqlExpression> args = [arguments[0]];
+        List<SqlExpression> args = [arguments[1]];
 
         args.AddRange(
             arguments.Count switch
@@ -45,15 +45,15 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
                 [
                     _sqlExpressionFactory.Constant(DefaultStartTag),
                     _sqlExpressionFactory.Constant(DefaultEndTag),
-                    arguments[1],
+                    arguments[2],
                 ],
                 3 =>
                 [
-                    arguments[1],
                     arguments[2],
+                    arguments[3],
                     _sqlExpressionFactory.Constant(DefaultMaxNumChars),
                 ],
-                _ => [arguments[1], arguments[2], arguments[3]],
+                _ => [arguments[2], arguments[3], arguments[4]],
             }
         );
 

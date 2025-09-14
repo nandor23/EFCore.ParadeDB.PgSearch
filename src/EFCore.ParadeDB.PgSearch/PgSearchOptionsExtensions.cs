@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
 namespace EFCore.ParadeDB.PgSearch;
 
-public static class NpgsqlPgSearchExtensions
+public static class PgSearchOptionsExtensions
 {
     public static NpgsqlDbContextOptionsBuilder UsePgSearch(
         this NpgsqlDbContextOptionsBuilder optionsBuilder
