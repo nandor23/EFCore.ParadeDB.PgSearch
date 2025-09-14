@@ -9,6 +9,9 @@ namespace EFCore.ParadeDB.PgSearch.Internals.Translators;
 internal sealed class SnippetTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
+    private const string DefaultStartTag = "<b>";
+    private const string DefaultEndTag = "</b>";
+    private const int DefaultMaxNumChars = 150;
 
     public SnippetTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
@@ -28,16 +31,38 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         }
 
         List<SqlExpression> args = [arguments[0]];
-        List<bool> argsNullability = [false];
 
-        // TODO handle other arguments
+        args.AddRange(
+            arguments.Count switch
+            {
+                1 =>
+                [
+                    _sqlExpressionFactory.Constant(DefaultStartTag),
+                    _sqlExpressionFactory.Constant(DefaultEndTag),
+                    _sqlExpressionFactory.Constant(DefaultMaxNumChars),
+                ],
+                2 =>
+                [
+                    _sqlExpressionFactory.Constant(DefaultStartTag),
+                    _sqlExpressionFactory.Constant(DefaultEndTag),
+                    arguments[1],
+                ],
+                3 =>
+                [
+                    arguments[1],
+                    arguments[2],
+                    _sqlExpressionFactory.Constant(DefaultMaxNumChars),
+                ],
+                _ => [arguments[1], arguments[2], arguments[3]],
+            }
+        );
 
         return _sqlExpressionFactory.Function(
             name: "snippet",
             schema: "paradedb",
             nullable: false,
             arguments: args,
-            argumentsPropagateNullability: argsNullability,
+            argumentsPropagateNullability: [false, false, false, false],
             returnType: typeof(string)
         );
     }
