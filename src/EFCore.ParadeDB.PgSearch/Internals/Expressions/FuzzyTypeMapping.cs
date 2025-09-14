@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace EFCore.ParadeDB.PgSearch.Expressions;
+namespace EFCore.ParadeDB.PgSearch.Internals.Expressions;
 
 internal sealed class FuzzyTypeMapping : RelationalTypeMapping
 {

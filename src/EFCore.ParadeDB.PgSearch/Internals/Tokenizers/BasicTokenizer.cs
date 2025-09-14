@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.ParadeDB.PgSearch.Tokenizers;
+namespace EFCore.ParadeDB.PgSearch.Internals.Tokenizers;
 
 internal sealed class BasicTokenizer : Tokenizer
 {

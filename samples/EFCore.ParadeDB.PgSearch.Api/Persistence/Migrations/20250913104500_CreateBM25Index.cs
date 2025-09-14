@@ -12,7 +12,7 @@ namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
         {
             migrationBuilder.Sql(
                 @"CREATE INDEX search_idx ON products
-                  USING bm25 (id, name, description)
+                  USING bm25 (id, description)
                   WITH (key_field='id')"
             );
         }

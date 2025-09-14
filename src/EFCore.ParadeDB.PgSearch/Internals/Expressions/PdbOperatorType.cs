@@ -1,4 +1,4 @@
-namespace EFCore.ParadeDB.PgSearch.Expressions;
+namespace EFCore.ParadeDB.PgSearch.Internals.Expressions;
 
 internal enum PdbOperatorType
 {

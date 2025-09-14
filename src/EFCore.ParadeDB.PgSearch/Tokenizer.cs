@@ -1,7 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
+using EFCore.ParadeDB.PgSearch.Internals.Tokenizers;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.ParadeDB.PgSearch.Tokenizers;
+namespace EFCore.ParadeDB.PgSearch;
 
 public abstract class Tokenizer
 {
