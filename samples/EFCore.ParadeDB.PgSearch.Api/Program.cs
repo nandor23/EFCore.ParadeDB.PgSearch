@@ -27,12 +27,12 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    var a = new List<int>();
-
     var products = dbContext
         .Products.Where(p => PgSearch.MatchDisjunction(p.Description, "shoe", Fuzzy.With(1)))
         .Select(p => new { Score = PgSearch.Score(p.Name) })
         .ToList();
+
+    Console.WriteLine(products);
 }
 
 app.Run();
