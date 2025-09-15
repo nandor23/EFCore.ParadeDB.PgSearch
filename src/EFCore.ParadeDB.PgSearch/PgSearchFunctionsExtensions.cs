@@ -27,6 +27,29 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
     }
 
+    [DbFunction("|||", IsBuiltIn = false)]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Boost boost
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+    }
+
+    [DbFunction("|||", IsBuiltIn = false)]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Fuzzy fuzzy,
+        [NotParameterized] Boost boost
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+    }
+
     [DbFunction("&&&", IsBuiltIn = false)]
     public static bool MatchConjunction<TProperty>(
         this DbFunctions _,
@@ -48,8 +71,42 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
     }
 
+    [DbFunction("&&&", IsBuiltIn = false)]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Boost boost
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+    }
+
+    [DbFunction("&&&", IsBuiltIn = false)]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Fuzzy fuzzy,
+        [NotParameterized] Boost boost
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+    }
+
     [DbFunction("###", IsBuiltIn = false)]
     public static bool Phrase<TProperty>(this DbFunctions _, TProperty property, string value)
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+    }
+
+    [DbFunction("###", IsBuiltIn = false)]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Boost boost
+    )
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
     }
@@ -66,6 +123,29 @@ public static class PgSearchFunctionsExtensions
         TProperty property,
         string value,
         [NotParameterized] Fuzzy fuzzy
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    }
+
+    [DbFunction("===", IsBuiltIn = false)]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Boost boost
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    }
+
+    [DbFunction("===", IsBuiltIn = false)]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Fuzzy fuzzy,
+        [NotParameterized] Boost boost
     )
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));

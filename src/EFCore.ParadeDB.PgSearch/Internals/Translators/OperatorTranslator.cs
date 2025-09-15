@@ -42,16 +42,39 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
         var left = arguments[1];
         var right = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]);
 
-        if (arguments.Count > 3 && arguments[3] is SqlConstantExpression { Value: Fuzzy fuzzy })
+        for (int i = 3; i < arguments.Count; i++)
         {
-            right = new SqlUnaryExpression(
-                ExpressionType.Convert,
-                right,
-                typeof(string),
-                new FuzzyTypeMapping(fuzzy)
-            );
+            right = ApplyModifier(right, arguments[i]);
         }
 
         return new PdbBoolExpression(left, right, operatorType.Value);
+    }
+
+    private static SqlExpression ApplyModifier(
+        SqlExpression expression,
+        SqlExpression modifierExpression
+    )
+    {
+        if (modifierExpression is not SqlConstantExpression { Value: var value })
+        {
+            return expression;
+        }
+
+        return value switch
+        {
+            Fuzzy fuzzy => new SqlUnaryExpression(
+                ExpressionType.Convert,
+                expression,
+                typeof(string),
+                new FuzzyTypeMapping(fuzzy)
+            ),
+            Boost boost => new SqlUnaryExpression(
+                ExpressionType.Convert,
+                expression,
+                typeof(string),
+                new BoostTypeMapping(boost)
+            ),
+            _ => expression,
+        };
     }
 }
