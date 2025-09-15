@@ -111,4 +111,14 @@ public static class PgSearchFunctionsExtensions
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
     }
+
+    // TODO: Multidimensional arrays are not yet supported: https://github.com/npgsql/efcore.pg/issues/314
+    /*[DbFunction("snippet_positions", "paradedb", IsBuiltIn = false)]
+    public static int[] SnippetPositions<TProperty>(
+        this DbFunctions _,
+        TProperty property
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(SnippetPositions)));
+    }*/
 }

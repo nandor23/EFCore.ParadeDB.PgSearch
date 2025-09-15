@@ -35,19 +35,19 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         args.AddRange(
             arguments.Count switch
             {
-                1 =>
+                2 =>
                 [
                     _sqlExpressionFactory.Constant(DefaultStartTag),
                     _sqlExpressionFactory.Constant(DefaultEndTag),
                     _sqlExpressionFactory.Constant(DefaultMaxNumChars),
                 ],
-                2 =>
+                3 =>
                 [
                     _sqlExpressionFactory.Constant(DefaultStartTag),
                     _sqlExpressionFactory.Constant(DefaultEndTag),
                     arguments[2],
                 ],
-                3 =>
+                4 =>
                 [
                     arguments[2],
                     arguments[3],
