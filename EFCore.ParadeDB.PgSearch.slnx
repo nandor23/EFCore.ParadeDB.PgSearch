@@ -18,4 +18,10 @@
       Type="Classic C#"
     />
   </Folder>
+  <Folder Name="/tests/">
+    <Project
+      Path="tests\EFCore.ParadeDB.PgSearch.Tests\EFCore.ParadeDB.PgSearch.Tests.csproj"
+      Type="Classic C#"
+    />
+  </Folder>
 </Solution>

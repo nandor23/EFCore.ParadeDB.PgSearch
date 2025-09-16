@@ -44,16 +44,13 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
 
         for (int i = 3; i < arguments.Count; i++)
         {
-            right = ApplyModifier(right, arguments[i]);
+            right = ApplyModifier(right, arguments[i]) ?? right;
         }
 
         return new PdbBoolExpression(left, right, operatorType.Value);
     }
 
-    private static SqlExpression ApplyModifier(
-        SqlExpression expression,
-        SqlExpression modifierExpression
-    )
+    private SqlExpression? ApplyModifier(SqlExpression expression, SqlExpression modifierExpression)
     {
         if (modifierExpression is not SqlConstantExpression { Value: var value })
         {
@@ -62,13 +59,13 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
 
         return value switch
         {
-            Fuzzy fuzzy => new SqlUnaryExpression(
+            Fuzzy fuzzy => _sqlExpressionFactory.MakeUnary(
                 ExpressionType.Convert,
                 expression,
                 typeof(string),
                 new FuzzyTypeMapping(fuzzy)
             ),
-            Boost boost => new SqlUnaryExpression(
+            Boost boost => _sqlExpressionFactory.MakeUnary(
                 ExpressionType.Convert,
                 expression,
                 typeof(string),
