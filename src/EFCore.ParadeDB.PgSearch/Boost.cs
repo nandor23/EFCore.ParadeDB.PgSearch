@@ -9,7 +9,7 @@ public sealed class Boost
         _factor = factor;
     }
 
-    public static Boost With(int factor) => new(factor);
+    public static Boost With(float factor) => new(factor);
 
     public override string ToString()
     {

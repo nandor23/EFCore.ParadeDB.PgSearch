@@ -28,14 +28,14 @@ using (var scope = app.Services.CreateScope())
 
     var products = dbContext
         .Products.Where(p =>
-            EF.Functions.MatchDisjunction(p.Description, "with", Fuzzy.With(1), Boost.With(1))
+            EF.Functions.MatchDisjunction(p.Description, "with", Fuzzy.With(0), Boost.With(1))
         )
-        /*.Select(p => new
+        .Select(p => new
         {
             p.Id,
             p.Description,
-            Score = EF.Functions.Score(p.Description),
-        })*/
+            Score = EF.Functions.Score(p.Id),
+        })
         .ToList();
 
     Console.WriteLine(products);

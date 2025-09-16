@@ -27,14 +27,13 @@ internal sealed class ScoreTranslator : IMethodCallTranslator
             return null;
         }
 
-        // TODO: set nullable to true if the function can return NULL
         return _sqlExpressionFactory.Function(
             name: "score",
             schema: "paradedb",
-            nullable: false,
+            nullable: true,
             arguments: [arguments[1]],
             argumentsPropagateNullability: [false],
-            returnType: typeof(double)
+            returnType: typeof(float?)
         );
     }
 }

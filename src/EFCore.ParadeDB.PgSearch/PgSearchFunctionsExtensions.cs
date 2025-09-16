@@ -152,7 +152,7 @@ public static class PgSearchFunctionsExtensions
     }
 
     [DbFunction("score", "paradedb", IsBuiltIn = false)]
-    public static double Score<TProperty>(this DbFunctions _, TProperty property)
+    public static float? Score<TProperty>(this DbFunctions _, TProperty property)
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Score)));
     }
