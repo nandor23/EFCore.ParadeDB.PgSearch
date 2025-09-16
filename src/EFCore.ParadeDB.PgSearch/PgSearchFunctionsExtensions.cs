@@ -158,19 +158,23 @@ public static class PgSearchFunctionsExtensions
     }
 
     [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
-    public static string Snippet<TProperty>(this DbFunctions _, TProperty property)
+    public static string? Snippet<TProperty>(this DbFunctions _, TProperty property)
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
     }
 
     [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
-    public static string Snippet<TProperty>(this DbFunctions _, TProperty property, int maxNumChars)
+    public static string? Snippet<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        int maxNumChars
+    )
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
     }
 
     [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
-    public static string Snippet<TProperty>(
+    public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,
         string startTag,
@@ -181,7 +185,7 @@ public static class PgSearchFunctionsExtensions
     }
 
     [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
-    public static string Snippet<TProperty>(
+    public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,
         string startTag,

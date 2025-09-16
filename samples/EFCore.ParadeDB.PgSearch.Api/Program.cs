@@ -27,13 +27,11 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 
     var products = dbContext
-        .Products.Where(p =>
-            EF.Functions.MatchDisjunction(p.Description, "with", Fuzzy.With(0), Boost.With(1))
-        )
+        .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "with"))
         .Select(p => new
         {
             p.Id,
-            p.Description,
+            Description = EF.Functions.Snippet(p.Description, 20),
             Score = EF.Functions.Score(p.Id),
         })
         .ToList();
