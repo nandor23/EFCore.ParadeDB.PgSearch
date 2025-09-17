@@ -19,6 +19,7 @@ internal sealed class PdbBoolExpression : PgUnknownBinaryExpression
         { PdbOperatorType.Conjunction, "&&&" },
         { PdbOperatorType.Phrase, "###" },
         { PdbOperatorType.Term, "===" },
+        { PdbOperatorType.Function, "@@@" },
     }.ToFrozenDictionary();
 
     public PdbBoolExpression(SqlExpression left, SqlExpression right, PdbOperatorType operatorType)

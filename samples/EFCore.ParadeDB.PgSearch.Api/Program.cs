@@ -27,7 +27,7 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 
     var products = dbContext
-        .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "with"))
+        .Products.Where(p => EF.Functions.ProximityRegex(p.Description, "with", "noise", 1))
         .Select(p => new
         {
             p.Id,

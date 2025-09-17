@@ -1,6 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace EFCore.ParadeDB.PgSearch;
 
@@ -205,4 +207,41 @@ public static class PgSearchFunctionsExtensions
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(SnippetPositions)));
     }*/
+
+    [DbFunction("@@@", IsBuiltIn = false)]
+    public static bool Proximity<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string firstTerm,
+        string secondTerm,
+        int maxDistance
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Proximity)));
+    }
+
+    [DbFunction("@@@", IsBuiltIn = false)]
+    public static bool ProximityRegex<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
+        string term,
+        int maxDistance
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
+    }
+
+    [DbFunction("@@@", IsBuiltIn = false)]
+    public static bool ProximityRegex<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
+        string term,
+        int maxDistance,
+        int maxMatches
+    )
+    {
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
+    }
 }
