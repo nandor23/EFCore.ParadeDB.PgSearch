@@ -5,6 +5,7 @@
     <File Path="global.json" />
     <File Path=".csharpierignore" />
     <File Path="docker-compose.yml" />
+    <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/samples/">
     <Project
