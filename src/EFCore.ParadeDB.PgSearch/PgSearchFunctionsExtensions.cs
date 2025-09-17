@@ -212,8 +212,8 @@ public static class PgSearchFunctionsExtensions
     public static bool Proximity<TProperty>(
         this DbFunctions _,
         TProperty property,
-        string firstToken,
-        string secondToken,
+        string token1,
+        string token2,
         int maxDistance
     )
     {
@@ -239,7 +239,7 @@ public static class PgSearchFunctionsExtensions
         [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
         string token,
         int maxDistance,
-        int maxMatches
+        int matchLimit
     )
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
