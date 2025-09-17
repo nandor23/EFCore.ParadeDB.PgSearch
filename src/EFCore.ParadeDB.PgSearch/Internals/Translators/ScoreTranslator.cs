@@ -30,10 +30,10 @@ internal sealed class ScoreTranslator : IMethodCallTranslator
         return _sqlExpressionFactory.Function(
             name: "score",
             schema: "paradedb",
-            nullable: true,
+            nullable: false,
             arguments: [arguments[1]],
             argumentsPropagateNullability: [false],
-            returnType: typeof(float?)
+            returnType: typeof(float)
         );
     }
 }

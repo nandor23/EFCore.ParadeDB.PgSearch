@@ -60,9 +60,9 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         return _sqlExpressionFactory.Function(
             name: "snippet",
             schema: "paradedb",
-            nullable: true,
+            nullable: false,
             arguments: args,
-            argumentsPropagateNullability: [false, true, true, false],
+            argumentsPropagateNullability: [false, false, false, false],
             returnType: typeof(string)
         );
     }
