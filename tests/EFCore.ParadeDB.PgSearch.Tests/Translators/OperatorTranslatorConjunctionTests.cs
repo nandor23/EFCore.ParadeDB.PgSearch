@@ -4,7 +4,7 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public class OperatorTranslatorConjunctionTests : TranslationTestBase
+public sealed class OperatorTranslatorConjunctionTests : TranslatorTestBase
 {
     [Test]
     public void MatchConjunction_TranslatesToSql()

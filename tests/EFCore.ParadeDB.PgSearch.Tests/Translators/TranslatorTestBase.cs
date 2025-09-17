@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public abstract class TranslationTestBase
+public abstract class TranslatorTestBase
 {
     protected static DbContextOptions<TestDbContext> CreateOptions()
     {
