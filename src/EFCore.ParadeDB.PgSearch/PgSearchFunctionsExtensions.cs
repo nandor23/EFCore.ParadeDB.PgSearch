@@ -212,8 +212,8 @@ public static class PgSearchFunctionsExtensions
     public static bool Proximity<TProperty>(
         this DbFunctions _,
         TProperty property,
-        string firstTerm,
-        string secondTerm,
+        string firstToken,
+        string secondToken,
         int maxDistance
     )
     {
@@ -225,7 +225,7 @@ public static class PgSearchFunctionsExtensions
         this DbFunctions _,
         TProperty property,
         [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
-        string term,
+        string token,
         int maxDistance
     )
     {
@@ -237,7 +237,7 @@ public static class PgSearchFunctionsExtensions
         this DbFunctions _,
         TProperty property,
         [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
-        string term,
+        string token,
         int maxDistance,
         int maxMatches
     )
