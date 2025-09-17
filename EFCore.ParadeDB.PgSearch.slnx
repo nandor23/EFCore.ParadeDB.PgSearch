@@ -1,0 +1,27 @@
+﻿<Solution>
+  <Folder Name="/.solution/">
+    <File Path=".gitignore" />
+    <File Path=".editorconfig" />
+    <File Path="global.json" />
+    <File Path=".csharpierignore" />
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project
+      Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj"
+      Type="Classic C#"
+    />
+  </Folder>
+  <Folder Name="/src/">
+    <Project
+      Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj"
+      Type="Classic C#"
+    />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project
+      Path="tests\EFCore.ParadeDB.PgSearch.Tests\EFCore.ParadeDB.PgSearch.Tests.csproj"
+      Type="Classic C#"
+    />
+  </Folder>
+</Solution>

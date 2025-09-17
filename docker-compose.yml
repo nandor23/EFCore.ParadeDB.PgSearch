@@ -1,0 +1,16 @@
+services:
+  paradedb:
+    image: paradedb/paradedb:latest-pg15
+    container_name: demo-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgres/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=UTC
+      - PGTZ=UTC
+
+volumes:
+  postgres-data:
