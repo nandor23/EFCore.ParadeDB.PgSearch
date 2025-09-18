@@ -5,6 +5,10 @@
     <File Path="global.json" />
     <File Path=".csharpierignore" />
     <File Path="docker-compose.yml" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/.solution/actions/">
+    <File Path=".github\workflows\build.yml" />
   </Folder>
   <Folder Name="/samples/">
     <Project
@@ -19,6 +23,10 @@
     />
   </Folder>
   <Folder Name="/tests/">
+    <Project
+      Path="tests\EFCore.ParadeDB.PgSearch.IntegrationTests\EFCore.ParadeDB.PgSearch.IntegrationTests.csproj"
+      Type="Classic C#"
+    />
     <Project
       Path="tests\EFCore.ParadeDB.PgSearch.Tests\EFCore.ParadeDB.PgSearch.Tests.csproj"
       Type="Classic C#"

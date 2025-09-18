@@ -1,0 +1,26 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Migrations
+{
+    /// <inheritdoc />
+    public partial class CreateBM25Index : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql(
+                @"CREATE INDEX search_idx ON ""Products""
+                  USING bm25 (""Id"", ""Description"")
+                  WITH (key_field='Id');"
+            );
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.Sql("DROP INDEX IF EXISTS search_idx");
+        }
+    }
+}

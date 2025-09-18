@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace EFCore.ParadeDB.PgSearch;
 
-// TODO: refactor - EF has no built in way to construct expression with named notation
-public abstract class Tokenizer
+// TODO: Change visibility to public once tokenizers have been refactored
+internal abstract class Tokenizer
 {
     internal abstract SqlExpression ToSqlExpression();
 
