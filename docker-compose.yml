@@ -1,7 +1,7 @@
 services:
   paradedb:
     image: paradedb/paradedb:latest-pg15
-    container_name: paradedb-pgsearch
+    container_name: paradedb
     ports:
       - "5432:5432"
     volumes:

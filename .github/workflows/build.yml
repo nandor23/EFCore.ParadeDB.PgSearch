@@ -1,0 +1,32 @@
+name: Build
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+env:
+  DOTNET_VERSION: 9.0.x
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --no-restore
+
+      - name: Test EFCore.ParadeDB.PgSearch
+        run: dotnet test tests/EFCore.ParadeDB.PgSearch.Tests --no-build
+
+      - name: Test EFCore.ParadeDB.PgSearch
+        run: dotnet test tests/EFCore.ParadeDB.PgSearch.IntegrationTests --no-build

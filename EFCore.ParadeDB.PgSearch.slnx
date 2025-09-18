@@ -7,6 +7,9 @@
     <File Path="docker-compose.yml" />
     <File Path="Directory.Packages.props" />
   </Folder>
+  <Folder Name="/.solution/actions/">
+    <File Path=".github\workflows\build.yml" />
+  </Folder>
   <Folder Name="/samples/">
     <Project
       Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj"
