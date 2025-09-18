@@ -25,8 +25,8 @@ jobs:
       - name: Build solution
         run: dotnet build --no-restore
 
-      - name: Test EFCore.ParadeDB.PgSearch
+      - name: Run unit tests
         run: dotnet test tests/EFCore.ParadeDB.PgSearch.Tests --no-build
 
-      - name: Test EFCore.ParadeDB.PgSearch
+      - name: Run integration tests
         run: dotnet test tests/EFCore.ParadeDB.PgSearch.IntegrationTests --no-build
