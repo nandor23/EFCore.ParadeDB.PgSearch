@@ -26,25 +26,21 @@ namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_products");
+                    b.HasKey("Id");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("Products");
                 });
 #pragma warning restore 612, 618
         }
