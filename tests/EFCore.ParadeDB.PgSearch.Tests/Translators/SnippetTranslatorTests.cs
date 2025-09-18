@@ -13,7 +13,7 @@ public sealed class SnippetTranslatorTests
 
         var sql = context.Products.Select(p => EF.Functions.Snippet(p.Description)).ToQueryString();
 
-        sql.ShouldContain("""paradedb.snippet(p."Description", '<b>', '</b>', 150)""");
+        sql.ShouldContain("""paradedb.snippet(p."Description")""");
     }
 
     [Test]
@@ -37,7 +37,7 @@ public sealed class SnippetTranslatorTests
             .Products.Select(p => EF.Functions.Snippet(p.Description, "<a>", "</a>"))
             .ToQueryString();
 
-        sql.ShouldContain("""paradedb.snippet(p."Description", '<a>', '</a>', 150)""");
+        sql.ShouldContain("""paradedb.snippet(p."Description", '<a>', '</a>')""");
     }
 
     [Test]

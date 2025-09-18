@@ -11,7 +11,6 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
     private const string DefaultStartTag = "<b>";
     private const string DefaultEndTag = "</b>";
-    private const int DefaultMaxNumChars = 150;
 
     public SnippetTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
@@ -31,38 +30,35 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         }
 
         List<SqlExpression> args = [arguments[1]];
+        List<bool> argsNullability = [false];
 
-        args.AddRange(
-            arguments.Count switch
-            {
-                2 =>
-                [
-                    _sqlExpressionFactory.Constant(DefaultStartTag),
-                    _sqlExpressionFactory.Constant(DefaultEndTag),
-                    _sqlExpressionFactory.Constant(DefaultMaxNumChars),
-                ],
-                3 =>
-                [
-                    _sqlExpressionFactory.Constant(DefaultStartTag),
-                    _sqlExpressionFactory.Constant(DefaultEndTag),
-                    arguments[2],
-                ],
-                4 =>
-                [
-                    arguments[2],
-                    arguments[3],
-                    _sqlExpressionFactory.Constant(DefaultMaxNumChars),
-                ],
-                _ => [arguments[2], arguments[3], arguments[4]],
-            }
-        );
+        if (arguments.Count == 3)
+        {
+            args.AddRange(
+                _sqlExpressionFactory.Constant(DefaultStartTag),
+                _sqlExpressionFactory.Constant(DefaultEndTag),
+                arguments[2]
+            );
+
+            argsNullability.AddRange(false, false, false);
+        }
+        else if (arguments.Count == 4)
+        {
+            args.AddRange(arguments[2], arguments[3]);
+            argsNullability.AddRange(false, false);
+        }
+        else if (arguments.Count == 5)
+        {
+            args.AddRange(arguments[2], arguments[3], arguments[4]);
+            argsNullability.AddRange(false, false, false);
+        }
 
         return _sqlExpressionFactory.Function(
             name: "snippet",
             schema: "paradedb",
             nullable: false,
             arguments: args,
-            argumentsPropagateNullability: [false, false, false, false],
+            argumentsPropagateNullability: argsNullability,
             returnType: typeof(string)
         );
     }
