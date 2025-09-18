@@ -4,12 +4,12 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class OperatorTranslatorPhraseTests : TranslatorTestBase
+public sealed class OperatorTranslatorPhraseTests
 {
     [Test]
     public void Phrase_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.Phrase(p.Description, "running shoes"))
@@ -21,7 +21,7 @@ public sealed class OperatorTranslatorPhraseTests : TranslatorTestBase
     [Test]
     public void Phrase_WithBoost_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.Phrase(p.Description, "running shoes", Boost.With(2)))
@@ -33,7 +33,7 @@ public sealed class OperatorTranslatorPhraseTests : TranslatorTestBase
     [Test]
     public void Phrase_WhenCalledWithParameters_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         string searchTerm = "running shoes";
 

@@ -4,12 +4,12 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class ProximityRegexTranslator : TranslatorTestBase
+public sealed class ProximityRegexTranslator
 {
     [Test]
     public void ProximityRegex_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.ProximityRegex(p.Description, "[a-z]+", "noise", 2))
@@ -21,7 +21,7 @@ public sealed class ProximityRegexTranslator : TranslatorTestBase
     [Test]
     public void ProximityRegex_WithMatchLimit_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p =>
@@ -37,7 +37,7 @@ public sealed class ProximityRegexTranslator : TranslatorTestBase
     [Test]
     public void ProximityRegex_WhenCalledWithParameters_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         string pattern = "pdb.*search";
         string token = "baz";
@@ -57,7 +57,7 @@ public sealed class ProximityRegexTranslator : TranslatorTestBase
     [Test]
     public void ProximityRegex_WithMatchLimitAndParameters_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         string pattern = "\\d+";
         string token = "unit";

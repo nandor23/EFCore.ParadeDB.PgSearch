@@ -4,12 +4,12 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class SnippetTranslatorTests : TranslatorTestBase
+public sealed class SnippetTranslatorTests
 {
     [Test]
     public void Snippet_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context.Products.Select(p => EF.Functions.Snippet(p.Description)).ToQueryString();
 
@@ -19,7 +19,7 @@ public sealed class SnippetTranslatorTests : TranslatorTestBase
     [Test]
     public void Snippet_WithMaxNumChars_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Select(p => EF.Functions.Snippet(p.Description, 70))
@@ -31,7 +31,7 @@ public sealed class SnippetTranslatorTests : TranslatorTestBase
     [Test]
     public void Snippet_WithTags_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Select(p => EF.Functions.Snippet(p.Description, "<a>", "</a>"))
@@ -43,7 +43,7 @@ public sealed class SnippetTranslatorTests : TranslatorTestBase
     [Test]
     public void Snippet_WithTagsAndMaxNumChars_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Select(p => EF.Functions.Snippet(p.Description, "<div>", "</div>", 235))

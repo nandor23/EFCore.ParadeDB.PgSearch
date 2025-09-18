@@ -4,12 +4,12 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class OperatorTranslatorTermTests : TranslatorTestBase
+public sealed class OperatorTranslatorTermTests
 {
     [Test]
     public void Term_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.Term(p.Description, "running shoes"))
@@ -21,7 +21,7 @@ public sealed class OperatorTranslatorTermTests : TranslatorTestBase
     [Test]
     public void Term_WithFuzzy_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Fuzzy.With(3)))
@@ -33,7 +33,7 @@ public sealed class OperatorTranslatorTermTests : TranslatorTestBase
     [Test]
     public void Term_WithBoost_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Boost.With(2)))
@@ -45,7 +45,7 @@ public sealed class OperatorTranslatorTermTests : TranslatorTestBase
     [Test]
     public void Term_WithFuzzyAndBoost_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p =>
@@ -63,7 +63,7 @@ public sealed class OperatorTranslatorTermTests : TranslatorTestBase
     )]
     public void Term_WhenCalledWithParameters_TranslatesToSql(Fuzzy fuzzy, Boost boost)
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         string searchTerm = "running shoes";
 

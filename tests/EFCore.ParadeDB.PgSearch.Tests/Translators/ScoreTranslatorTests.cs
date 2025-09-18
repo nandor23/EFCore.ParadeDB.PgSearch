@@ -4,12 +4,12 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class ScoreTranslatorTests : TranslatorTestBase
+public sealed class ScoreTranslatorTests
 {
     [Test]
     public void Score_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Select(p => new { p.Id, Score = EF.Functions.Score(p.Id) })

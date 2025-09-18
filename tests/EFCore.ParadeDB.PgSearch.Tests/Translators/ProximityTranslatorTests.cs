@@ -4,12 +4,12 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class ProximityTranslatorTests : TranslatorTestBase
+public sealed class ProximityTranslatorTests
 {
     [Test]
     public void Proximity_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.Proximity(p.Description, "with", "noise", 3))
@@ -21,7 +21,7 @@ public sealed class ProximityTranslatorTests : TranslatorTestBase
     [Test]
     public void Proximity_WhenCalledWithParameters_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         string token1 = "hello";
         string token2 = "world";

@@ -4,12 +4,12 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class OperatorTranslatorConjunctionTests : TranslatorTestBase
+public sealed class OperatorTranslatorConjunctionTests
 {
     [Test]
     public void MatchConjunction_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "running shoes"))
@@ -21,7 +21,7 @@ public sealed class OperatorTranslatorConjunctionTests : TranslatorTestBase
     [Test]
     public void MatchConjunction_WithFuzzy_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p =>
@@ -35,7 +35,7 @@ public sealed class OperatorTranslatorConjunctionTests : TranslatorTestBase
     [Test]
     public void MatchConjunction_WithBoost_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p =>
@@ -49,7 +49,7 @@ public sealed class OperatorTranslatorConjunctionTests : TranslatorTestBase
     [Test]
     public void MatchConjunction_WithFuzzyAndBoost_TranslatesToSql()
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         var sql = context
             .Products.Where(p =>
@@ -72,7 +72,7 @@ public sealed class OperatorTranslatorConjunctionTests : TranslatorTestBase
     )]
     public void MatchConjunction_WhenCalledWithParameters_TranslatesToSql(Fuzzy fuzzy, Boost boost)
     {
-        using var context = new TestDbContext(CreateOptions());
+        using var context = new TestDbContext();
 
         string searchTerm = "running shoes";
 
