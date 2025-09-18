@@ -28,11 +28,7 @@ using (var scope = app.Services.CreateScope())
 
     var products = dbContext
         .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "with"))
-        .Select(p => new
-        {
-            p.Id,
-            Description = EF.Functions.Snippet(p.Description, "<a>", "</a>", 10),
-        })
+        .Select(p => new { p.Id, Description = EF.Functions.Snippet(p.Description, "a", "b", 10) })
         .ToList();
 
     Console.WriteLine(products);
