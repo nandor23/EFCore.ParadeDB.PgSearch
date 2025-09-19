@@ -19,7 +19,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContextPool<AppDbContext>(opt =>
 {
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"), o => o.UsePgSearch())
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"),
+        o => o.UsePgSearch()
+    );
 });
 ```
 
