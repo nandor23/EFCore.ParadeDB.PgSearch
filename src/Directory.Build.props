@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <TargetFrameworks>net9.0;</TargetFrameworks>
+    <Authors>Nandor Krizbai</Authors>
+    <Copyright>Copyright (c) Nandor Krizbai</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>NUGET-README.md</PackageReadmeFile>
+    <PackageIcon>pgsearch-logo.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\NUGET-README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\..\logo\pgsearch-logo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>
