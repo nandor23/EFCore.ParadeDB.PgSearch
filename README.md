@@ -1,8 +1,8 @@
 <h1 align="center">
     <img alt="Logo" src="logo/pgsearch-logo.svg" width="140"/>
+    <br>
+    EFCore.ParadeDB.PgSearch
 </h1>
-
-# EFCore.ParadeDB.PgSearch
 
 [![Build](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/build.yml)
 [![License](https://img.shields.io/github/license/nandor23/EFCore.ParadeDB.PgSearch)](https://opensource.org/license/mit)
