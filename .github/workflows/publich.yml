@@ -1,0 +1,38 @@
+name: Publish to NuGet
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    env:
+      PACKAGES_OUTPUT_DIR: ${{ github.workspace }}/packages
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Get version tag
+        id: extract_tag
+        run: echo "tag=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Pack EFCore.ParadeDB.PgSearch
+        run: |
+          dotnet pack src/EFCore.ParadeDB.PgSearch \
+            --configuration Release \
+            --output "$PACKAGES_OUTPUT_DIR" \
+            -p:PackageVersion=${{ steps.extract_tag.outputs.tag }}
+          
+      - name: Publish to NuGet
+        run: |
+          dotnet nuget push "$PACKAGES_OUTPUT_DIR"/EFCore.ParadeDB.PgSearch.nupkg \
+            --api-key ${{ secrets.UADETECTOR_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json

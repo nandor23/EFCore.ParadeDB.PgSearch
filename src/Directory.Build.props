@@ -6,6 +6,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>NUGET-README.md</PackageReadmeFile>
     <PackageIcon>pgsearch-logo.png</PackageIcon>
+    <PackageIconUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch/blob/main/logo/pgsearch-logo.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
