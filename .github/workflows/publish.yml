@@ -1,9 +1,11 @@
 name: Publish to NuGet
-
 on:
   push:
     tags:
       - 'v*.*.*'
+
+env:
+  DOTNET_VERSION: 9.0.x
 
 jobs:
   publish:
@@ -18,7 +20,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Get version tag
         id: extract_tag
@@ -34,5 +36,5 @@ jobs:
       - name: Publish to NuGet
         run: |
           dotnet nuget push "$PACKAGES_OUTPUT_DIR"/EFCore.ParadeDB.PgSearch.nupkg \
-            --api-key ${{ secrets.UADETECTOR_API_KEY }} \
+            --api-key ${{ secrets.PGSEARCH_API_KEY }} \
             --source https://api.nuget.org/v3/index.json

@@ -19,10 +19,28 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContextPool<AppDbContext>(opt =>
 {
-    opt.UseNpgsql(builder.Configuration.GetConnectionString("Postgres"),
+    opt.UseNpgsql(
+        builder.Configuration.GetConnectionString("AppDatabase"),
         o => o.UsePgSearch()
     );
 });
+```
+
+Register the `pg_search` extension in the DbContext.
+
+```c#
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.HasPostgresExtension("pg_search");
+    }
+}
 ```
 
 A complete example is also available in the [samples directory](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/tree/main/samples/EFCore.ParadeDB.PgSearch.Api) demonstrating PgSearch configuration and BM25 index creation.

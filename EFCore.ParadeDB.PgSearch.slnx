@@ -10,6 +10,7 @@
   </Folder>
   <Folder Name="/.solution/actions/">
     <File Path=".github\workflows\build.yml" />
+    i<File Path=".github\workflows\publish.yml" />
   </Folder>
   <Folder Name="/samples/">
     <Project
