@@ -9,7 +9,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContextPool<AppDbContext>(options =>
 {
     options
-        .UseNpgsql(builder.Configuration.GetConnectionString("Postgres"), o => o.UsePgSearch())
+        .UseNpgsql(builder.Configuration.GetConnectionString("AppDatabase"), o => o.UsePgSearch())
         .UseSnakeCaseNamingConvention();
 });
 
@@ -26,10 +26,22 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    var products = dbContext
-        .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "with"))
-        .Select(p => new { p.Id, Description = EF.Functions.Snippet(p.Description, "a", "b", 10) })
-        .ToList();
+    var products = await dbContext
+        .Products.Where(p =>
+            EF.Functions.MatchDisjunction(
+                p.Description,
+                "with shoes and",
+                Fuzzy.With(1),
+                Boost.With(2.3f)
+            )
+        )
+        .Select(p => new
+        {
+            p.Id,
+            p.Description,
+            Score = EF.Functions.Score(p.Id),
+        })
+        .ToListAsync();
 
     Console.WriteLine(products);
 }

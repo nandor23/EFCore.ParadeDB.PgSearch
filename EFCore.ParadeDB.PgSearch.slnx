@@ -10,16 +10,29 @@
   </Folder>
   <Folder Name="/.solution/actions/">
     <File Path=".github\workflows\build.yml" />
+    i<File Path=".github\workflows\publish.yml" />
   </Folder>
   <Folder Name="/samples/">
-    <Project Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj" Type="Classic C#" />
+    <Project
+      Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj"
+      Type="Classic C#"
+    />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj" Type="Classic C#" />
+    <Project
+      Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj"
+      Type="Classic C#"
+    />
     <File Path="src\Directory.Build.props" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests\EFCore.ParadeDB.PgSearch.IntegrationTests\EFCore.ParadeDB.PgSearch.IntegrationTests.csproj" Type="Classic C#" />
-    <Project Path="tests\EFCore.ParadeDB.PgSearch.Tests\EFCore.ParadeDB.PgSearch.Tests.csproj" Type="Classic C#" />
+    <Project
+      Path="tests\EFCore.ParadeDB.PgSearch.IntegrationTests\EFCore.ParadeDB.PgSearch.IntegrationTests.csproj"
+      Type="Classic C#"
+    />
+    <Project
+      Path="tests\EFCore.ParadeDB.PgSearch.Tests\EFCore.ParadeDB.PgSearch.Tests.csproj"
+      Type="Classic C#"
+    />
   </Folder>
 </Solution>

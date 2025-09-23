@@ -7,11 +7,17 @@
 
   <PropertyGroup>
     <PackageId>EFCore.ParadeDB.PgSearch</PackageId>
-    <PackageTags></PackageTags>
-    <Description></Description>
+    <PackageTags>ParadeDB;entityframework;efcore;paradedb;pg_search</PackageTags>
+    <Description>EFCore.ParadeDB.PgSearch adds ParadeDB's pg_search extension support to Npgsql.EntityFrameworkCore.PostgreSQL. Exposes ParadeDB search functions through EF.Functions API for LINQ-based full-text search queries.</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="EFCore.ParadeDB.PgSearch.Tests" />
+  </ItemGroup>
+
+
 </Project>

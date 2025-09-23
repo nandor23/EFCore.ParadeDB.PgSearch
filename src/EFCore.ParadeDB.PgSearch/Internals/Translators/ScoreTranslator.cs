@@ -27,13 +27,15 @@ internal sealed class ScoreTranslator : IMethodCallTranslator
             return null;
         }
 
-        return _sqlExpressionFactory.Function(
+        var functionCall = _sqlExpressionFactory.Function(
             name: "score",
             schema: "paradedb",
-            nullable: false,
+            nullable: true,
             arguments: [arguments[1]],
             argumentsPropagateNullability: [false],
-            returnType: typeof(float)
+            returnType: typeof(float?)
         );
+
+        return _sqlExpressionFactory.Coalesce(functionCall, _sqlExpressionFactory.Constant(0f));
     }
 }
