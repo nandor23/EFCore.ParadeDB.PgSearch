@@ -22,6 +22,21 @@ public sealed class SnippetTests
     }
 
     [Test]
+    public async Task Snippet_ReturnsNull_WhenNoMatch()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, "your", Fuzzy.With(2))
+            )
+            .Select(p => new { p.Id, Description = EF.Functions.Snippet(p.Description) })
+            .ToListAsync();
+
+        results.ShouldAllBe(r => r.Description == null);
+    }
+
+    [Test]
     public async Task Snippet_WithMaxChars_ExecutesSuccessfully()
     {
         await using var context = DbFixture.CreateContext();
