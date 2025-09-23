@@ -27,8 +27,9 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 
     var products = dbContext
-        .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "with"))
-        .Select(p => new { p.Id, Description = EF.Functions.Snippet(p.Description, "a", "b", 10) })
+        .Products
+        //.Where(p => EF.Functions.MatchConjunction(p.Description, "with"))
+        .Select(p => new { p.Id, Score = EF.Functions.Score(p.Id) })
         .ToList();
 
     Console.WriteLine(products);

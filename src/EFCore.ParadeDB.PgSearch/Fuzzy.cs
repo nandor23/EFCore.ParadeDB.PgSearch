@@ -2,15 +2,15 @@ namespace EFCore.ParadeDB.PgSearch;
 
 public sealed class Fuzzy
 {
-    private readonly int _distance;
-    private readonly bool _prefix;
-    private readonly bool _transpositionCostOne;
+    internal readonly int Distance;
+    internal readonly bool Prefix;
+    internal readonly bool TranspositionCostOne;
 
     private Fuzzy(int distance, bool prefix = false, bool transpositionCostOne = false)
     {
-        _distance = distance;
-        _prefix = prefix;
-        _transpositionCostOne = transpositionCostOne;
+        Distance = distance;
+        Prefix = prefix;
+        TranspositionCostOne = transpositionCostOne;
     }
 
     public static Fuzzy With(int distance) => new(distance);
@@ -22,12 +22,12 @@ public sealed class Fuzzy
 
     public override string ToString()
     {
-        return (_prefix, _transpositionCostOne) switch
+        return (_prefix: Prefix, _transpositionCostOne: TranspositionCostOne) switch
         {
-            (false, false) => $"fuzzy({_distance})",
-            (true, false) => $"fuzzy({_distance}, t)",
-            (false, true) => $"fuzzy({_distance}, f, t)",
-            (true, true) => $"fuzzy({_distance}, t, t)",
+            (false, false) => $"fuzzy({Distance})",
+            (true, false) => $"fuzzy({Distance}, t)",
+            (false, true) => $"fuzzy({Distance}, f, t)",
+            (true, true) => $"fuzzy({Distance}, t, t)",
         };
     }
 }
