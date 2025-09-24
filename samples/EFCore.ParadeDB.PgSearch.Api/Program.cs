@@ -9,8 +9,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContextPool<AppDbContext>(options =>
 {
     options
-        .UseNpgsql(builder.Configuration.GetConnectionString("AppDatabase"), o => o.UsePgSearch())
-        .UseSnakeCaseNamingConvention();
+        .UseNpgsql(builder.Configuration.GetConnectionString("AppDatabase"), o => o.UsePgSearch());
 });
 
 var app = builder.Build();

@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250914040108_CreateBM25Index")]
+    [Migration("20250924043833_CreateBM25Index")]
     partial class CreateBM25Index
     {
         /// <inheritdoc />
@@ -29,25 +29,21 @@ namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
+                        .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id")
-                        .HasName("pk_products");
+                    b.HasKey("Id");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("Products");
 
                     b.HasData(
                         new
