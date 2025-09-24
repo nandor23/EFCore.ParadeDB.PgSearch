@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <TargetFrameworks>net9.0;</TargetFrameworks>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     <Authors>Nandor Krizbai</Authors>
     <Copyright>Copyright (c) Nandor Krizbai</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

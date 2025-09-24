@@ -35,22 +35,24 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         if (arguments.Count == 3)
         {
             args.AddRange(
-                _sqlExpressionFactory.Constant(DefaultStartTag),
-                _sqlExpressionFactory.Constant(DefaultEndTag),
-                arguments[2]
+                [
+                    _sqlExpressionFactory.Constant(DefaultStartTag),
+                    _sqlExpressionFactory.Constant(DefaultEndTag),
+                    arguments[2],
+                ]
             );
 
-            argsNullability.AddRange(false, false, false);
+            argsNullability.AddRange([false, false, false]);
         }
         else if (arguments.Count == 4)
         {
-            args.AddRange(arguments[2], arguments[3]);
-            argsNullability.AddRange(false, false);
+            args.AddRange([arguments[2], arguments[3]]);
+            argsNullability.AddRange([false, false]);
         }
         else if (arguments.Count == 5)
         {
-            args.AddRange(arguments[2], arguments[3], arguments[4]);
-            argsNullability.AddRange(false, false, false);
+            args.AddRange([arguments[2], arguments[3], arguments[4]]);
+            argsNullability.AddRange([false, false, false]);
         }
 
         return _sqlExpressionFactory.Function(
