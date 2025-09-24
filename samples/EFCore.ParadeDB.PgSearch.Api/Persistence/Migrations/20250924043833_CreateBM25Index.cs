@@ -11,9 +11,9 @@ namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.Sql(
-                @"CREATE INDEX search_idx ON products
-                  USING bm25 (id, description)
-                  WITH (key_field='id')"
+                @"CREATE INDEX search_idx ON ""Products""
+                  USING bm25 (""Id"", ""Description"")
+                  WITH (key_field='Id');"
             );
         }
 
