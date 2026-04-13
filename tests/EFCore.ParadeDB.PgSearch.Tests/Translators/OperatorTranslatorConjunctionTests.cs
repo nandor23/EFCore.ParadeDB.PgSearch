@@ -30,7 +30,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::fuzzy(3)""");
+        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.fuzzy(3)""");
     }
 
     [Test]
@@ -44,7 +44,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::boost(2)""");
+        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.boost(2)""");
     }
 
     [Test]
@@ -63,7 +63,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::fuzzy(5)::boost(3)""");
+        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.fuzzy(5)::pdb.boost(3)""");
     }
 
     [Test]

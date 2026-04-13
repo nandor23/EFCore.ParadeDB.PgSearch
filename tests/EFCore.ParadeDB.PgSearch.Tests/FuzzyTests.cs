@@ -39,7 +39,7 @@ public sealed class FuzzyTests
     {
         var fuzzy = Fuzzy.With(2);
 
-        fuzzy.ToString().ShouldBe("fuzzy(2)");
+        fuzzy.ToString().ShouldBe("pdb.fuzzy(2)");
     }
 
     [Test]
@@ -47,7 +47,7 @@ public sealed class FuzzyTests
     {
         var fuzzy = Fuzzy.With(2, true);
 
-        fuzzy.ToString().ShouldBe("fuzzy(2, t)");
+        fuzzy.ToString().ShouldBe("pdb.fuzzy(2, t)");
     }
 
     [Test]
@@ -55,7 +55,7 @@ public sealed class FuzzyTests
     {
         var fuzzy = Fuzzy.With(2, false, true);
 
-        fuzzy.ToString().ShouldBe("fuzzy(2, f, t)");
+        fuzzy.ToString().ShouldBe("pdb.fuzzy(2, f, t)");
     }
 
     [Test]
@@ -63,6 +63,6 @@ public sealed class FuzzyTests
     {
         var fuzzy = Fuzzy.With(2, true, true);
 
-        fuzzy.ToString().ShouldBe("fuzzy(2, t, t)");
+        fuzzy.ToString().ShouldBe("pdb.fuzzy(2, t, t)");
     }
 }

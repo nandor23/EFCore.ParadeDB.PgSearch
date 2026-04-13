@@ -27,7 +27,7 @@ public sealed class OperatorTranslatorPhraseTests
             .Products.Where(p => EF.Functions.Phrase(p.Description, "running shoes", Boost.With(2)))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ### 'running shoes'::boost(2)""");
+        sql.ShouldContain("""p."Description" ### 'running shoes'::pdb.boost(2)""");
     }
 
     [Test]
@@ -43,7 +43,7 @@ public sealed class OperatorTranslatorPhraseTests
 
         sql.ShouldMatch(
             """
-            "Description" ### @\w+::boost\(2\)
+            "Description" ### @\w+::pdb.boost\(2\)
             """
         );
     }
