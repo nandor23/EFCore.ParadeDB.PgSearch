@@ -29,7 +29,7 @@ internal sealed class ScoreTranslator : IMethodCallTranslator
 
         var functionCall = _sqlExpressionFactory.Function(
             name: "score",
-            schema: "paradedb",
+            schema: "pdb",
             nullable: true,
             arguments: [arguments[1]],
             argumentsPropagateNullability: [false],

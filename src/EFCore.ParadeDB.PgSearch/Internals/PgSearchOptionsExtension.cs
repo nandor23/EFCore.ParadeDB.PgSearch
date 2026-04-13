@@ -16,11 +16,7 @@ internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
         services.AddScoped<IMethodCallTranslatorPlugin, PgSearchTranslatorPlugin>();
     }
 
-    public void Validate(IDbContextOptions options)
-    {
-        // TODO
-        // throw new NotImplementedException();
-    }
+    public void Validate(IDbContextOptions options) { }
 
     public DbContextOptionsExtensionInfo Info { get; }
 

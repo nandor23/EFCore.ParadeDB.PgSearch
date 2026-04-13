@@ -1,10 +1,10 @@
 using System.Reflection;
 using EFCore.ParadeDB.PgSearch.Internals.Expressions;
+using EFCore.ParadeDB.PgSearch.Internals.TypeMappings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EFCore.ParadeDB.PgSearch.Internals.Translators;
 
@@ -45,7 +45,7 @@ internal sealed class ProximityRegexTranslator : IMethodCallTranslator
             arguments: regexArgs,
             argumentsPropagateNullability: regexArgsNullability,
             returnType: typeof(bool),
-            typeMapping: new BoolTypeMapping("boolean")
+            typeMapping: PdbTypeMappings.Boolean
         );
 
         var leftProximity = new PdbProximityExpression(

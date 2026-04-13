@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
@@ -29,7 +30,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::fuzzy(3)""");
+        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.fuzzy(3)""");
     }
 
     [Test]
@@ -43,7 +44,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::boost(2)""");
+        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.boost(2)""");
     }
 
     [Test]
@@ -62,7 +63,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::fuzzy(5)::boost(3)""");
+        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.fuzzy(5)::pdb.boost(3)""");
     }
 
     [Test]
@@ -82,6 +83,8 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain($"""p."Description" &&& @__searchTerm_1::{fuzzy}::{boost}""");
+        sql.ShouldMatch(
+            $"""p\."Description" &&& @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
+        );
     }
 }

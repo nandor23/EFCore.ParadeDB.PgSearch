@@ -17,6 +17,6 @@ public sealed class BoostTests
     {
         var boost = Boost.With(2.5f);
 
-        boost.ToString().ShouldBe("boost(2.5)");
+        boost.ToString().ShouldBe("pdb.boost(2.5)");
     }
 }

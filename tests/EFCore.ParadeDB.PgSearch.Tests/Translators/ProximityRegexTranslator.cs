@@ -49,8 +49,10 @@ public sealed class ProximityRegexTranslator
             )
             .ToQueryString();
 
-        sql.ShouldContain(
-            """p."Description" @@@ ((pdb.prox_regex(@__pattern_1) ## @__maxDistance_3) ## @__token_2)"""
+        sql.ShouldMatch(
+            """
+            "Description" @@@ \(\(pdb\.prox_regex\(@\w+\) ## @\w+\) ## @\w+\)
+            """
         );
     }
 
@@ -70,8 +72,10 @@ public sealed class ProximityRegexTranslator
             )
             .ToQueryString();
 
-        sql.ShouldContain(
-            """p."Description" @@@ ((pdb.prox_regex(@__pattern_1, @__matchLimit_4) ## @__maxDistance_3) ## @__token_2)"""
+        sql.ShouldMatch(
+            """
+            "Description" @@@ \(\(pdb\.prox_regex\(@\w+, @\w+\) ## @\w+\) ## @\w+\)
+            """
         );
     }
 }

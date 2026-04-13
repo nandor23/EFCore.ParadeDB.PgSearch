@@ -8,7 +8,7 @@ internal sealed class BasicTokenizer : Tokenizer
 
     public BasicTokenizer(string type)
     {
-        _sqlExpression = new SqlFragmentExpression($"tokenizer => paradedb.tokenizer('{type}')");
+        _sqlExpression = new SqlFragmentExpression($"tokenizer => pdb.tokenizer('{type}')");
     }
 
     internal override SqlExpression ToSqlExpression()

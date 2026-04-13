@@ -13,6 +13,6 @@ public sealed class Boost
 
     public override string ToString()
     {
-        return $"boost({Factor})";
+        return $"pdb.boost({Factor})";
     }
 }

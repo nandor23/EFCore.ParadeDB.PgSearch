@@ -8,16 +8,15 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContextPool<AppDbContext>(options =>
 {
-    options
-        .UseNpgsql(builder.Configuration.GetConnectionString("AppDatabase"), o => o.UsePgSearch());
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("AppDatabase"),
+        o => o.UsePgSearch()
+    );
 });
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapOpenApi();
 app.UseHttpsRedirection();
 
 using (var scope = app.Services.CreateScope())

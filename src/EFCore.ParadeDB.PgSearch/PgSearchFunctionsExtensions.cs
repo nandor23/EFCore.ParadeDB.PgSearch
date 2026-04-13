@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
@@ -152,19 +153,19 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
     }
 
-    [DbFunction("score", "paradedb", IsBuiltIn = false)]
+    [DbFunction("score", "pdb", IsBuiltIn = false)]
     public static float Score<TProperty>(this DbFunctions _, TProperty property)
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Score)));
     }
 
-    [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
+    [DbFunction("snippet", "pdb", IsBuiltIn = false)]
     public static string? Snippet<TProperty>(this DbFunctions _, TProperty property)
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
     }
 
-    [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
+    [DbFunction("snippet", "pdb", IsBuiltIn = false)]
     public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,
@@ -174,7 +175,7 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
     }
 
-    [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
+    [DbFunction("snippet", "pdb", IsBuiltIn = false)]
     public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,
@@ -185,7 +186,7 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
     }
 
-    [DbFunction("snippet", "paradedb", IsBuiltIn = false)]
+    [DbFunction("snippet", "pdb", IsBuiltIn = false)]
     public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,

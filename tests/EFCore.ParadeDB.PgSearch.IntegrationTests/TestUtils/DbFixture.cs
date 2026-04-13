@@ -13,8 +13,8 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
 
     public async Task InitializeAsync()
     {
-        _container = new PostgreSqlBuilder()
-            .WithImage("paradedb/paradedb:latest-pg14")
+        _container = new PostgreSqlBuilder("postgres:18")
+            .WithImage("paradedb/paradedb:latest")
             .WithDatabase("pg_search_test")
             .WithUsername("test")
             .WithPassword("Pass!w0rd1")

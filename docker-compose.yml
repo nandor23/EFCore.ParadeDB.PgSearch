@@ -1,9 +1,9 @@
 services:
   paradedb:
-    image: paradedb/paradedb:latest-pg15
+    image: paradedb/paradedb:latest
     container_name: paradedb
     ports:
-      - "5432:5432"
+      - "6435:5432"
     volumes:
       - postgres-data:/var/lib/postgres/data
     environment:

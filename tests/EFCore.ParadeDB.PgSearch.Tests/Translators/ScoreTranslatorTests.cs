@@ -15,6 +15,6 @@ public sealed class ScoreTranslatorTests
             .Products.Select(p => new { p.Id, Score = EF.Functions.Score(p.Id) })
             .ToQueryString();
 
-        sql.ShouldContain("""COALESCE(paradedb.score(p."Id"), 0)""");
+        sql.ShouldContain("""COALESCE(pdb.score(p."Id"), 0)""");
     }
 }

@@ -18,7 +18,7 @@ internal sealed class NgramTokenizer : Tokenizer
     internal override SqlExpression ToSqlExpression()
     {
         return new SqlFragmentExpression(
-            $"tokenizer => paradedb.tokenizer('ngram', min_gram => {_minGram}, max_gram => {_maxGram}, prefix_only => {_prefixOnly})"
+            $"tokenizer => pdb.tokenizer('ngram', min_gram => {_minGram}, max_gram => {_maxGram}, prefix_only => {_prefixOnly})"
         );
     }
 }
