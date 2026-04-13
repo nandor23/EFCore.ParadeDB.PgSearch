@@ -16,10 +16,7 @@ builder.Services.AddDbContextPool<AppDbContext>(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapOpenApi();
 app.UseHttpsRedirection();
 
 using (var scope = app.Services.CreateScope())
@@ -27,7 +24,7 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    var products = await dbContext
+    /*var products = await dbContext
         .Products.Where(p =>
             EF.Functions.MatchDisjunction(
                 p.Description,
@@ -42,7 +39,10 @@ using (var scope = app.Services.CreateScope())
             p.Description,
             Score = EF.Functions.Score(p.Id),
         })
-        .ToListAsync();
+        .ToListAsync();*/
+    
+    var products = await dbContext
+        .Products.Select(p => new { p.Id, Score = EF.Functions.Score(p.Id) }).ToListAsync();
 
     Console.WriteLine(products);
 }

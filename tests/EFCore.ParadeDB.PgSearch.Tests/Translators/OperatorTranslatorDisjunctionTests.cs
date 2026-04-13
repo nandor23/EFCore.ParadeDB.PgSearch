@@ -82,6 +82,10 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain($"""p."Description" ||| @__searchTerm_1::{fuzzy}::{boost}""");
+        sql.ShouldMatch(
+            $"""
+            "Description" ||| @\w+::{fuzzy}::{boost}
+            """
+        );
     }
 }

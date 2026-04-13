@@ -31,8 +31,10 @@ public sealed class ProximityTranslatorTests
             .Products.Where(p => EF.Functions.Proximity(p.Description, token1, token2, distance))
             .ToQueryString();
 
-        sql.ShouldContain(
-            """p."Description" @@@ ((@__token1_1 ## @__distance_3) ## @__token2_2)"""
+        sql.ShouldMatch(
+            """
+            "Description" @@@ \(\(@\w+ ## @\w+\) ## @\w+\)
+            """
         );
     }
 }

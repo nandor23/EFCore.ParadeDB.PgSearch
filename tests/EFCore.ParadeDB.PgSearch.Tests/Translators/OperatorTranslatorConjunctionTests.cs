@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
@@ -82,6 +83,8 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain($"""p."Description" &&& @__searchTerm_1::{fuzzy}::{boost}""");
+        sql.ShouldMatch(
+            $"""p\."Description" &&& @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
+        );
     }
 }

@@ -14,7 +14,7 @@ internal sealed class RegexTokenizer : Tokenizer
     internal override SqlExpression ToSqlExpression()
     {
         return new SqlFragmentExpression(
-            $"tokenizer => paradedb.tokenizer('regex', pattern => '{_pattern.Replace("'", "''")}')"
+            $"tokenizer => pdb.tokenizer('regex', pattern => '{_pattern.Replace("'", "''")}')"
         );
     }
 }

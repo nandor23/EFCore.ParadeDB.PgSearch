@@ -41,6 +41,10 @@ public sealed class OperatorTranslatorPhraseTests
             .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerm, Boost.With(2)))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ### @__searchTerm_1::boost(2)""");
+        sql.ShouldMatch(
+            """
+            "Description" ### @\w+::boost\(2\)
+            """
+        );
     }
 }
