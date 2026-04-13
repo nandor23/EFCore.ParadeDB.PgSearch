@@ -4,10 +4,8 @@ namespace EFCore.ParadeDB.PgSearch.Internals.TypeMappings;
 
 internal sealed class FuzzyTypeMapping : RelationalTypeMapping
 {
-    private static readonly Type FuzzyType = typeof(Fuzzy);
-
     public FuzzyTypeMapping(Fuzzy fuzzy)
-        : base(fuzzy.ToString(), FuzzyType) { }
+        : base(fuzzy.ToString(), typeof(Fuzzy)) { }
 
     private FuzzyTypeMapping(RelationalTypeMappingParameters parameters)
         : base(parameters) { }

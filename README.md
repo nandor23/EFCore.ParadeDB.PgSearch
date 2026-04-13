@@ -58,6 +58,8 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 | [Highlighting](https://docs.paradedb.com/v2/full-text/highlight)  | `Snippet()`                                |
 | [Proximity](https://docs.paradedb.com/v2/full-text/proximity)     | `Proximity()`, `ProximityRegex()`          |
 
+> **Note:** `ProximityRegex()` requires the regex pattern to be a compile-time string constant.
+> It is embedded directly into the generated SQL and cannot be parameterized.
 
 ## Usage Example
 

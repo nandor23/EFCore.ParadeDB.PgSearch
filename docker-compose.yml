@@ -1,6 +1,6 @@
 services:
   paradedb:
-    image: paradedb/paradedb:latest-pg15
+    image: paradedb/paradedb:latest
     container_name: paradedb
     ports:
       - "5432:5432"
