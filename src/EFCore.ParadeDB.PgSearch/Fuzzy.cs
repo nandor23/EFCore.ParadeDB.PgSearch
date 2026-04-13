@@ -24,10 +24,10 @@ public sealed class Fuzzy
     {
         return (_prefix: Prefix, _transpositionCostOne: TranspositionCostOne) switch
         {
-            (false, false) => $"fuzzy({Distance})",
-            (true, false) => $"fuzzy({Distance}, t)",
-            (false, true) => $"fuzzy({Distance}, f, t)",
-            (true, true) => $"fuzzy({Distance}, t, t)",
+            (false, false) => $"pdb.fuzzy({Distance})",
+            (true, false) => $"pdb.fuzzy({Distance}, t)",
+            (false, true) => $"pdb.fuzzy({Distance}, f, t)",
+            (true, true) => $"pdb.fuzzy({Distance}, t, t)",
         };
     }
 }
