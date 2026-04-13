@@ -15,12 +15,65 @@ public sealed class SnippetTests
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Select(p => EF.Functions.Snippet(p.Description))
+            .Products.Where(p => EF.Functions.Term(p.Description, "rich"))
+            .Select(p => EF.Functions.Snippet(p.Description))
             .ToListAsync();
 
         results.ShouldNotBeNull();
     }
 
+    [Test]
+    public async Task Snippet_WithMaxChars_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Term(p.Description, "rich"))
+            .Select(p => EF.Functions.Snippet(p.Description, 50))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Snippet_WithTags_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Term(p.Description, "rich"))
+            .Select(p => EF.Functions.Snippet(p.Description, "<a>", "</a>"))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Snippet_WithTagsAndMaxChars_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Term(p.Description, "rich"))
+            .Select(p => EF.Functions.Snippet(p.Description, "<a>", "</a>", 50))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Snippet_WithoutParadeDbFilter_ShouldThrowException()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        await Should.ThrowAsync<Exception>(async () =>
+        {
+            await context
+                .Products.Select(p => EF.Functions.Snippet(p.Description))
+                .ToListAsync();
+        });
+    }
+    
     [Test]
     public async Task Snippet_ReturnsNull_WhenNoMatch()
     {
@@ -34,41 +87,5 @@ public sealed class SnippetTests
             .ToListAsync();
 
         results.ShouldAllBe(r => r.Description == null);
-    }
-
-    [Test]
-    public async Task Snippet_WithMaxChars_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Snippet(p.Description, 50))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Snippet_WithTags_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Snippet(p.Description, "<a>", "</a>"))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Snippet_WithTagsAndMaxChars_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Snippet(p.Description, "<a>", "</a>", 50))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
     }
 }

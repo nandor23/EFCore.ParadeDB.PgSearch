@@ -24,7 +24,7 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    /*var products = await dbContext
+    var products = await dbContext
         .Products.Where(p =>
             EF.Functions.MatchDisjunction(
                 p.Description,
@@ -39,10 +39,7 @@ using (var scope = app.Services.CreateScope())
             p.Description,
             Score = EF.Functions.Score(p.Id),
         })
-        .ToListAsync();*/
-    
-    var products = await dbContext
-        .Products.Select(p => new { p.Id, Score = EF.Functions.Score(p.Id) }).ToListAsync();
+        .ToListAsync();
 
     Console.WriteLine(products);
 }

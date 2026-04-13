@@ -28,19 +28,20 @@ public sealed class ScoreTests
     }
 
     [Test]
-    public async Task Score_WithoutParadeDbFilter_ShouldReturnZeroScore()
+    public async Task Score_WithoutParadeDbFilter_ShouldThrowException()
     {
         await using var context = DbFixture.CreateContext();
 
-        var results = await context
-            .Products.Select(p => new
-            {
-                p.Id,
-                p.Name,
-                Score = EF.Functions.Score(p.Description),
-            })
-            .ToListAsync();
-
-        results.ShouldAllBe(x => x.Score == 0f);
+        await Should.ThrowAsync<Exception>(async () =>
+        {
+            await context
+                .Products.Select(p => new
+                {
+                    p.Id,
+                    p.Name,
+                    Score = EF.Functions.Score(p.Description),
+                })
+                .ToListAsync();
+        });
     }
 }
