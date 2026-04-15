@@ -16,6 +16,7 @@ internal sealed class PgSearchTranslatorPlugin : IMethodCallTranslatorPlugin
             new ProximityTranslator(sqlExpressionFactory),
             new ProximityRegexTranslator(sqlExpressionFactory),
             new TokenizerTranslator(sqlExpressionFactory),
+            new AliasTranslator(sqlExpressionFactory),
         ];
     }
 

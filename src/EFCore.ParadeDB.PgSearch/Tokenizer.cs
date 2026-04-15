@@ -76,4 +76,6 @@ public sealed class Tokenizer
 
     public static Tokenizer SourceCode(params TokenFilter[] filters) =>
         new("source_code", [], filters);
+
+    public static Tokenizer Alias(params TokenFilter[] filters) => new("alias", [], filters);
 }

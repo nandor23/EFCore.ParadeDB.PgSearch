@@ -173,4 +173,10 @@ public static class PgSearchFunctionsExtensions
         TProperty property,
         [NotParameterized] Tokenizer tokenizer
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Tokenize)));
+
+    public static string Alias<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [NotParameterized] string alias
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
 }

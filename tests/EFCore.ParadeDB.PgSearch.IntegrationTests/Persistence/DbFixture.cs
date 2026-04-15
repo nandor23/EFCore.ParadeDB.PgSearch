@@ -1,9 +1,12 @@
-using EFCore.ParadeDB.PgSearch.IntegrationTests.TestModels;
+using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Entities;
+
 using Microsoft.EntityFrameworkCore;
+
 using Testcontainers.PostgreSql;
+
 using TUnit.Core.Interfaces;
 
-namespace EFCore.ParadeDB.PgSearch.IntegrationTests.TestUtils;
+namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
 
 public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
 {
@@ -24,6 +27,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
 
         _options = new DbContextOptionsBuilder<TestDbContext>()
             .UseNpgsql(_container.GetConnectionString(), o => o.UsePgSearch())
+            .UseSnakeCaseNamingConvention()
             .Options;
 
         await using var context = new TestDbContext(_options);
@@ -49,6 +53,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
         {
             new Product
             {
+                Id = 1,
                 Name = "UltraComfort Memory Foam Running Shoes",
                 Description = """
                     Experience unparalleled comfort with the UltraComfort Memory Foam Running Shoes.
@@ -60,6 +65,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
             },
             new Product
             {
+                Id = 2,
                 Name = "ProStride Jogging Sneakers",
                 Description = """
                     Elevate your running experience with the ProStride Jogging Sneakers.
@@ -71,6 +77,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
             },
             new Product
             {
+                Id = 3,
                 Name = "NoiseCancel Wireless Headphones",
                 Description = """
                     Immerse yourself in high-quality sound with the NoiseCancel Wireless Headphones.
@@ -82,6 +89,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
             },
             new Product
             {
+                Id = 4,
                 Name = "StudioSound Over-Ear Headphones",
                 Description = """
                     Discover exceptional audio clarity with the StudioSound Over-Ear Headphones.
@@ -93,6 +101,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
             },
             new Product
             {
+                Id = 5,
                 Name = "EcoBrew French Press Coffee Maker",
                 Description = """
                     Brew your favorite coffee with the EcoBrew French Press Coffee Maker.
@@ -104,7 +113,63 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
             },
         };
 
+        var items = new[]
+        {
+            new Item
+            {
+                Id = 1,
+                Name = "Vintage Leather Journal",
+                Description = """
+                    A vintage leather journal featuring hand-stitched binding, aged parchment pages, and a brass clasp closure.
+                    Each page has a subtle texture that makes writing a tactile pleasure, and the cover develops a rich patina over time.
+                    Perfect for travelers, writers, and anyone who appreciates the art of analog note-taking.
+                    """,
+            },
+            new Item
+            {
+                Id = 2,
+                Name = "Bamboo Cutting Board",
+                Description = """
+                    A premium bamboo cutting board with a deep juice groove along the perimeter to catch liquids during food prep.
+                    Features a built-in herb stripper, a hanging hole for easy storage, and a non-slip base to keep it firmly in place.
+                    Naturally antimicrobial and gentle on knife edges, making it an essential kitchen companion.
+                    """,
+            },
+            new Item
+            {
+                Id = 3,
+                Name = "Ceramic Pour-Over Coffee Dripper",
+                Description = """
+                    A handcrafted ceramic pour-over coffee dripper paired with a solid walnut stand and a reusable stainless mesh filter.
+                    The carefully angled interior ribs slow the flow rate for optimal extraction, producing a clean and nuanced cup.
+                    Designed for coffee enthusiasts who treat their morning brew as a ritual rather than a routine.
+                    """,
+            },
+            new Item
+            {
+                Id = 4,
+                Name = "Merino Wool Travel Blanket",
+                Description = """
+                    A ultra-soft Merino wool travel blanket that folds and compresses neatly into its own integrated carry pouch.
+                    Naturally temperature-regulating and odor-resistant, it keeps you warm on cold flights and cool in mild conditions.
+                    Lightweight enough to slip into a carry-on, yet substantial enough to replace a full-size throw at home.
+                    """,
+            },
+            new Item
+            {
+                Id = 5,
+                Name = "Solar-Powered Desk Lamp",
+                Description = """
+                    A solar-powered desk lamp with a flexible gooseneck arm, adjustable color temperature ranging from warm amber to cool daylight,
+                    and a built-in USB-A charging port to keep your devices powered throughout the day.
+                    The wide solar panel charges efficiently even in indirect light, making it ideal for eco-conscious home and office setups.
+                    """,
+            },
+        };
+
         context.Products.AddRange(products);
+        context.Items.AddRange(items);
+
         await context.SaveChangesAsync();
     }
 }

@@ -1,7 +1,8 @@
-using EFCore.ParadeDB.PgSearch.IntegrationTests.TestModels;
+using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCore.ParadeDB.PgSearch.IntegrationTests.TestUtils;
+namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
 
 public sealed class TestDbContext : DbContext
 {
@@ -9,6 +10,7 @@ public sealed class TestDbContext : DbContext
         : base(options) { }
 
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Item> Items => Set<Item>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,8 +18,7 @@ public sealed class TestDbContext : DbContext
 
         modelBuilder.HasPostgresExtension("pg_search");
 
-        modelBuilder.UseIdentityByDefaultColumns();
-
         modelBuilder.Entity<Product>().HasKey(p => p.Id);
+        modelBuilder.Entity<Item>().HasKey(p => p.Id);
     }
 }

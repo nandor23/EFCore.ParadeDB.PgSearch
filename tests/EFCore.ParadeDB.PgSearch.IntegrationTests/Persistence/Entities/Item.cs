@@ -1,6 +1,6 @@
-namespace EFCore.ParadeDB.PgSearch.IntegrationTests.TestModels;
+namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Entities;
 
-public sealed class Product
+public sealed class Item
 {
     public long Id { get; set; }
     public string Name { get; set; } = string.Empty;

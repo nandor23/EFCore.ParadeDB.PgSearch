@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace EFCore.ParadeDB.PgSearch.IntegrationTests.TestUtils;
+namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
 
 public sealed class TestDbContextFactory : IDesignTimeDbContextFactory<TestDbContext>
 {
@@ -9,6 +9,7 @@ public sealed class TestDbContextFactory : IDesignTimeDbContextFactory<TestDbCon
     {
         var options = new DbContextOptionsBuilder<TestDbContext>()
             .UseNpgsql("Host=localhost;Database=factory;Username=factory;Password=factory")
+            .UseSnakeCaseNamingConvention()
             .Options;
 
         return new TestDbContext(options);
