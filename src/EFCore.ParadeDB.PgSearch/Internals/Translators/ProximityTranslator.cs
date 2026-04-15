@@ -28,15 +28,22 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         {
             return null;
         }
+        
+        if (arguments[5] is not SqlConstantExpression { Value: bool ordered })
+        {
+            return null;
+        }
 
         var leftProximity = new PdbProximityExpression(
             _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]),
-            _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[4])
+            _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[4]),
+            ordered
         );
 
         var fullProximity = new PdbProximityExpression(
             leftProximity,
-            _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[3])
+            _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[3]),
+            ordered
         );
 
         return new PdbBoolExpression(arguments[1], fullProximity, PdbOperatorType.Function);

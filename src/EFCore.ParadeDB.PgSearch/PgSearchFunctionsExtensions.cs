@@ -135,10 +135,7 @@ public static class PgSearchFunctionsExtensions
 
     // TODO: Multidimensional arrays are not yet supported: https://github.com/npgsql/efcore.pg/issues/314
     /*[DbFunction("snippet_positions", "paradedb", IsBuiltIn = false)]
-    public static int[] SnippetPositions<TProperty>(
-        this DbFunctions _,
-        TProperty property
-    )
+    public static int[][] SnippetPositions<TProperty>(this DbFunctions _, TProperty property)
     {
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(SnippetPositions)));
     }*/
@@ -148,7 +145,8 @@ public static class PgSearchFunctionsExtensions
         TProperty property,
         string token1,
         string token2,
-        int maxDistance
+        int maxDistance,
+        bool ordered = false
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Proximity)));
 
     public static bool ProximityRegex<TProperty>(

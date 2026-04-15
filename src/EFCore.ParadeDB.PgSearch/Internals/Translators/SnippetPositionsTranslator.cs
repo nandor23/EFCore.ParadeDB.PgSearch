@@ -34,7 +34,7 @@ internal sealed class SnippetPositionsTranslator : IMethodCallTranslator
             nullable: false,
             arguments: [arguments[1]],
             argumentsPropagateNullability: [false],
-            returnType: typeof(int[])
+            returnType: typeof(int[][])
         );
     }
 }
