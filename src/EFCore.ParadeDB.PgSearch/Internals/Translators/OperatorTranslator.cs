@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EFCore.ParadeDB.PgSearch.Internals.Translators;
 
@@ -57,21 +58,23 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
             return expression;
         }
 
-        return value switch
+        RelationalTypeMapping? typeMapping = value switch
         {
-            Fuzzy fuzzy => _sqlExpressionFactory.MakeUnary(
-                ExpressionType.Convert,
-                expression,
-                typeof(string),
-                new FuzzyTypeMapping(fuzzy)
-            ),
-            Boost boost => _sqlExpressionFactory.MakeUnary(
-                ExpressionType.Convert,
-                expression,
-                typeof(string),
-                new BoostTypeMapping(boost)
-            ),
-            _ => expression,
+            Fuzzy fuzzy => new FuzzyTypeMapping(fuzzy),
+            Boost boost => new BoostTypeMapping(boost),
+            _ => null,
         };
+
+        if (typeMapping is null)
+        {
+            return expression;
+        }
+
+        return _sqlExpressionFactory.MakeUnary(
+            ExpressionType.Convert,
+            expression,
+            typeMapping.ClrType,
+            typeMapping
+        );
     }
 }

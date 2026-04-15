@@ -45,7 +45,7 @@ internal sealed class ProximityRegexTranslator : IMethodCallTranslator
             arguments: regexArgs,
             argumentsPropagateNullability: regexArgsNullability,
             returnType: typeof(bool),
-            typeMapping: PdbTypeMappings.Boolean
+            typeMapping: NpgsqlTypeMappings.Boolean
         );
 
         var leftProximity = new PdbProximityExpression(

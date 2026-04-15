@@ -17,9 +17,9 @@ public sealed class FuzzyTests
     [Test]
     public void With_DistanceAndPrefix_SetsValuesCorrectly()
     {
-        var fuzzy = Fuzzy.With(3, true);
+        var fuzzy = Fuzzy.With(2, true);
 
-        fuzzy.Distance.ShouldBe(3);
+        fuzzy.Distance.ShouldBe(2);
         fuzzy.Prefix.ShouldBe(true);
         fuzzy.TranspositionCostOne.ShouldBe(false);
     }

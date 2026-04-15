@@ -32,13 +32,11 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
 
         if (arguments.Count == 3)
         {
-            args.AddRange(
-                [
-                    _sqlExpressionFactory.Constant("<b>"),
-                    _sqlExpressionFactory.Constant("</b>"),
-                    arguments[2],
-                ]
-            );
+            args.AddRange([
+                _sqlExpressionFactory.Constant("<b>"),
+                _sqlExpressionFactory.Constant("</b>"),
+                arguments[2],
+            ]);
 
             argsNullability.AddRange([false, false, false]);
         }

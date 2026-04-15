@@ -25,11 +25,11 @@ public sealed class OperatorTranslatorDisjunctionTests
 
         var sql = context
             .Products.Where(p =>
-                EF.Functions.MatchDisjunction(p.Description, "running shoes", Fuzzy.With(3))
+                EF.Functions.MatchDisjunction(p.Description, "running shoes", Fuzzy.With(2))
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ||| 'running shoes'::pdb.fuzzy(3)""");
+        sql.ShouldContain("""p."Description" ||| 'running shoes'::pdb.fuzzy(2)""");
     }
 
     [Test]
@@ -56,13 +56,13 @@ public sealed class OperatorTranslatorDisjunctionTests
                 EF.Functions.MatchDisjunction(
                     p.Description,
                     "running shoes",
-                    Fuzzy.With(5),
+                    Fuzzy.With(1),
                     Boost.With(3)
                 )
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ||| 'running shoes'::pdb.fuzzy(5)::pdb.boost(3)""");
+        sql.ShouldContain("""p."Description" ||| 'running shoes'::pdb.fuzzy(1)::pdb.boost(3)""");
     }
 
     [Test]

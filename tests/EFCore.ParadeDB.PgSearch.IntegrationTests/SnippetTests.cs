@@ -68,12 +68,10 @@ public sealed class SnippetTests
 
         await Should.ThrowAsync<Exception>(async () =>
         {
-            await context
-                .Products.Select(p => EF.Functions.Snippet(p.Description))
-                .ToListAsync();
+            await context.Products.Select(p => EF.Functions.Snippet(p.Description)).ToListAsync();
         });
     }
-    
+
     [Test]
     public async Task Snippet_ReturnsNull_WhenNoMatch()
     {
