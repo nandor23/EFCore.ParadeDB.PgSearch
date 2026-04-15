@@ -177,6 +177,6 @@ public static class PgSearchFunctionsExtensions
     public static string Alias<TProperty>(
         this DbFunctions _,
         TProperty property,
-        [NotParameterized] string alias
+        [NotParameterized] string aliasName
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
 }
