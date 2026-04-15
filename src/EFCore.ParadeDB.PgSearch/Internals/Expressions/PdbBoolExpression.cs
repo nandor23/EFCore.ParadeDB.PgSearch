@@ -21,5 +21,5 @@ internal sealed class PdbBoolExpression : PgUnknownBinaryExpression
     }.ToFrozenDictionary();
 
     public PdbBoolExpression(SqlExpression left, SqlExpression right, PdbOperatorType operatorType)
-        : base(left, right, OperatorMap[operatorType], typeof(bool), NpgsqlTypeMappings.Boolean) { }
+        : base(left, right, OperatorMap[operatorType], typeof(bool), PdbTypeMappings.Boolean) { }
 }

@@ -6,7 +6,7 @@ public sealed class TokenFilter
 
     private TokenFilter(string sqlParam) => _sqlParam = sqlParam;
 
-    public override string ToString() => _sqlParam;
+    public override string ToString() => $"'{_sqlParam}'";
 
     public static readonly TokenFilter AlphaNumericOnly = new("alpha_num_only=true");
 }

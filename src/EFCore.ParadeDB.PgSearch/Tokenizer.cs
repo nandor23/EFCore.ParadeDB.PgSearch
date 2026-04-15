@@ -1,26 +1,79 @@
+using System.Collections.Frozen;
+
 namespace EFCore.ParadeDB.PgSearch;
 
 public sealed class Tokenizer
 {
-    private string SqlName { get; }
-    private IReadOnlyList<TokenFilter> Filters { get; }
+    private readonly string _name;
+    private readonly string[] _args;
+    private readonly TokenFilter[] _filters;
 
-    private Tokenizer(string sqlName, TokenFilter[] filters)
+    private static readonly FrozenDictionary<LinderaLanguage, string> LinderaLanguageArgs =
+        new Dictionary<LinderaLanguage, string>()
+        {
+            { LinderaLanguage.Chinese, "chinese" },
+            { LinderaLanguage.Japanese, "japanese" },
+            { LinderaLanguage.Korean, "korean" },
+        }.ToFrozenDictionary();
+
+    private Tokenizer(string name, string[] args, params TokenFilter[] filters)
     {
-        SqlName = sqlName;
-        Filters = filters;
+        _name = name;
+        _args = args;
+        _filters = filters;
     }
 
     public override string ToString()
     {
-        if (Filters.Count == 0)
-        {
-            return $"pdb.{SqlName}";
-        }
+        var args = _args.Concat(_filters.Select(f => f.ToString())).ToList();
 
-        var args = string.Join(", ", Filters.Select(f => f.ToString()));
-        return $"pdb.{SqlName}('{args}')";
+        return args.Count == 0 ? $"pdb.{_name}" : $"pdb.{_name}({string.Join(", ", args)})";
     }
 
-    public static Tokenizer Unicode(params TokenFilter[] filters) => new("unicode_words", filters);
+    public static Tokenizer Literal => new("literal", []);
+
+    public static Tokenizer Unicode(params TokenFilter[] filters) =>
+        new("unicode_words", [], filters);
+
+    public static Tokenizer LiteralNormalized(params TokenFilter[] filters) =>
+        new("literal_normalized", [], filters);
+
+    public static Tokenizer Whitespace(params TokenFilter[] filters) =>
+        new("whitespace", [], filters);
+
+    public static Tokenizer Ngram(int minGram, int maxGram, params TokenFilter[] filters) =>
+        new("ngram", [$"{minGram},{maxGram}"], filters);
+
+    public static Tokenizer NgramPrefixOnly(
+        int minGram,
+        int maxGram,
+        params TokenFilter[] filters
+    ) => new("ngram", [$"{minGram}, {maxGram}, 'prefix_only=true'"], filters);
+
+    public static Tokenizer NgramPositions(int gramSize, params TokenFilter[] filters) =>
+        new("ngram", [$"{gramSize}, {gramSize}, 'positions=true'"], filters);
+
+    public static Tokenizer Simple(params TokenFilter[] filters) => new("simple", [], filters);
+
+    // TODO Regex pattern: https://docs.paradedb.com/documentation/tokenizers/available-tokenizers/regex
+
+    public static Tokenizer ChineseCompatible(params TokenFilter[] filters) =>
+        new("chinese_compatible", [], filters);
+
+    public static Tokenizer Lindera(LinderaLanguage language, params TokenFilter[] filters) =>
+        new("lindera", [LinderaLanguageArgs[language]], filters);
+
+    public static Tokenizer Lindera(
+        LinderaLanguage language,
+        bool keepWhitespace,
+        params TokenFilter[] filters
+    ) =>
+        keepWhitespace
+            ? new Tokenizer("lindera", [LinderaLanguageArgs[language]], filters)
+            : Lindera(language, filters);
+
+    public static Tokenizer Icu(params TokenFilter[] filters) => new("icu", [], filters);
+
+    public static Tokenizer SourceCode(params TokenFilter[] filters) =>
+        new("source_code", [], filters);
 }

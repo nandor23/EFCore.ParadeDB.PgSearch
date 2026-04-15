@@ -30,7 +30,7 @@ using (var scope = app.Services.CreateScope())
             p.Id,
             Description = EF.Functions.Tokenize(
                 p.Description,
-                Tokenizer.Unicode(TokenFilter.AlphaNumericOnly)
+                Tokenizer.SourceCode(TokenFilter.AlphaNumericOnly)
             ),
         })
         .ToList();

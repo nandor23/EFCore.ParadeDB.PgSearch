@@ -8,5 +8,5 @@ namespace EFCore.ParadeDB.PgSearch.Internals.Expressions;
 internal sealed class PdbProximityExpression : PgUnknownBinaryExpression
 {
     public PdbProximityExpression(SqlExpression left, SqlExpression right)
-        : base(left, right, "##", typeof(bool), NpgsqlTypeMappings.Boolean) { }
+        : base(left, right, "##", typeof(bool), PdbTypeMappings.Boolean) { }
 }
