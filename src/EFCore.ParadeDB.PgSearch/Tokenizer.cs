@@ -1,4 +1,5 @@
 using System.Collections.Frozen;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EFCore.ParadeDB.PgSearch;
 
@@ -9,7 +10,7 @@ public sealed class Tokenizer
     private readonly TokenFilter[] _filters;
 
     private static readonly FrozenDictionary<LinderaLanguage, string> LinderaLanguageArgs =
-        new Dictionary<LinderaLanguage, string>()
+        new Dictionary<LinderaLanguage, string>
         {
             { LinderaLanguage.Chinese, "chinese" },
             { LinderaLanguage.Japanese, "japanese" },
@@ -55,7 +56,10 @@ public sealed class Tokenizer
 
     public static Tokenizer Simple(params TokenFilter[] filters) => new("simple", [], filters);
 
-    // TODO Regex pattern: https://docs.paradedb.com/documentation/tokenizers/available-tokenizers/regex
+    public static Tokenizer RegexPattern(
+        [StringSyntax(StringSyntaxAttribute.Regex)] string matchExpression,
+        params TokenFilter[] filters
+    ) => new("regex_pattern", [$"'{matchExpression}'"], filters);
 
     public static Tokenizer ChineseCompatible(params TokenFilter[] filters) =>
         new("chinese_compatible", [], filters);

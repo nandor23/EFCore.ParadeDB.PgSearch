@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Migrations
+namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Migrations
 {
     [DbContext(typeof(TestDbContext))]
     partial class TestDbContextModelSnapshot : ModelSnapshot

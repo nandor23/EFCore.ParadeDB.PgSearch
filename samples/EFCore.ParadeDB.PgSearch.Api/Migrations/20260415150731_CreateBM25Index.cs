@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-#nullable disable
-
-using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
+namespace EFCore.ParadeDB.PgSearch.Api.Migrations
 {
+    /// <inheritdoc />
     public partial class CreateBM25Index : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

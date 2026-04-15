@@ -8,8 +8,10 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContextPool<AppDbContext>(options =>
 {
-    options
-        .UseNpgsql(builder.Configuration.GetConnectionString("AppDatabase"), o => o.UsePgSearch())
+    options.UseNpgsql(
+            builder.Configuration.GetConnectionString("AppDatabase"),
+            o => o.UsePgSearch()
+        )
         .UseSnakeCaseNamingConvention();
 });
 
@@ -24,11 +26,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 
     var products = dbContext
-        .Items.Where(p =>
-            EF.Functions.MatchDisjunction(
-                EF.Functions.Alias(p.Description, "description_simple"),
-                "Sleek running shoes"
-            )
+        .Products.Select(p =>
+            EF.Functions.Tokenize(p.Description, Tokenizer.RegexPattern("(?i)\\bh\\w*", TokenFilter.AlphaNumericOnly))
         )
         .ToList();
 

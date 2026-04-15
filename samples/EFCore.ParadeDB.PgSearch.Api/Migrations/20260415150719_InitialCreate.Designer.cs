@@ -8,11 +8,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace EFCore.ParadeDB.PgSearch.Api.Persistence.Migrations
+namespace EFCore.ParadeDB.PgSearch.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260415140036_CreateBM25Index")]
-    partial class CreateBM25Index
+    [Migration("20260415150719_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
