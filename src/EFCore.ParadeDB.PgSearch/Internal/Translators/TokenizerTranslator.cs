@@ -1,18 +1,20 @@
 using System.Linq.Expressions;
 using System.Reflection;
-using EFCore.ParadeDB.PgSearch.Internals.TypeMappings;
+
+using EFCore.ParadeDB.PgSearch.Internal.TypeMappings;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.ParadeDB.PgSearch.Internals.Translators;
+namespace EFCore.ParadeDB.PgSearch.Internal.Translators;
 
-internal sealed class AliasTranslator : IMethodCallTranslator
+internal sealed class TokenizerTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
 
-    public AliasTranslator(ISqlExpressionFactory sqlExpressionFactory)
+    public TokenizerTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
         _sqlExpressionFactory = sqlExpressionFactory;
     }
@@ -24,17 +26,17 @@ internal sealed class AliasTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearchFunctionsExtensions.Alias))
+        if (method.Name != nameof(PgSearchFunctionsExtensions.Tokenize))
         {
             return null;
         }
 
-        if (arguments[2] is not SqlConstantExpression { Value: string alias })
+        if (arguments[2] is not SqlConstantExpression { Value: Tokenizer tokenizer })
         {
             return null;
         }
 
-        var typeMapping = new AliasTypeMapping(alias);
+        var typeMapping = new TokenizerTypeMapping(tokenizer);
 
         return _sqlExpressionFactory.MakeUnary(
             ExpressionType.Convert,

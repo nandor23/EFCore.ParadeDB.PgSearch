@@ -1,14 +1,16 @@
 using System.Linq.Expressions;
 using System.Reflection;
-using EFCore.ParadeDB.PgSearch.Internals.Expressions;
-using EFCore.ParadeDB.PgSearch.Internals.TypeMappings;
+
+using EFCore.ParadeDB.PgSearch.Internal.Expressions;
+using EFCore.ParadeDB.PgSearch.Internal.TypeMappings;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace EFCore.ParadeDB.PgSearch.Internals.Translators;
+namespace EFCore.ParadeDB.PgSearch.Internal.Translators;
 
 internal sealed class OperatorTranslator : IMethodCallTranslator
 {

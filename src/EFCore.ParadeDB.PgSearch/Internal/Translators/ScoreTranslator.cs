@@ -1,10 +1,11 @@
 using System.Reflection;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.ParadeDB.PgSearch.Internals.Translators;
+namespace EFCore.ParadeDB.PgSearch.Internal.Translators;
 
 internal sealed class ScoreTranslator : IMethodCallTranslator
 {

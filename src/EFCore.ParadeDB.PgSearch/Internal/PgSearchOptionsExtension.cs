@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EFCore.ParadeDB.PgSearch.Internals;
+namespace EFCore.ParadeDB.PgSearch.Internal;
 
 internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
 {
