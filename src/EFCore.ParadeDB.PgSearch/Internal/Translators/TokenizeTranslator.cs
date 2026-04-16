@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace EFCore.ParadeDB.PgSearch.Internal.Translators;
 
-internal sealed class TokenizerTranslator : IMethodCallTranslator
+internal sealed class TokenizeTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
 
-    public TokenizerTranslator(ISqlExpressionFactory sqlExpressionFactory)
+    public TokenizeTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
         _sqlExpressionFactory = sqlExpressionFactory;
     }

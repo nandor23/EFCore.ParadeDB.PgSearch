@@ -54,7 +54,7 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         return _sqlExpressionFactory.Function(
             name: "snippet",
             schema: "pdb",
-            nullable: false,
+            nullable: true,
             arguments: args,
             argumentsPropagateNullability: argsNullability,
             returnType: typeof(string)

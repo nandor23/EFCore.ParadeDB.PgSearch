@@ -126,18 +126,18 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Score)));
 
     [DbFunction]
-    public static string Snippet<TProperty>(this DbFunctions _, TProperty property) =>
+    public static string? Snippet<TProperty>(this DbFunctions _, TProperty property) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
 
     [DbFunction]
-    public static string Snippet<TProperty>(
+    public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,
         int maxNumChars
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
 
     [DbFunction]
-    public static string Snippet<TProperty>(
+    public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,
         string startTag,
@@ -145,7 +145,7 @@ public static class PgSearchFunctionsExtensions
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
 
     [DbFunction]
-    public static string Snippet<TProperty>(
+    public static string? Snippet<TProperty>(
         this DbFunctions _,
         TProperty property,
         string startTag,

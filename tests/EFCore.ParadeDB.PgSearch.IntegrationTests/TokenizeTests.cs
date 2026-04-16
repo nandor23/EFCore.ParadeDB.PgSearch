@@ -9,191 +9,78 @@ public sealed class TokenizeTests
     [ClassDataSource<DbFixture>]
     public required DbFixture DbFixture { get; init; }
 
+    private static readonly TokenFilter[] AllFilters =
+    [
+        TokenFilter.AlphaNumericOnly,
+        TokenFilter.AsciiFolding,
+        TokenFilter.PreserveCase,
+        TokenFilter.RemoveStopwords(StopwordsLanguage.English),
+        TokenFilter.Stemmer(StemmerLanguage.English),
+        TokenFilter.RemoveLong(32),
+        TokenFilter.RemoveShort(2),
+        TokenFilter.Trim,
+    ];
+
+    private static IEnumerable<Func<TokenFilter[], Tokenizer>> TokenizerBuilders()
+    {
+        yield return filters => Tokenizer.Unicode(filters);
+        yield return filters => Tokenizer.LiteralNormalized(filters);
+        yield return filters => Tokenizer.Whitespace(filters);
+        yield return filters => Tokenizer.Ngram(2, 5, filters);
+        yield return filters => Tokenizer.NgramPrefixOnly(2, 5, filters);
+        yield return filters => Tokenizer.NgramPositions(3, filters);
+        yield return filters => Tokenizer.Simple(filters);
+        yield return filters => Tokenizer.RegexPattern(@"\w+", filters);
+        yield return filters => Tokenizer.ChineseCompatible(filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Chinese, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Korean, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Chinese, true, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Chinese, false, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, true, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, false, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Korean, true, filters);
+        yield return filters => Tokenizer.Lindera(LinderaLanguage.Korean, false, filters);
+        yield return filters => Tokenizer.Icu(filters);
+        yield return filters => Tokenizer.SourceCode(filters);
+    }
+
+    public static IEnumerable<Tokenizer> Tokenizers()
+    {
+        yield return Tokenizer.Literal;
+
+        foreach (var build in TokenizerBuilders())
+        {
+            yield return build([]);
+        }
+    }
+
+    public static IEnumerable<Tokenizer> TokenizersWithAllFilters()
+    {
+        return TokenizerBuilders().Select(build => build(AllFilters));
+    }
+
     [Test]
-    public async Task Tokenize_Literal_ExecutesSuccessfully()
+    [MethodDataSource(nameof(Tokenizers))]
+    public async Task Tokenize_ExecutesSuccessfully(Tokenizer tokenizer)
     {
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.Literal))
+            .Products.Select(p => EF.Functions.Tokenize(p.Description, tokenizer))
             .ToListAsync();
 
         results.ShouldNotBeNull();
     }
 
     [Test]
-    public async Task Tokenize_Unicode_ExecutesSuccessfully()
+    [MethodDataSource(nameof(TokenizersWithAllFilters))]
+    public async Task Tokenize_WithAllFilters_ExecutesSuccessfully(Tokenizer tokenizer)
     {
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.Unicode()))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_LiteralNormalized_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p =>
-                EF.Functions.Tokenize(p.Description, Tokenizer.LiteralNormalized())
-            )
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_Whitespace_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.Whitespace()))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_Ngram_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.Ngram(2, 5)))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_NgramPrefixOnly_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p =>
-                EF.Functions.Tokenize(p.Description, Tokenizer.NgramPrefixOnly(2, 5))
-            )
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_NgramPositions_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.NgramPositions(3)))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_Simple_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.Simple()))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_RegexPattern_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p =>
-                EF.Functions.Tokenize(p.Description, Tokenizer.RegexPattern(@"\w+"))
-            )
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_ChineseCompatible_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p =>
-                EF.Functions.Tokenize(p.Description, Tokenizer.ChineseCompatible())
-            )
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    [Arguments(LinderaLanguage.Chinese)]
-    [Arguments(LinderaLanguage.Japanese)]
-    [Arguments(LinderaLanguage.Korean)]
-    public async Task Tokenize_Lindera_ExecutesSuccessfully(LinderaLanguage language)
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.Lindera(language)))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    [Arguments(LinderaLanguage.Chinese, true)]
-    [Arguments(LinderaLanguage.Chinese, false)]
-    [Arguments(LinderaLanguage.Japanese, true)]
-    [Arguments(LinderaLanguage.Japanese, false)]
-    [Arguments(LinderaLanguage.Korean, true)]
-    [Arguments(LinderaLanguage.Korean, false)]
-    public async Task Tokenize_Lindera_WithKeepWhitespace_ExecutesSuccessfully(
-        LinderaLanguage language,
-        bool keepWhitespace
-    )
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p =>
-                EF.Functions.Tokenize(p.Description, Tokenizer.Lindera(language, keepWhitespace))
-            )
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_Icu_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.Icu()))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Tokenize_SourceCode_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, Tokenizer.SourceCode()))
+            .Products.Select(p => EF.Functions.Tokenize(p.Description, tokenizer))
             .ToListAsync();
 
         results.ShouldNotBeNull();
