@@ -21,6 +21,14 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchDisjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
+        params string[] values
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
         string value,
         [NotParameterized] Fuzzy fuzzy
     ) =>
@@ -50,6 +58,14 @@ public static class PgSearchFunctionsExtensions
         this DbFunctions _,
         TProperty property,
         string value
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        params string[] value
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
 

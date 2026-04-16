@@ -20,6 +20,36 @@ public sealed class OperatorTranslatorDisjunctionTests
     }
 
     [Test]
+    public void MatchDisjunction_WithMultipleValues_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "running", "shoes"))
+            .ToQueryString();
+
+        sql.ShouldContain("p.description ||| ARRAY['running','shoes']");
+    }
+    
+    [Test]
+    public void MatchDisjunction_WhenCalledWithArrayParameter_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, searchTerms))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description \|\|\| @\w+
+            """
+        );
+    }
+
+    [Test]
     public void MatchDisjunction_WithFuzzy_TranslatesToSql()
     {
         using var context = new TestDbContext();

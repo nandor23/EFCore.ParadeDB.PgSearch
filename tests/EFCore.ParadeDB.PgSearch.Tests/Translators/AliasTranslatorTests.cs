@@ -17,4 +17,18 @@ public sealed class AliasTranslatorTests
 
         sql.ShouldContain("p.description::pdb.alias('description_simple')");
     }
+
+    [Test]
+    public void Alias_WhenCalledWithParameters_TranslatesToSqlWithoutParameterizingAliasName()
+    {
+        using var context = new TestDbContext();
+
+        string aliasName = "description_simple";
+
+        var sql = context
+            .Products.Select(p => EF.Functions.Alias(p.Description, aliasName))
+            .ToQueryString();
+
+        sql.ShouldContain("p.description::pdb.alias('description_simple')");
+    }
 }
