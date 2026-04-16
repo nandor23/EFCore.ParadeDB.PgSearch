@@ -93,6 +93,14 @@ public static class PgSearchFunctionsExtensions
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Slop slop
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
     public static bool Term<TProperty>(this DbFunctions _, TProperty property, string value) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 

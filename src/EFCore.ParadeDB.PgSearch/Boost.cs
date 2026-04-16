@@ -11,8 +11,5 @@ public sealed class Boost
 
     public static Boost With(float factor) => new(factor);
 
-    public override string ToString()
-    {
-        return $"pdb.boost({_factor})";
-    }
+    public override string ToString() => $"pdb.boost({_factor})";
 }

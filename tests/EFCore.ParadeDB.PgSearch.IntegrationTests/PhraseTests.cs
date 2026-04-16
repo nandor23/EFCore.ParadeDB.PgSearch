@@ -32,4 +32,16 @@ public sealed class PhraseTests
 
         results.ShouldNotBeNull();
     }
+    
+    [Test]
+    public async Task Phrase_WithSlop_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, "with", Slop.With(2)))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
 }
