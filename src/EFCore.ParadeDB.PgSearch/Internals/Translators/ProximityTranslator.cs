@@ -28,7 +28,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         {
             return null;
         }
-        
+
         if (arguments[5] is not SqlConstantExpression { Value: bool ordered })
         {
             return null;

@@ -57,9 +57,9 @@ public sealed class Tokenizer
     public static Tokenizer Simple(params TokenFilter[] filters) => new("simple", [], filters);
 
     public static Tokenizer RegexPattern(
-        [StringSyntax(StringSyntaxAttribute.Regex)] string matchExpression,
+        [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
         params TokenFilter[] filters
-    ) => new("regex_pattern", [$"'{matchExpression}'"], filters);
+    ) => new("regex_pattern", [$"'{pattern}'"], filters);
 
     public static Tokenizer ChineseCompatible(params TokenFilter[] filters) =>
         new("chinese_compatible", [], filters);

@@ -24,8 +24,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 
     var products = dbContext
-        .Products.Where(p => EF.Functions.ProximityRegex(p.Description, "asd", "asd", 2))
-        .Select(p => p.Description)
+        .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "with"))
+        .Select(p => new { p.Id, Score = EF.Functions.Snippet(p.Description) })
         .ToList();
 
     Console.WriteLine(products);
