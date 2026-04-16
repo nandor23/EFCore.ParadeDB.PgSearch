@@ -15,7 +15,7 @@ public sealed class ProximityTranslatorTests
             .Products.Where(p => EF.Functions.Proximity(p.Description, "with", "noise", 3))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" @@@ (('with' ## 3) ## 'noise')""");
+        sql.ShouldContain("p.description @@@ (('with' ## 3) ## 'noise')");
     }
 
     [Test]
@@ -29,7 +29,7 @@ public sealed class ProximityTranslatorTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" @@@ (('with' ##> 3) ##> 'noise')""");
+        sql.ShouldContain("p.description @@@ (('with' ##> 3) ##> 'noise')");
     }
 
     [Test]
@@ -47,7 +47,7 @@ public sealed class ProximityTranslatorTests
 
         sql.ShouldMatch(
             """
-            "Description" @@@ \(\(@\w+ ## @\w+\) ## @\w+\)
+            p\.description @@@ \(\(@\w+ ## @\w+\) ## @\w+\)
             """
         );
     }
@@ -69,7 +69,7 @@ public sealed class ProximityTranslatorTests
 
         sql.ShouldMatch(
             """
-            "Description" @@@ \(\(@\w+ ##> @\w+\) ##> @\w+\)
+            p\.description @@@ \(\(@\w+ ##> @\w+\) ##> @\w+\)
             """
         );
     }

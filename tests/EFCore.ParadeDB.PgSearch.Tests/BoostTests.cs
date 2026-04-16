@@ -5,18 +5,8 @@ namespace EFCore.ParadeDB.PgSearch.Tests;
 public sealed class BoostTests
 {
     [Test]
-    public void With_SetsFactorCorrectly()
+    public void ToString_ProducesCorrectSql()
     {
-        var boost = Boost.With(2.5f);
-
-        boost.Factor.ShouldBe(2.5f);
-    }
-
-    [Test]
-    public void ToString_ReturnsCorrectFormat()
-    {
-        var boost = Boost.With(2.5f);
-
-        boost.ToString().ShouldBe("pdb.boost(2.5)");
+        Boost.With(2.5f).ToString().ShouldBe("pdb.boost(2.5)");
     }
 }

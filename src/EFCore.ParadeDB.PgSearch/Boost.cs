@@ -2,17 +2,17 @@ namespace EFCore.ParadeDB.PgSearch;
 
 public sealed class Boost
 {
-    internal readonly float Factor;
+    private readonly float _factor;
 
     private Boost(float factor)
     {
-        Factor = factor;
+        _factor = factor;
     }
 
     public static Boost With(float factor) => new(factor);
 
     public override string ToString()
     {
-        return $"pdb.boost({Factor})";
+        return $"pdb.boost({_factor})";
     }
 }

@@ -5,64 +5,26 @@ namespace EFCore.ParadeDB.PgSearch.Tests;
 public sealed class FuzzyTests
 {
     [Test]
-    public void With_Distance_SetsValuesCorrectly()
+    public void ToString_DistanceOnly_ProducesCorrectSql()
     {
-        var fuzzy = Fuzzy.With(2);
-
-        fuzzy.Distance.ShouldBe(2);
-        fuzzy.Prefix.ShouldBe(false);
-        fuzzy.TranspositionCostOne.ShouldBe(false);
+        Fuzzy.With(2).ToString().ShouldBe("pdb.fuzzy(2)");
     }
 
     [Test]
-    public void With_DistanceAndPrefix_SetsValuesCorrectly()
+    public void ToString_WithPrefix_ProducesCorrectSql()
     {
-        var fuzzy = Fuzzy.With(2, true);
-
-        fuzzy.Distance.ShouldBe(2);
-        fuzzy.Prefix.ShouldBe(true);
-        fuzzy.TranspositionCostOne.ShouldBe(false);
+        Fuzzy.With(2, true).ToString().ShouldBe("pdb.fuzzy(2, t)");
     }
 
     [Test]
-    public void With_AllParameters_SetsValuesCorrectly()
+    public void ToString_WithTranspositionCostOne_ProducesCorrectSql()
     {
-        var fuzzy = Fuzzy.With(1, true, true);
-
-        fuzzy.Distance.ShouldBe(1);
-        fuzzy.Prefix.ShouldBe(true);
-        fuzzy.TranspositionCostOne.ShouldBe(true);
+        Fuzzy.With(2, false, true).ToString().ShouldBe("pdb.fuzzy(2, f, t)");
     }
 
     [Test]
-    public void ToString_DistanceOnly_ReturnsCorrectFormat()
+    public void ToString_WithBothBooleans_ProducesCorrectSql()
     {
-        var fuzzy = Fuzzy.With(2);
-
-        fuzzy.ToString().ShouldBe("pdb.fuzzy(2)");
-    }
-
-    [Test]
-    public void ToString_WithPrefix_ReturnsCorrectFormat()
-    {
-        var fuzzy = Fuzzy.With(2, true);
-
-        fuzzy.ToString().ShouldBe("pdb.fuzzy(2, t)");
-    }
-
-    [Test]
-    public void ToString_WithTranspositionCostOne_ReturnsCorrectFormat()
-    {
-        var fuzzy = Fuzzy.With(2, false, true);
-
-        fuzzy.ToString().ShouldBe("pdb.fuzzy(2, f, t)");
-    }
-
-    [Test]
-    public void ToString_WithBothBooleans_ReturnsCorrectFormat()
-    {
-        var fuzzy = Fuzzy.With(2, true, true);
-
-        fuzzy.ToString().ShouldBe("pdb.fuzzy(2, t, t)");
+        Fuzzy.With(2, true, true).ToString().ShouldBe("pdb.fuzzy(2, t, t)");
     }
 }

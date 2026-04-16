@@ -15,7 +15,7 @@ public sealed class ProximityRegexTranslator
             .Products.Where(p => EF.Functions.ProximityRegex(p.Description, "[a-z]+", "noise", 2))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" @@@ ((pdb.prox_regex('[a-z]+') ## 2) ## 'noise')""");
+        sql.ShouldContain("p.description @@@ ((pdb.prox_regex('[a-z]+') ## 2) ## 'noise')");
     }
 
     [Test]
@@ -29,9 +29,7 @@ public sealed class ProximityRegexTranslator
             )
             .ToQueryString();
 
-        sql.ShouldContain(
-            """p."Description" @@@ ((pdb.prox_regex('[a-z]+', 10) ## 4) ## 'noise')"""
-        );
+        sql.ShouldContain("p.description @@@ ((pdb.prox_regex('[a-z]+', 10) ## 4) ## 'noise')");
     }
 
     [Test]
@@ -51,7 +49,7 @@ public sealed class ProximityRegexTranslator
 
         sql.ShouldMatch(
             """
-            "Description" @@@ \(\(pdb\.prox_regex\(@\w+\) ## @\w+\) ## @\w+\)
+            p\.description @@@ \(\(pdb\.prox_regex\(@\w+\) ## @\w+\) ## @\w+\)
             """
         );
     }
@@ -74,7 +72,7 @@ public sealed class ProximityRegexTranslator
 
         sql.ShouldMatch(
             """
-            "Description" @@@ \(\(pdb\.prox_regex\(@\w+, @\w+\) ## @\w+\) ## @\w+\)
+            p\.description @@@ \(\(pdb\.prox_regex\(@\w+, @\w+\) ## @\w+\) ## @\w+\)
             """
         );
     }

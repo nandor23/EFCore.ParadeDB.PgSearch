@@ -16,7 +16,7 @@ public sealed class OperatorTranslatorTermTests
             .Products.Where(p => EF.Functions.Term(p.Description, "running shoes"))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'""");
+        sql.ShouldContain("p.description === 'running shoes'");
     }
 
     [Test]
@@ -28,7 +28,7 @@ public sealed class OperatorTranslatorTermTests
             .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Fuzzy.With(2)))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'::pdb.fuzzy(2)""");
+        sql.ShouldContain("p.description === 'running shoes'::pdb.fuzzy(2)");
     }
 
     [Test]
@@ -40,7 +40,7 @@ public sealed class OperatorTranslatorTermTests
             .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Boost.With(2)))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'::pdb.boost(2)""");
+        sql.ShouldContain("p.description === 'running shoes'::pdb.boost(2)");
     }
 
     [Test]
@@ -54,7 +54,7 @@ public sealed class OperatorTranslatorTermTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'::pdb.fuzzy(1)::pdb.boost(3)""");
+        sql.ShouldContain("p.description === 'running shoes'::pdb.fuzzy(1)::pdb.boost(3)");
     }
 
     [Test]
@@ -73,7 +73,7 @@ public sealed class OperatorTranslatorTermTests
             .ToQueryString();
 
         sql.ShouldMatch(
-            $"""p\."Description" === @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
+            $"""p\.description === @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
         );
     }
 }

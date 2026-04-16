@@ -73,13 +73,15 @@ public sealed class Tokenizer
         params TokenFilter[] filters
     ) =>
         keepWhitespace
-            ? new Tokenizer("lindera", [LinderaLanguageArgs[language]], filters)
+            ? new Tokenizer(
+                "lindera",
+                [$"{LinderaLanguageArgs[language]}, 'keep_whitespace=true'"],
+                filters
+            )
             : Lindera(language, filters);
 
     public static Tokenizer Icu(params TokenFilter[] filters) => new("icu", [], filters);
 
     public static Tokenizer SourceCode(params TokenFilter[] filters) =>
         new("source_code", [], filters);
-
-    public static Tokenizer Alias(params TokenFilter[] filters) => new("alias", [], filters);
 }

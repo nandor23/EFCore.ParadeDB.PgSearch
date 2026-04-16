@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
 
+[ExcludeFromCodeCoverage]
 public sealed class TestDbContextFactory : IDesignTimeDbContextFactory<TestDbContext>
 {
     public TestDbContext CreateDbContext(string[] args)

@@ -4,17 +4,17 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class ScoreTranslatorTests
+public sealed class AliasTranslatorTests
 {
     [Test]
-    public void Score_TranslatesToSql()
+    public void Alias_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
         var sql = context
-            .Products.Select(p => new { p.Id, Score = EF.Functions.Score(p.Id) })
+            .Products.Select(p => EF.Functions.Alias(p.Description, "description_simple"))
             .ToQueryString();
 
-        sql.ShouldContain("pdb.score(p.id)");
+        sql.ShouldContain("p.description::pdb.alias('description_simple')");
     }
 }

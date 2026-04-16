@@ -16,7 +16,7 @@ public sealed class OperatorTranslatorConjunctionTests
             .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "running shoes"))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'""");
+        sql.ShouldContain("p.description &&& 'running shoes'");
     }
 
     [Test]
@@ -30,7 +30,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.fuzzy(2)""");
+        sql.ShouldContain("p.description &&& 'running shoes'::pdb.fuzzy(2)");
     }
 
     [Test]
@@ -44,7 +44,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.boost(2)""");
+        sql.ShouldContain("p.description &&& 'running shoes'::pdb.boost(2)");
     }
 
     [Test]
@@ -63,7 +63,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" &&& 'running shoes'::pdb.fuzzy(2)::pdb.boost(3)""");
+        sql.ShouldContain("p.description &&& 'running shoes'::pdb.fuzzy(2)::pdb.boost(3)");
     }
 
     [Test]
@@ -84,7 +84,7 @@ public sealed class OperatorTranslatorConjunctionTests
             .ToQueryString();
 
         sql.ShouldMatch(
-            $"""p\."Description" &&& @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
+            $"""p.description &&& @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
         );
     }
 }

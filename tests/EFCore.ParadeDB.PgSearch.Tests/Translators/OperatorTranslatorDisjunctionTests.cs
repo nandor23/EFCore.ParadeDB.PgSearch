@@ -15,7 +15,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "running shoes"))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ||| 'running shoes'""");
+        sql.ShouldContain("p.description ||| 'running shoes'");
     }
 
     [Test]
@@ -29,7 +29,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ||| 'running shoes'::pdb.fuzzy(2)""");
+        sql.ShouldContain("p.description ||| 'running shoes'::pdb.fuzzy(2)");
     }
 
     [Test]
@@ -43,7 +43,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ||| 'running shoes'::pdb.boost(2)""");
+        sql.ShouldContain("p.description ||| 'running shoes'::pdb.boost(2)");
     }
 
     [Test]
@@ -62,7 +62,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" ||| 'running shoes'::pdb.fuzzy(1)::pdb.boost(3)""");
+        sql.ShouldContain("p.description ||| 'running shoes'::pdb.fuzzy(1)::pdb.boost(3)");
     }
 
     [Test]
@@ -84,7 +84,7 @@ public sealed class OperatorTranslatorDisjunctionTests
 
         sql.ShouldMatch(
             $"""
-            "Description" ||| @\w+::{fuzzy}::{boost}
+            "description" ||| @\w+::{fuzzy}::{boost}
             """
         );
     }

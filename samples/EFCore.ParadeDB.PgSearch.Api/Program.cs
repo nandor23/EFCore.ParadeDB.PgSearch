@@ -23,12 +23,17 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    var products = dbContext
-        .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "with"))
-        .Select(p => new { p.Id, Score = EF.Functions.Snippet(p.Description) })
+    var a = dbContext
+        .Items.Where(p =>
+            EF.Functions.MatchDisjunction(
+                EF.Functions.Alias(p.Description, "description_simple"),
+                "sleek"
+            )
+        )
+        .Select(p => p.Description)
         .ToList();
 
-    Console.WriteLine(products);
+    Console.WriteLine(a);
 }
 
 app.Run();

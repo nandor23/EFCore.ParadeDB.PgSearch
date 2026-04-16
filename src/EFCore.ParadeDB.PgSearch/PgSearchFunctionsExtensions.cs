@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace EFCore.ParadeDB.PgSearch;
 
+[ExcludeFromCodeCoverage]
 public static class PgSearchFunctionsExtensions
 {
     [DbFunction]
