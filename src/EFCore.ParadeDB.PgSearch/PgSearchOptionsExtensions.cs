@@ -1,5 +1,4 @@
 using EFCore.ParadeDB.PgSearch.Internal;
-
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
