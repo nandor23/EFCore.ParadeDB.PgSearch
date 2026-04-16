@@ -1,6 +1,6 @@
 namespace EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 
-public sealed class Fuzzy
+public readonly struct Fuzzy
 {
     private readonly int _distance;
     private readonly bool _prefix;
