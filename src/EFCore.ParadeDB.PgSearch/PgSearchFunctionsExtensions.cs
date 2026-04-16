@@ -1,7 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-
 using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;

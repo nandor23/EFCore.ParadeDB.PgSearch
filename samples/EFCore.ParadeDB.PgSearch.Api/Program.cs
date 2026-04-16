@@ -1,6 +1,5 @@
 using EFCore.ParadeDB.PgSearch;
 using EFCore.ParadeDB.PgSearch.Api.Persistence;
-
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +27,9 @@ using (var scope = app.Services.CreateScope())
     var boost = Pdb.Boost(1);
 
     var result = dbContext
-        .Products.Where(p => EF.Functions.MatchDisjunction(EF.Functions.Alias(p.Description, value), "asd"))
+        .Products.Where(p =>
+            EF.Functions.MatchDisjunction(EF.Functions.Alias(p.Description, value), "asd")
+        )
         .Select(p => p.Description)
         .ToQueryString();
 

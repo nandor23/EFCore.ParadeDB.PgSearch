@@ -1,5 +1,4 @@
 using EFCore.ParadeDB.PgSearch.Tests.TestModels;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.TestUtils;

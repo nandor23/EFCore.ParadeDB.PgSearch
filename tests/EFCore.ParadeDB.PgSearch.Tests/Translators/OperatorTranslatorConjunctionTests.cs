@@ -1,10 +1,7 @@
 using System.Text.RegularExpressions;
-
 using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
-
 using Microsoft.EntityFrameworkCore;
-
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;

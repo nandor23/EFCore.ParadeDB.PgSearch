@@ -1,5 +1,4 @@
 using EFCore.ParadeDB.PgSearch.Api.Persistence.Entities;
-
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.ParadeDB.PgSearch.Api.Persistence;
