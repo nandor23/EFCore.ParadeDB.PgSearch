@@ -15,6 +15,16 @@ public sealed class TokenizerTests
     {
         Tokenizer.Unicode().ToString().ShouldBe("pdb.unicode_words");
     }
+    
+    [Test]
+    [Arguments(false, "pdb.unicode_words")]
+    [Arguments(true, "pdb.unicode_words('remove_emojis=true')")]
+    public void Unicode_WithRemoveEmojis_ProducesCorrectSql(bool removeEmojis, string expected)
+    {
+        Tokenizer.Unicode(removeEmojis)
+            .ToString()
+            .ShouldBe(expected);
+    }
 
     [Test]
     public void LiteralNormalized_ProducesCorrectSql()

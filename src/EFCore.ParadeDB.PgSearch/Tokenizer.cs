@@ -36,6 +36,11 @@ public sealed class Tokenizer
     public static Tokenizer Unicode(params TokenFilter[] filters) =>
         new("unicode_words", [], filters);
 
+    public static Tokenizer Unicode(bool removeEmojis, params TokenFilter[] filters) =>
+        removeEmojis
+            ? new Tokenizer("unicode_words", ["'remove_emojis=true'"], filters)
+            : Unicode(filters);
+
     public static Tokenizer LiteralNormalized(params TokenFilter[] filters) =>
         new("literal_normalized", [], filters);
 

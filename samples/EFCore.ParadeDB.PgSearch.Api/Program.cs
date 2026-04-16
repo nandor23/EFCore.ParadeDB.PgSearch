@@ -24,11 +24,11 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    var value = "shoe";
+    var value = "description_simple";
     var boost = Pdb.Boost(1);
 
     var result = dbContext
-        .Products.Where(p => EF.Functions.MatchConjunction(p.Description, value, boost))
+        .Products.Where(p => EF.Functions.MatchDisjunction(EF.Functions.Alias(p.Description, value), "asd"))
         .Select(p => p.Description)
         .ToQueryString();
 

@@ -26,6 +26,8 @@ public sealed class TokenizeTests
     private static IEnumerable<Func<TokenFilter[], Tokenizer>> TokenizerBuilders()
     {
         yield return filters => Tokenizer.Unicode(filters);
+        yield return filters => Tokenizer.Unicode(false, filters);
+        yield return filters => Tokenizer.Unicode(true, filters);
         yield return filters => Tokenizer.LiteralNormalized(filters);
         yield return filters => Tokenizer.Whitespace(filters);
         yield return filters => Tokenizer.Ngram(2, 5, filters);
