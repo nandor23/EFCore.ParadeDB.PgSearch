@@ -1,4 +1,5 @@
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;

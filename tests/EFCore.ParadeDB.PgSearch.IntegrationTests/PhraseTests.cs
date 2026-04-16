@@ -1,5 +1,7 @@
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
@@ -27,19 +29,19 @@ public sealed class PhraseTests
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Where(p => EF.Functions.Phrase(p.Description, "with", Boost.With(2.5f)))
+            .Products.Where(p => EF.Functions.Phrase(p.Description, "with", Pdb.Boost(2.5f)))
             .ToListAsync();
 
         results.ShouldNotBeNull();
     }
-    
+
     [Test]
     public async Task Phrase_WithSlop_ExecutesSuccessfully()
     {
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Where(p => EF.Functions.Phrase(p.Description, "with", Slop.With(2)))
+            .Products.Where(p => EF.Functions.Phrase(p.Description, "with", Pdb.Slop(2)))
             .ToListAsync();
 
         results.ShouldNotBeNull();

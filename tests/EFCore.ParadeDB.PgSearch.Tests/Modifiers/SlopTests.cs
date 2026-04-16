@@ -1,12 +1,12 @@
 using Shouldly;
 
-namespace EFCore.ParadeDB.PgSearch.Tests;
+namespace EFCore.ParadeDB.PgSearch.Tests.Modifiers;
 
 public sealed class SlopTests
 {
     [Test]
     public void ToString_ProducesCorrectSql()
     {
-        Slop.With(3).ToString().ShouldBe("pdb.slop(3)");
+        Pdb.Slop(3).ToString().ShouldBe("pdb.slop(3)");
     }
 }

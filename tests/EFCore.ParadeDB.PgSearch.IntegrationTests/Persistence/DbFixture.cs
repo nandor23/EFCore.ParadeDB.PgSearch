@@ -1,6 +1,9 @@
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Entities;
+
 using Microsoft.EntityFrameworkCore;
+
 using Testcontainers.PostgreSql;
+
 using TUnit.Core.Interfaces;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;

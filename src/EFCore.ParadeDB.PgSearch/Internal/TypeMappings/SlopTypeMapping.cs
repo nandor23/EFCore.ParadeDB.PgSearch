@@ -1,3 +1,5 @@
+using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
+
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EFCore.ParadeDB.PgSearch.Internal.TypeMappings;

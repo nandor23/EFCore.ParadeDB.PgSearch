@@ -1,6 +1,8 @@
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Entities;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
@@ -16,14 +18,14 @@ public sealed class TermTests
             context.Products.Where(p => EF.Functions.Term(p.Description, "rich"));
 
         yield return context =>
-            context.Products.Where(p => EF.Functions.Term(p.Description, "rich", Fuzzy.With(2)));
+            context.Products.Where(p => EF.Functions.Term(p.Description, "rich", Pdb.Fuzzy(2)));
 
         yield return context =>
-            context.Products.Where(p => EF.Functions.Term(p.Description, "rich", Boost.With(2.3f)));
+            context.Products.Where(p => EF.Functions.Term(p.Description, "rich", Pdb.Boost(2.3f)));
 
         yield return context =>
             context.Products.Where(p =>
-                EF.Functions.Term(p.Description, "rich", Fuzzy.With(2), Boost.With(2.3f))
+                EF.Functions.Term(p.Description, "rich", Pdb.Fuzzy(2), Pdb.Boost(2.3f))
             );
     }
 

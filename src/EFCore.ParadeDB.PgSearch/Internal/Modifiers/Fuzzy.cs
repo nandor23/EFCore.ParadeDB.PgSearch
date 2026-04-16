@@ -1,4 +1,4 @@
-namespace EFCore.ParadeDB.PgSearch;
+namespace EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 
 public sealed class Fuzzy
 {
@@ -6,19 +6,12 @@ public sealed class Fuzzy
     private readonly bool _prefix;
     private readonly bool _transpositionCostOne;
 
-    private Fuzzy(int distance, bool prefix = false, bool transpositionCostOne = false)
+    internal Fuzzy(int distance, bool prefix, bool transpositionCostOne)
     {
         _distance = distance;
         _prefix = prefix;
         _transpositionCostOne = transpositionCostOne;
     }
-
-    public static Fuzzy With(int distance) => new(distance);
-
-    public static Fuzzy With(int distance, bool prefix) => new(distance, prefix);
-
-    public static Fuzzy With(int distance, bool prefix, bool transpositionCostOne) =>
-        new(distance, prefix, transpositionCostOne);
 
     public override string ToString()
     {

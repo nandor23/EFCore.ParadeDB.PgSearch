@@ -1,6 +1,10 @@
 using System.Text.RegularExpressions;
+
+using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
@@ -26,7 +30,7 @@ public sealed class OperatorTranslatorConjunctionTests
 
         var sql = context
             .Products.Where(p =>
-                EF.Functions.MatchConjunction(p.Description, "running shoes", Fuzzy.With(2))
+                EF.Functions.MatchConjunction(p.Description, "running shoes", Pdb.Fuzzy(2))
             )
             .ToQueryString();
 
@@ -40,7 +44,7 @@ public sealed class OperatorTranslatorConjunctionTests
 
         var sql = context
             .Products.Where(p =>
-                EF.Functions.MatchConjunction(p.Description, "running shoes", Boost.With(2))
+                EF.Functions.MatchConjunction(p.Description, "running shoes", Pdb.Boost(2))
             )
             .ToQueryString();
 
@@ -57,8 +61,8 @@ public sealed class OperatorTranslatorConjunctionTests
                 EF.Functions.MatchConjunction(
                     p.Description,
                     "running shoes",
-                    Fuzzy.With(2),
-                    Boost.With(3)
+                    Pdb.Fuzzy(2),
+                    Pdb.Boost(3)
                 )
             )
             .ToQueryString();

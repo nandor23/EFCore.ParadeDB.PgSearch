@@ -1,5 +1,8 @@
+using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
@@ -25,7 +28,7 @@ public sealed class OperatorTranslatorDisjunctionTests
 
         var sql = context
             .Products.Where(p =>
-                EF.Functions.MatchDisjunction(p.Description, "running shoes", Fuzzy.With(2))
+                EF.Functions.MatchDisjunction(p.Description, "running shoes", Pdb.Fuzzy(2))
             )
             .ToQueryString();
 
@@ -39,7 +42,7 @@ public sealed class OperatorTranslatorDisjunctionTests
 
         var sql = context
             .Products.Where(p =>
-                EF.Functions.MatchDisjunction(p.Description, "running shoes", Boost.With(2))
+                EF.Functions.MatchDisjunction(p.Description, "running shoes", Pdb.Boost(2))
             )
             .ToQueryString();
 
@@ -56,8 +59,8 @@ public sealed class OperatorTranslatorDisjunctionTests
                 EF.Functions.MatchDisjunction(
                     p.Description,
                     "running shoes",
-                    Fuzzy.With(1),
-                    Boost.With(3)
+                    Pdb.Fuzzy(1),
+                    Pdb.Boost(3)
                 )
             )
             .ToQueryString();

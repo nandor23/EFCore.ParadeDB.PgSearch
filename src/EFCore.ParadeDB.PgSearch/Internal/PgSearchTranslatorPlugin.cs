@@ -1,4 +1,5 @@
 using EFCore.ParadeDB.PgSearch.Internal.Translators;
+
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace EFCore.ParadeDB.PgSearch.Internal;

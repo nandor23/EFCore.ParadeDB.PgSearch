@@ -1,5 +1,7 @@
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
@@ -79,7 +81,7 @@ public sealed class SnippetTests
 
         var results = await context
             .Products.Where(p =>
-                EF.Functions.MatchDisjunction(p.Description, "your", Fuzzy.With(2))
+                EF.Functions.MatchDisjunction(p.Description, "your", Pdb.Fuzzy(2))
             )
             .Select(p => new { p.Id, Description = EF.Functions.Snippet(p.Description) })
             .ToListAsync();

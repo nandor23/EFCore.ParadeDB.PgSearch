@@ -1,5 +1,7 @@
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;

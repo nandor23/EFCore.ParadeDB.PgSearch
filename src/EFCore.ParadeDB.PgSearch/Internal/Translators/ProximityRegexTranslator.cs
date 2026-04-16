@@ -1,6 +1,8 @@
 using System.Reflection;
+
 using EFCore.ParadeDB.PgSearch.Internal.Expressions;
 using EFCore.ParadeDB.PgSearch.Internal.TypeMappings;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;

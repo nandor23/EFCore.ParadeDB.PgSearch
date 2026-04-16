@@ -1,6 +1,10 @@
 using System.Text.RegularExpressions;
+
+using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
@@ -25,7 +29,7 @@ public sealed class OperatorTranslatorTermTests
         using var context = new TestDbContext();
 
         var sql = context
-            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Fuzzy.With(2)))
+            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Pdb.Fuzzy(2)))
             .ToQueryString();
 
         sql.ShouldContain("p.description === 'running shoes'::pdb.fuzzy(2)");
@@ -37,7 +41,7 @@ public sealed class OperatorTranslatorTermTests
         using var context = new TestDbContext();
 
         var sql = context
-            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Boost.With(2)))
+            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Pdb.Boost(2)))
             .ToQueryString();
 
         sql.ShouldContain("p.description === 'running shoes'::pdb.boost(2)");
@@ -50,7 +54,7 @@ public sealed class OperatorTranslatorTermTests
 
         var sql = context
             .Products.Where(p =>
-                EF.Functions.Term(p.Description, "running shoes", Fuzzy.With(1), Boost.With(3))
+                EF.Functions.Term(p.Description, "running shoes", Pdb.Fuzzy(1), Pdb.Boost(3))
             )
             .ToQueryString();
 

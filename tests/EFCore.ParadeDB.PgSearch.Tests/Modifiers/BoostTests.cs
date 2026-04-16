@@ -1,12 +1,12 @@
 using Shouldly;
 
-namespace EFCore.ParadeDB.PgSearch.Tests;
+namespace EFCore.ParadeDB.PgSearch.Tests.Modifiers;
 
 public sealed class BoostTests
 {
     [Test]
     public void ToString_ProducesCorrectSql()
     {
-        Boost.With(2.5f).ToString().ShouldBe("pdb.boost(2.5)");
+        Pdb.Boost(2.5f).ToString().ShouldBe("pdb.boost(2.5)");
     }
 }

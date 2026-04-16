@@ -1,5 +1,7 @@
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;

@@ -1,5 +1,7 @@
 using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
+
 using Microsoft.EntityFrameworkCore;
+
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
@@ -27,7 +29,7 @@ public sealed class MatchTests
         await using var context = DbFixture.CreateContext();
         var results = await context
             .Products.Where(p =>
-                EF.Functions.MatchDisjunction(p.Description, "these", Fuzzy.With(2))
+                EF.Functions.MatchDisjunction(p.Description, "these", Pdb.Fuzzy(2))
             )
             .ToListAsync();
 
@@ -40,7 +42,7 @@ public sealed class MatchTests
         await using var context = DbFixture.CreateContext();
         var results = await context
             .Products.Where(p =>
-                EF.Functions.MatchDisjunction(p.Description, "these", Boost.With(2.3f))
+                EF.Functions.MatchDisjunction(p.Description, "these", Pdb.Boost(2.3f))
             )
             .ToListAsync();
 
@@ -56,8 +58,8 @@ public sealed class MatchTests
                 EF.Functions.MatchDisjunction(
                     p.Description,
                     "these",
-                    Fuzzy.With(2),
-                    Boost.With(2.3f)
+                    Pdb.Fuzzy(2),
+                    Pdb.Boost(2.3f)
                 )
             )
             .ToListAsync();
@@ -83,7 +85,7 @@ public sealed class MatchTests
         await using var context = DbFixture.CreateContext();
         var results = await context
             .Products.Where(p =>
-                EF.Functions.MatchConjunction(p.Description, "these", Fuzzy.With(2))
+                EF.Functions.MatchConjunction(p.Description, "these", Pdb.Fuzzy(2))
             )
             .ToListAsync();
 
@@ -96,7 +98,7 @@ public sealed class MatchTests
         await using var context = DbFixture.CreateContext();
         var results = await context
             .Products.Where(p =>
-                EF.Functions.MatchConjunction(p.Description, "these", Boost.With(2.3f))
+                EF.Functions.MatchConjunction(p.Description, "these", Pdb.Boost(2.3f))
             )
             .ToListAsync();
 
@@ -112,8 +114,8 @@ public sealed class MatchTests
                 EF.Functions.MatchConjunction(
                     p.Description,
                     "these",
-                    Fuzzy.With(2),
-                    Boost.With(2.3f)
+                    Pdb.Fuzzy(2),
+                    Pdb.Boost(2.3f)
                 )
             )
             .ToListAsync();
