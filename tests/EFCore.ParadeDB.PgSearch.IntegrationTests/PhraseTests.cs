@@ -1,14 +1,10 @@
-using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
 
-public sealed class PhraseTests
+public sealed class PhraseTests : TestBase
 {
-    [ClassDataSource<DbFixture>]
-    public required DbFixture DbFixture { get; init; }
-
     [Test]
     public async Task Phrase_ExecutesSuccessfully()
     {

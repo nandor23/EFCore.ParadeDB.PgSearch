@@ -10,7 +10,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
     private PostgreSqlContainer? _container;
 
     private DbContextOptions<TestDbContext> _options = null!;
-
+    
     public async Task InitializeAsync()
     {
         _container = new PostgreSqlBuilder("postgres:18")

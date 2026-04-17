@@ -1,14 +1,10 @@
-using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
 
-public sealed class TokenizeTests
+public sealed class TokenizeTests : TestBase
 {
-    [ClassDataSource<DbFixture>]
-    public required DbFixture DbFixture { get; init; }
-
     private static readonly TokenFilter[] AllFilters =
     [
         TokenFilter.AlphaNumericOnly,

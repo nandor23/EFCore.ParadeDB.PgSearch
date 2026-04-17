@@ -5,11 +5,8 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
 
-public sealed class TermTests
+public sealed class TermTests : TestBase
 {
-    [ClassDataSource<DbFixture>]
-    public required DbFixture DbFixture { get; init; }
-
     public static IEnumerable<Func<TestDbContext, IQueryable<Product>>> Queries()
     {
         yield return context =>
