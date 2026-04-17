@@ -103,6 +103,42 @@ public sealed class TermTranslatorTests
     }
 
     [Test]
+    public void Term_WithArrayVariableAndFuzzy_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerms, Pdb.Fuzzy(2)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+::pdb\.fuzzy\(2\)
+            """
+        );
+    }
+
+    [Test]
+    public void Term_WithInlineArrayAndFuzzy_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Term(p.Description, new[] { "running", "shoes" }, Pdb.Fuzzy(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === ARRAY\['running','shoes'\]::text\[\]::pdb\.fuzzy\(2\)
+            """
+        );
+    }
+
+    [Test]
     public void Term_WithBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
@@ -128,6 +164,42 @@ public sealed class TermTranslatorTests
         sql.ShouldMatch(
             """
             p\.description === @\w+::pdb\.boost\(2\)
+            """
+        );
+    }
+
+    [Test]
+    public void Term_WithArrayVariableAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerms, Pdb.Boost(2)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+::pdb\.boost\(2\)
+            """
+        );
+    }
+
+    [Test]
+    public void Term_WithInlineArrayAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Term(p.Description, new[] { "running", "shoes" }, Pdb.Boost(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === ARRAY\['running','shoes'\]::text\[\]::pdb\.boost\(2\)
             """
         );
     }
@@ -160,6 +232,42 @@ public sealed class TermTranslatorTests
         sql.ShouldMatch(
             """
             p\.description === @\w+::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
+    public void Term_WithArrayVariableAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerms, Pdb.Const(20.3f)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
+    public void Term_WithInlineArrayAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Term(p.Description, new[] { "running", "shoes" }, Pdb.Const(20.3f))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === ARRAY\['running','shoes'\]::text\[\]::pdb\.const\(20\.3\)
             """
         );
     }

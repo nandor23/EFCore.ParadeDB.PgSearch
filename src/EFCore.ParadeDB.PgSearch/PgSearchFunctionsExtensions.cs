@@ -240,6 +240,14 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Fuzzy fuzzy
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
     [DbFunction]
     public static bool Term<TProperty>(
@@ -248,12 +256,28 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Boost boost
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
     [DbFunction]
     public static bool Term<TProperty>(
         this DbFunctions _,
         TProperty property,
         string value,
+        [NotParameterized] Const @const
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
         [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
