@@ -184,12 +184,28 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Boost boost
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+    
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
     public static bool Phrase<TProperty>(
         this DbFunctions _,
         TProperty property,
         string value,
+        [NotParameterized] Const @const
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+    
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
         [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 

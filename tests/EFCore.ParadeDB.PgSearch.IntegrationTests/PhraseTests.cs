@@ -56,12 +56,68 @@ public sealed class PhraseTests : TestBase
     }
 
     [Test]
+    public async Task Phrase_WithInlineArrayAndBoost_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, new[] { "these", "shoes" }, Pdb.Boost(2.5f))
+            )
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Phrase_WithArrayVariableAndBoost_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        string[] terms = ["these", "shoes"];
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, terms, Pdb.Boost(2.5f)))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
     public async Task Phrase_WithConst_ExecutesSuccessfully()
     {
         await using var context = DbFixture.CreateContext();
 
         var results = await context
             .Products.Where(p => EF.Functions.Phrase(p.Description, "with", Pdb.Const(20.3f)))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Phrase_WithInlineArrayAndConst_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, new[] { "these", "shoes" }, Pdb.Const(20.3f))
+            )
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Phrase_WithArrayVariableAndConst_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        string[] terms = ["these", "shoes"];
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, terms, Pdb.Const(20.3f)))
             .ToListAsync();
 
         results.ShouldNotBeNull();

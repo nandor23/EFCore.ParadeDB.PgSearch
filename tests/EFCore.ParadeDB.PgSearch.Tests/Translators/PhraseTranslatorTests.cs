@@ -101,6 +101,42 @@ public sealed class PhraseTranslatorTests
     }
 
     [Test]
+    public void Phrase_WithArrayVariableAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerms, Pdb.Boost(2)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### @\w+::pdb\.boost\(2\)
+            """
+        );
+    }
+
+    [Test]
+    public void Phrase_WithInlineArrayAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, new[] { "running", "shoes" }, Pdb.Boost(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### ARRAY\['running','shoes'\]::text\[\]::pdb\.boost\(2\)
+            """
+        );
+    }
+
+    [Test]
     public void Phrase_WithConst_TranslatesToSql()
     {
         using var context = new TestDbContext();
@@ -128,6 +164,42 @@ public sealed class PhraseTranslatorTests
         sql.ShouldMatch(
             """
             p\.description ### @\w+::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
+    public void Phrase_WithArrayVariableAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerms, Pdb.Const(20.3f)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### @\w+::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
+    public void Phrase_WithInlineArrayAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, new[] { "running", "shoes" }, Pdb.Const(20.3f))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### ARRAY\['running','shoes'\]::text\[\]::pdb\.const\(20\.3\)
             """
         );
     }
