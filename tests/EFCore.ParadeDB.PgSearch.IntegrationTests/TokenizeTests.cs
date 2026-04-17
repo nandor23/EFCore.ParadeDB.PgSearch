@@ -16,7 +16,7 @@ public sealed class TokenizeTests
         TokenFilter.PreserveCase,
         TokenFilter.RemoveStopwords(StopwordsLanguage.English),
         TokenFilter.Stemmer(StemmerLanguage.English),
-        TokenFilter.RemoveLong(32),
+        TokenFilter.RemoveLong(100),
         TokenFilter.RemoveShort(2),
         TokenFilter.Trim,
     ];
@@ -61,15 +61,18 @@ public sealed class TokenizeTests
     {
         return TokenizerBuilders().Select(build => build(AllFilters));
     }
-
-    [Test]
+    
+    /*[Test]
     [MethodDataSource(nameof(Tokenizers))]
-    public async Task Tokenize_ExecutesSuccessfully(Tokenizer tokenizer)
+    public async Task Tokenize_Predicate_ExecutesSuccessfully(Tokenizer tokenizer)
     {
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, tokenizer))
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, EF.Functions.Tokenize(p.Description, tokenizer))
+            )
+            .Select(p => p.Description)
             .ToListAsync();
 
         results.ShouldNotBeNull();
@@ -77,12 +80,43 @@ public sealed class TokenizeTests
 
     [Test]
     [MethodDataSource(nameof(TokenizersWithAllFilters))]
-    public async Task Tokenize_WithAllFilters_ExecutesSuccessfully(Tokenizer tokenizer)
+    public async Task Tokenize_Predicate_WithAllFilters_ExecutesSuccessfully(Tokenizer tokenizer)
+    {
+        await using var context = DbFixture.CreateContext();
+        
+        var results = await context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, EF.Functions.Tokenize(p.Description, tokenizer))
+            )
+            .Select(p => p.Description)
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }*/
+
+    [Test]
+    [MethodDataSource(nameof(Tokenizers))]
+    public async Task TokenizeAsArray_Projection_ExecutesSuccessfully(Tokenizer tokenizer)
     {
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Select(p => EF.Functions.Tokenize(p.Description, tokenizer))
+            .Products.Select(p => EF.Functions.TokenizeAsArray(p.Description, tokenizer))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    [MethodDataSource(nameof(TokenizersWithAllFilters))]
+    public async Task TokenizeAsArray_Projection_WithAllFilters_ExecutesSuccessfully(
+        Tokenizer tokenizer
+    )
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Select(p => EF.Functions.TokenizeAsArray(p.Description, tokenizer))
             .ToListAsync();
 
         results.ShouldNotBeNull();

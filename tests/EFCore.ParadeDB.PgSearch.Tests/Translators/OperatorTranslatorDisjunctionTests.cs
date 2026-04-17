@@ -30,7 +30,7 @@ public sealed class OperatorTranslatorDisjunctionTests
 
         sql.ShouldContain("p.description ||| ARRAY['running','shoes']");
     }
-    
+
     [Test]
     public void MatchDisjunction_WhenCalledWithArrayParameter_TranslatesToSql()
     {

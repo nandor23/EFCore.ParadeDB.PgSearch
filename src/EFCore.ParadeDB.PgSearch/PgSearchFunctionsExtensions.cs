@@ -214,12 +214,19 @@ public static class PgSearchFunctionsExtensions
         int matchLimit
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
 
-    [DbFunction]
-    public static IEnumerable<string> Tokenize<TProperty>(
+    /*[DbFunction]
+    public static string Tokenize<TProperty>(
         this DbFunctions _,
         TProperty property,
         [NotParameterized] Tokenizer tokenizer
-    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Tokenize)));
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Tokenize)));*/
+
+    [DbFunction]
+    public static IEnumerable<string> TokenizeAsArray<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [NotParameterized] Tokenizer tokenizer
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TokenizeAsArray)));
 
     [DbFunction]
     public static string Alias<TProperty>(

@@ -24,7 +24,14 @@ internal sealed class TokenizeTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearchFunctionsExtensions.Tokenize))
+        bool? asArray = method.Name switch
+        {
+            // nameof(PgSearchFunctionsExtensions.Tokenize) => false,
+            nameof(PgSearchFunctionsExtensions.TokenizeAsArray) => true,
+            _ => null,
+        };
+
+        if (asArray is null)
         {
             return null;
         }
@@ -34,7 +41,7 @@ internal sealed class TokenizeTranslator : IMethodCallTranslator
             return null;
         }
 
-        var typeMapping = new TokenizerTypeMapping(tokenizer);
+        var typeMapping = new TokenizerTypeMapping(tokenizer, asArray.Value);
 
         return _sqlExpressionFactory.MakeUnary(
             ExpressionType.Convert,

@@ -31,7 +31,7 @@ public sealed class OperatorTranslatorConjunctionTests
 
         sql.ShouldContain("p.description &&& ARRAY['running','shoes']");
     }
-    
+
     [Test]
     public void MatchConjunction_WhenCalledWithArrayParameter_TranslatesToSql()
     {

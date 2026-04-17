@@ -4,14 +4,28 @@ namespace EFCore.ParadeDB.PgSearch.Internal.TypeMappings;
 
 internal sealed class TokenizerTypeMapping : RelationalTypeMapping
 {
-    public TokenizerTypeMapping(Tokenizer tokenizer)
-        : base($"{tokenizer}::text[]", typeof(string[])) { }
+    public TokenizerTypeMapping(Tokenizer tokenizer, bool asArray = false)
+        : base(Create(tokenizer, asArray)) { }
+
+    private static RelationalTypeMappingParameters Create(Tokenizer tokenizer, bool asArray)
+    {
+        if (asArray)
+        {
+            return new RelationalTypeMappingParameters(
+                new CoreTypeMappingParameters(typeof(string[])),
+                $"{tokenizer}::text[]"
+            );
+        }
+
+        return new RelationalTypeMappingParameters(
+            new CoreTypeMappingParameters(typeof(string)),
+            $"{tokenizer}"
+        );
+    }
 
     private TokenizerTypeMapping(RelationalTypeMappingParameters parameters)
         : base(parameters) { }
 
-    protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters)
-    {
-        return new TokenizerTypeMapping(parameters);
-    }
+    protected override RelationalTypeMapping Clone(RelationalTypeMappingParameters parameters) =>
+        new TokenizerTypeMapping(parameters);
 }
