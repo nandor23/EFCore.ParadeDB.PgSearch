@@ -34,7 +34,17 @@ jobs:
         run: dotnet build --configuration Release --framework ${{ matrix.framework }} --no-restore
 
       - name: Test unit
-        run: dotnet test tests/EFCore.ParadeDB.PgSearch.Tests --framework ${{ matrix.framework }} --configuration Release --no-restore
-
+        run: |
+          dotnet test \
+            --project tests/EFCore.ParadeDB.PgSearch.Tests \
+            --configuration Release \
+            --framework ${{ matrix.framework }} \
+            --no-restore
+    
       - name: Test integration
-        run: dotnet test tests/EFCore.ParadeDB.PgSearch.IntegrationTests --framework ${{ matrix.framework }} --configuration Release --no-restore
+        run: |
+          dotnet test \
+            --project tests/EFCore.ParadeDB.PgSearch.IntegrationTests \
+            --configuration Release \
+            --framework ${{ matrix.framework }} \
+            --no-restore
