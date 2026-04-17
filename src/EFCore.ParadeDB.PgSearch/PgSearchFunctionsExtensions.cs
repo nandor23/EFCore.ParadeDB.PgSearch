@@ -38,6 +38,15 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchDisjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
         string value,
         [NotParameterized] Boost boost
     ) =>
@@ -47,7 +56,25 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchDisjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
         string value,
+        [NotParameterized] Const @const
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
         [NotParameterized] Const @const
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
@@ -91,6 +118,15 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchConjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
         string value,
         [NotParameterized] Boost boost
     ) =>
@@ -100,7 +136,25 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchConjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
         string value,
+        [NotParameterized] Const @const
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
         [NotParameterized] Const @const
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));

@@ -1,11 +1,10 @@
-using System.Text.RegularExpressions;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class OperatorTranslatorPhraseTests
+public sealed class PhraseTranslatorTests
 {
     [Test]
     public void Phrase_WithInlineSearchTerm_TranslatesToSql()

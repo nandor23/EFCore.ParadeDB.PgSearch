@@ -6,7 +6,7 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class OperatorTranslatorDisjunctionTests
+public sealed class MatchDisjunctionTranslatorTests
 {
     [Test]
     public void MatchDisjunction_WithInlineSearchTerm_TranslatesToSql()
@@ -101,7 +101,49 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldMatch("""p.description ||| @\w+::pdb\.fuzzy\(2\)""");
+        sql.ShouldMatch("""p\.description ||| @\w+::pdb\.fuzzy\(2\)""");
+    }
+
+    [Test]
+    public void MatchDisjunction_WithInlineArrayAndFuzzy_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(
+                    p.Description,
+                    new[] { "running", "shoes" },
+                    Pdb.Fuzzy(2)
+                )
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| ARRAY\['running','shoes'\]::pdb\.fuzzy\(2\)
+            """
+        );
+    }
+
+    [Test]
+    public void MatchDisjunction_WithArrayVariableAndFuzzy_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, searchTerms, Pdb.Fuzzy(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| @\w+::pdb\.fuzzy\(2\)
+            """
+        );
     }
 
     [Test]
@@ -131,7 +173,49 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldMatch("""p.description ||| @\w+::pdb\.boost\(2\)""");
+        sql.ShouldMatch("""p\.description ||| @\w+::pdb\.boost\(2\)""");
+    }
+
+    [Test]
+    public void MatchDisjunction_WithInlineArrayAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(
+                    p.Description,
+                    new[] { "running", "shoes" },
+                    Pdb.Boost(2)
+                )
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| ARRAY\['running','shoes'\]::pdb\.boost\(2\)
+            """
+        );
+    }
+
+    [Test]
+    public void MatchDisjunction_WithArrayVariableAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, searchTerms, Pdb.Boost(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| @\w+::pdb\.boost\(2\)
+            """
+        );
     }
 
     [Test]
@@ -158,6 +242,48 @@ public sealed class OperatorTranslatorDisjunctionTests
         var sql = context
             .Products.Where(p =>
                 EF.Functions.MatchDisjunction(p.Description, searchTerm, Pdb.Const(20.3f))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| @\w+::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
+    public void MatchDisjunction_WithInlineArrayAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(
+                    p.Description,
+                    new[] { "running", "shoes" },
+                    Pdb.Const(20.3f)
+                )
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| ARRAY\['running','shoes'\]::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
+    public void MatchDisjunction_WithArrayVariableAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, searchTerms, Pdb.Const(20.3f))
             )
             .ToQueryString();
 
