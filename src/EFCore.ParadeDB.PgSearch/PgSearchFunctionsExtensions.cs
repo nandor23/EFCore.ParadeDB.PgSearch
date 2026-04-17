@@ -21,7 +21,7 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchDisjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
-        params string[] values
+        string[] values
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
 
@@ -65,7 +65,7 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchConjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
-        params string[] value
+        string[] values
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
 
@@ -102,6 +102,10 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
+    public static bool Phrase<TProperty>(this DbFunctions _, TProperty property, string[] values) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
     public static bool Phrase<TProperty>(
         this DbFunctions _,
         TProperty property,
@@ -114,6 +118,14 @@ public static class PgSearchFunctionsExtensions
         this DbFunctions _,
         TProperty property,
         string value,
+        [NotParameterized] Slop slop
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
         [NotParameterized] Slop slop
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 

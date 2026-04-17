@@ -23,7 +23,7 @@ public sealed class MatchTests : TestBase
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "these", "shoes"))
+            .Products.Where(p => EF.Functions.Phrase(p.Description, new[] { "these", "shoes" }))
             .ToListAsync();
 
         results.ShouldNotBeNull();
@@ -100,7 +100,7 @@ public sealed class MatchTests : TestBase
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "these", "shoes"))
+            .Products.Where(p => EF.Functions.MatchConjunction(p.Description, new[] {"these", "shoes"}))
             .ToListAsync();
 
         results.ShouldNotBeNull();

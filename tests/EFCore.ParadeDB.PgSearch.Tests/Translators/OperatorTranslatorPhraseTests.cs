@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
@@ -27,6 +28,24 @@ public sealed class OperatorTranslatorPhraseTests
 
         var sql = context
             .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerm))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### @\w+
+            """
+        );
+    }
+
+    [Test]
+    public void Phrase_WhenCalledWithArrayParameter_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerms))
             .ToQueryString();
 
         sql.ShouldMatch(
@@ -93,6 +112,22 @@ public sealed class OperatorTranslatorPhraseTests
             """
             p\.description ### @\w+::pdb\.slop\(2\)
             """
+        );
+    }
+
+    [Test]
+    public void Phrase_WhenCalledWithArrayParameterAndSlop_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerms, Pdb.Slop(2)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            $"""p.description ### @\w+::{Regex.Escape(Pdb.Slop(2).ToString())}"""
         );
     }
 }

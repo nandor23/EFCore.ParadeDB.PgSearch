@@ -39,37 +39,6 @@ public sealed class OperatorTranslatorConjunctionTests
     }
 
     [Test]
-    public void MatchConjunction_WithMultipleValues_TranslatesToSql()
-    {
-        using var context = new TestDbContext();
-
-        var sql = context
-            .Products.Where(p => EF.Functions.MatchConjunction(p.Description, "running", "shoes"))
-            .ToQueryString();
-
-        sql.ShouldContain("p.description &&& ARRAY['running','shoes']");
-    }
-
-    [Test]
-    public void MatchConjunction_WithMultipleVariableValues_TranslatesToSql()
-    {
-        using var context = new TestDbContext();
-
-        string first = "running";
-        string second = "shoes";
-
-        var sql = context
-            .Products.Where(p => EF.Functions.MatchConjunction(p.Description, first, second))
-            .ToQueryString();
-
-        sql.ShouldMatch(
-            """
-            p\.description &&& ARRAY\[\s*@\w+\s*,\s*@\w+\s*\]
-            """
-        );
-    }
-
-    [Test]
     public void MatchConjunction_WhenCalledWithArrayParameter_TranslatesToSql()
     {
         using var context = new TestDbContext();
