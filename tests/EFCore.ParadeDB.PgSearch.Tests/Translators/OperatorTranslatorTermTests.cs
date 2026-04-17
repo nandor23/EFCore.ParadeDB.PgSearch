@@ -133,6 +133,38 @@ public sealed class OperatorTranslatorTermTests
     }
 
     [Test]
+    public void Term_WithConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Term(p.Description, "running shoes", Pdb.Const(20.3f))
+            )
+            .ToQueryString();
+
+        sql.ShouldContain("p.description === 'running shoes'::pdb.const(20.3)");
+    }
+
+    [Test]
+    public void Term_WithVariableSearchTermAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerm, Pdb.Const(20.3f)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
     public void Term_WithFuzzyAndBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();

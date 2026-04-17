@@ -13,4 +13,6 @@ public static class Pdb
     ) => new(distance, prefix, transpositionCostOne);
 
     public static Slop Slop(int value) => new(value);
+
+    public static Const Const(float value) => new(value);
 }

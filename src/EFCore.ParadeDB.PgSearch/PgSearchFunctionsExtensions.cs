@@ -48,6 +48,15 @@ public static class PgSearchFunctionsExtensions
         this DbFunctions _,
         TProperty property,
         string value,
+        [NotParameterized] Const @const
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
         [NotParameterized] Fuzzy fuzzy,
         [NotParameterized] Boost boost
     ) =>
@@ -92,6 +101,15 @@ public static class PgSearchFunctionsExtensions
         this DbFunctions _,
         TProperty property,
         string value,
+        [NotParameterized] Const @const
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
         [NotParameterized] Fuzzy fuzzy,
         [NotParameterized] Boost boost
     ) =>
@@ -111,6 +129,14 @@ public static class PgSearchFunctionsExtensions
         TProperty property,
         string value,
         [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
@@ -151,6 +177,14 @@ public static class PgSearchFunctionsExtensions
         TProperty property,
         string value,
         [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
     [DbFunction]

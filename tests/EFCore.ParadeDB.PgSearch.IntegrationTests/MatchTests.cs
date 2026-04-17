@@ -74,6 +74,20 @@ public sealed class MatchTests : TestBase
     }
 
     [Test]
+    public async Task MatchDisjunction_WithConst_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, "these", Pdb.Const(20.3f))
+            )
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
     public async Task MatchDisjunction_WithFuzzyAndBoost_ExecutesSuccessfully()
     {
         await using var context = DbFixture.CreateContext();
@@ -149,6 +163,20 @@ public sealed class MatchTests : TestBase
         var results = await context
             .Products.Where(p =>
                 EF.Functions.MatchConjunction(p.Description, "these", Pdb.Boost(2.3f))
+            )
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task MatchConjunction_WithConst_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p =>
+                EF.Functions.MatchConjunction(p.Description, "these", Pdb.Const(20.3f))
             )
             .ToListAsync();
 

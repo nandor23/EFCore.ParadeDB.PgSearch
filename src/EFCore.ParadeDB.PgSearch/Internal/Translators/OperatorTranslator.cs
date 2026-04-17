@@ -64,6 +64,7 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
             Fuzzy fuzzy => new FuzzyTypeMapping(fuzzy),
             Boost boost => new BoostTypeMapping(boost),
             Slop slop => new SlopTypeMapping(slop),
+            Const @const => new ConstTypeMapping(@const),
             _ => null,
         };
 

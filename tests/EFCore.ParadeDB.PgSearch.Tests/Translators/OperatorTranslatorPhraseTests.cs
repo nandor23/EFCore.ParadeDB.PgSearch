@@ -102,6 +102,38 @@ public sealed class OperatorTranslatorPhraseTests
     }
 
     [Test]
+    public void Phrase_WithConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, "running shoes", Pdb.Const(20.3f))
+            )
+            .ToQueryString();
+
+        sql.ShouldContain("p.description ### 'running shoes'::pdb.const(20.3)");
+    }
+
+    [Test]
+    public void Phrase_WithVariableSearchTermAndConst_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerm, Pdb.Const(20.3f)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### @\w+::pdb\.const\(20\.3\)
+            """
+        );
+    }
+
+    [Test]
     public void Phrase_WithSlop_TranslatesToSql()
     {
         using var context = new TestDbContext();
@@ -156,6 +188,8 @@ public sealed class OperatorTranslatorPhraseTests
             )
             .ToQueryString();
 
-        sql.ShouldMatch("""p\.description ### ARRAY\['running','shoes'\]::pdb\.slop\(2\)""");
+        sql.ShouldMatch(
+            """p\.description ### ARRAY\['running','shoes'\]::text\[\]::pdb\.slop\(2\)"""
+        );
     }
 }

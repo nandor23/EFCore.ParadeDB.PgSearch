@@ -68,6 +68,18 @@ public sealed class TermTests : TestBase
     }
 
     [Test]
+    public async Task Term_WithConst_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Term(p.Description, "rich", Pdb.Const(20.3f)))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
     public async Task Term_WithFuzzyAndBoost_ExecutesSuccessfully()
     {
         await using var context = DbFixture.CreateContext();
