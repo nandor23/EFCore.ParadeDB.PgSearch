@@ -1,32 +1,40 @@
 name: Build
+
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-
-env:
-  DOTNET_VERSION: 9.0.x
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        include:
+          - dotnet: "8.0.x"
+            framework: "net8.0"
+          - dotnet: "9.0.x"
+            framework: "net9.0"
+          - dotnet: "10.0.x"
+            framework: "net10.0"
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ matrix.dotnet }}
 
-      - name: Restore dependencies
+      - name: Restore
         run: dotnet restore
 
-      - name: Build solution
-        run: dotnet build --no-restore --configuration Release
+      - name: Build
+        run: dotnet build --configuration Release --framework ${{ matrix.framework }} --no-restore
 
-      - name: Run unit tests
-        run: dotnet test --project tests/EFCore.ParadeDB.PgSearch.Tests --no-build --configuration Release
+      - name: Test unit
+        run: dotnet test tests/EFCore.ParadeDB.PgSearch.Tests --framework ${{ matrix.framework }} --configuration Release --no-restore
 
-      - name: Run integration tests
-        run: dotnet test --project tests/EFCore.ParadeDB.PgSearch.IntegrationTests --no-build --configuration Release
+      - name: Test integration
+        run: dotnet test tests/EFCore.ParadeDB.PgSearch.IntegrationTests --framework ${{ matrix.framework }} --configuration Release --no-restore
