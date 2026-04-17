@@ -8,10 +8,9 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddDbContextPool<AppDbContext>(options =>
 {
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("AppDatabase"),
-        o => o.UsePgSearch()
-    );
+    options
+        .UseNpgsql(builder.Configuration.GetConnectionString("AppDatabase"), o => o.UsePgSearch())
+        .UseSnakeCaseNamingConvention();
 });
 
 var app = builder.Build();
@@ -24,24 +23,15 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    var products = await dbContext
-        .Products.Where(p =>
-            EF.Functions.MatchDisjunction(
-                p.Description,
-                "with shoes and",
-                Fuzzy.With(1),
-                Boost.With(2.3f)
-            )
-        )
-        .Select(p => new
-        {
-            p.Id,
-            p.Description,
-            Score = EF.Functions.Score(p.Id),
-        })
-        .ToListAsync();
+    var value = "description_simple";
+    var boost = Pdb.Boost(1);
 
-    Console.WriteLine(products);
+    var result = dbContext
+        .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "asd"))
+        .Select(p => EF.Functions.Score(p.Description))
+        .ToList();
+
+    Console.WriteLine(result);
 }
 
 app.Run();

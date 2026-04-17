@@ -1,29 +1,92 @@
+using System.Collections.Frozen;
 using System.Diagnostics.CodeAnalysis;
-using EFCore.ParadeDB.PgSearch.Internals.Tokenizers;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace EFCore.ParadeDB.PgSearch;
 
-// TODO: Change visibility to public once tokenizers have been refactored
-internal abstract class Tokenizer
+public sealed class Tokenizer
 {
-    internal abstract SqlExpression ToSqlExpression();
+    private readonly string _name;
+    private readonly string[] _args;
+    private readonly TokenFilter[] _filters;
 
-    public static Tokenizer Default { get; } = new BasicTokenizer("default");
-    public static Tokenizer Whitespace { get; } = new BasicTokenizer("whitespace");
-    public static Tokenizer Raw { get; } = new BasicTokenizer("raw");
-    public static Tokenizer Keyword { get; } = new BasicTokenizer("keyword");
-    public static Tokenizer SourceCode { get; } = new BasicTokenizer("source_code");
-    public static Tokenizer ChineseCompatible { get; } = new BasicTokenizer("chinese_compatible");
-    public static Tokenizer ChineseLindera { get; } = new BasicTokenizer("chinese_lindera");
-    public static Tokenizer KoreanLindera { get; } = new BasicTokenizer("korean_lindera");
-    public static Tokenizer JapaneseLindera { get; } = new BasicTokenizer("japanese_lindera");
-    public static Tokenizer Jieba { get; } = new BasicTokenizer("jieba");
-    public static Tokenizer Icu { get; } = new BasicTokenizer("icu");
+    private static readonly FrozenDictionary<LinderaLanguage, string> LinderaLanguageArgs =
+        new Dictionary<LinderaLanguage, string>
+        {
+            { LinderaLanguage.Chinese, "chinese" },
+            { LinderaLanguage.Japanese, "japanese" },
+            { LinderaLanguage.Korean, "korean" },
+        }.ToFrozenDictionary();
 
-    public static Tokenizer Regex([StringSyntax(StringSyntaxAttribute.Regex)] string pattern) =>
-        new RegexTokenizer(pattern);
+    private Tokenizer(string name, string[] args, params TokenFilter[] filters)
+    {
+        _name = name;
+        _args = args;
+        _filters = filters;
+    }
 
-    public static Tokenizer Ngram(int minGram, int maxGram, bool prefixOnly) =>
-        new NgramTokenizer(minGram, maxGram, prefixOnly);
+    public override string ToString()
+    {
+        var args = _args.Concat(_filters.Select(f => f.ToString())).ToList();
+
+        return args.Count == 0 ? $"pdb.{_name}" : $"pdb.{_name}({string.Join(", ", args)})";
+    }
+
+    public static Tokenizer Literal => new("literal", []);
+
+    public static Tokenizer Unicode(params TokenFilter[] filters) =>
+        new("unicode_words", [], filters);
+
+    public static Tokenizer Unicode(bool removeEmojis, params TokenFilter[] filters) =>
+        removeEmojis
+            ? new Tokenizer("unicode_words", ["'remove_emojis=true'"], filters)
+            : Unicode(filters);
+
+    public static Tokenizer LiteralNormalized(params TokenFilter[] filters) =>
+        new("literal_normalized", [], filters);
+
+    public static Tokenizer Whitespace(params TokenFilter[] filters) =>
+        new("whitespace", [], filters);
+
+    public static Tokenizer Ngram(int minGram, int maxGram, params TokenFilter[] filters) =>
+        new("ngram", [$"{minGram},{maxGram}"], filters);
+
+    public static Tokenizer NgramPrefixOnly(
+        int minGram,
+        int maxGram,
+        params TokenFilter[] filters
+    ) => new("ngram", [$"{minGram}, {maxGram}, 'prefix_only=true'"], filters);
+
+    public static Tokenizer NgramPositions(int gramSize, params TokenFilter[] filters) =>
+        new("ngram", [$"{gramSize}, {gramSize}, 'positions=true'"], filters);
+
+    public static Tokenizer Simple(params TokenFilter[] filters) => new("simple", [], filters);
+
+    public static Tokenizer RegexPattern(
+        [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
+        params TokenFilter[] filters
+    ) => new("regex_pattern", [$"'{pattern}'"], filters);
+
+    public static Tokenizer ChineseCompatible(params TokenFilter[] filters) =>
+        new("chinese_compatible", [], filters);
+
+    public static Tokenizer Lindera(LinderaLanguage language, params TokenFilter[] filters) =>
+        new("lindera", [LinderaLanguageArgs[language]], filters);
+
+    public static Tokenizer Lindera(
+        LinderaLanguage language,
+        bool keepWhitespace,
+        params TokenFilter[] filters
+    ) =>
+        keepWhitespace
+            ? new Tokenizer(
+                "lindera",
+                [$"{LinderaLanguageArgs[language]}, 'keep_whitespace=true'"],
+                filters
+            )
+            : Lindera(language, filters);
+
+    public static Tokenizer Icu(params TokenFilter[] filters) => new("icu", [], filters);
+
+    public static Tokenizer SourceCode(params TokenFilter[] filters) =>
+        new("source_code", [], filters);
 }

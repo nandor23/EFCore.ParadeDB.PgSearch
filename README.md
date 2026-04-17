@@ -58,10 +58,6 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 | [Proximity](https://docs.paradedb.com/documentation/full-text/proximity)    | `Proximity()`, `ProximityRegex()`          |
 | [BM25 scoring](https://docs.paradedb.com/documentation/sorting/score)       | `Score()`                                  |
 
->[!NOTE]
-> `ProximityRegex()` requires the regex pattern to be a compile-time string constant.
-> It is embedded directly into the generated SQL and cannot be parameterized.
-
 ## Usage Example
 
 ```csharp

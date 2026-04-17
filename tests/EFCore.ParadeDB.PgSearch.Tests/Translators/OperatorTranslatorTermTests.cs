@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
@@ -16,7 +17,25 @@ public sealed class OperatorTranslatorTermTests
             .Products.Where(p => EF.Functions.Term(p.Description, "running shoes"))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'""");
+        sql.ShouldContain("p.description === 'running shoes'");
+    }
+
+    [Test]
+    public void Term_WithVariableSearchTerm_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerm))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+
+            """
+        );
     }
 
     [Test]
@@ -25,10 +44,28 @@ public sealed class OperatorTranslatorTermTests
         using var context = new TestDbContext();
 
         var sql = context
-            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Fuzzy.With(3)))
+            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Pdb.Fuzzy(2)))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'::pdb.fuzzy(3)""");
+        sql.ShouldContain("p.description === 'running shoes'::pdb.fuzzy(2)");
+    }
+
+    [Test]
+    public void Term_WithVariableSearchTermAndFuzzy_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerm, Pdb.Fuzzy(2)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+::pdb\.fuzzy\(2\)
+            """
+        );
     }
 
     [Test]
@@ -37,10 +74,28 @@ public sealed class OperatorTranslatorTermTests
         using var context = new TestDbContext();
 
         var sql = context
-            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Boost.With(2)))
+            .Products.Where(p => EF.Functions.Term(p.Description, "running shoes", Pdb.Boost(2)))
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'::pdb.boost(2)""");
+        sql.ShouldContain("p.description === 'running shoes'::pdb.boost(2)");
+    }
+
+    [Test]
+    public void Term_WithVariableSearchTermAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerm, Pdb.Boost(2)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+::pdb\.boost\(2\)
+            """
+        );
     }
 
     [Test]
@@ -50,11 +105,31 @@ public sealed class OperatorTranslatorTermTests
 
         var sql = context
             .Products.Where(p =>
-                EF.Functions.Term(p.Description, "running shoes", Fuzzy.With(5), Boost.With(3))
+                EF.Functions.Term(p.Description, "running shoes", Pdb.Fuzzy(1), Pdb.Boost(3))
             )
             .ToQueryString();
 
-        sql.ShouldContain("""p."Description" === 'running shoes'::pdb.fuzzy(5)::pdb.boost(3)""");
+        sql.ShouldContain("p.description === 'running shoes'::pdb.fuzzy(1)::pdb.boost(3)");
+    }
+
+    [Test]
+    public void Term_WithVariableSearchTermFuzzyAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Term(p.Description, searchTerm, Pdb.Fuzzy(1), Pdb.Boost(3))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+::pdb\.fuzzy\(1\)::pdb\.boost\(3\)
+            """
+        );
     }
 
     [Test]
@@ -62,18 +137,26 @@ public sealed class OperatorTranslatorTermTests
         typeof(OperatorTestDataSources),
         nameof(OperatorTestDataSources.FuzzyBoostTestData)
     )]
-    public void Term_WhenCalledWithParameters_TranslatesToSql(Fuzzy fuzzy, Boost boost)
+    public void Term_WithVariableSearchTermAndModifierParameters_TranslatesToSql(
+        Fuzzy fuzzy,
+        Boost boost
+    )
     {
         using var context = new TestDbContext();
 
         string searchTerm = "running shoes";
 
+        var fuzzySql = Regex.Escape(fuzzy.ToString());
+        var boostSql = Regex.Escape(boost.ToString());
+
+        var pattern = $"""
+            p\.description === @\w+::{fuzzySql}::{boostSql}
+            """;
+
         var sql = context
             .Products.Where(p => EF.Functions.Term(p.Description, searchTerm, fuzzy, boost))
             .ToQueryString();
 
-        sql.ShouldMatch(
-            $"""p\."Description" === @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
-        );
+        sql.ShouldMatch(pattern);
     }
 }

@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EFCore.ParadeDB.PgSearch.Tests.TestModels;
 
+[ExcludeFromCodeCoverage]
 public sealed class Product
 {
     public long Id { get; set; }

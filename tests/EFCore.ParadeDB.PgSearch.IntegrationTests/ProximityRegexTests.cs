@@ -1,14 +1,10 @@
-using EFCore.ParadeDB.PgSearch.IntegrationTests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
 
-public sealed class ProximityRegexTests
+public sealed class ProximityRegexTests : TestBase
 {
-    [ClassDataSource<DbFixture>]
-    public required DbFixture DbFixture { get; init; }
-
     [Test]
     public async Task ProximityRegex_ExecutesSuccessfully()
     {

@@ -15,9 +15,4 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
   
-  <ItemGroup>
-    <InternalsVisibleTo Include="EFCore.ParadeDB.PgSearch.Tests" />
-  </ItemGroup>
-
-
 </Project>

@@ -16,5 +16,6 @@ public sealed class TestDbContext : DbContext
                 connectionString: "Host=localhost;Database=fake;Username=fake;Password=fake",
                 npgsqlOptionsAction: o => o.UsePgSearch()
             )
+            .UseSnakeCaseNamingConvention()
             .Options;
 }

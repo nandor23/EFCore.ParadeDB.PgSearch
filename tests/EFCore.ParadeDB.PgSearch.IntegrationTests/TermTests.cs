@@ -1,60 +1,38 @@
-using EFCore.ParadeDB.PgSearch.IntegrationTests.TestUtils;
+using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence;
+using EFCore.ParadeDB.PgSearch.IntegrationTests.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
 
-public sealed class TermTests
+public sealed class TermTests : TestBase
 {
-    [ClassDataSource<DbFixture>]
-    public required DbFixture DbFixture { get; init; }
-
-    [Test]
-    public async Task Term_ExecutesSuccessfully()
+    public static IEnumerable<Func<TestDbContext, IQueryable<Product>>> Queries()
     {
-        await using var context = DbFixture.CreateContext();
+        yield return context =>
+            context.Products.Where(p => EF.Functions.Term(p.Description, "rich"));
 
-        var results = await context
-            .Products.Where(p => EF.Functions.Term(p.Description, "rich"))
-            .ToListAsync();
+        yield return context =>
+            context.Products.Where(p => EF.Functions.Term(p.Description, "rich", Pdb.Fuzzy(2)));
 
-        results.ShouldNotBeNull();
+        yield return context =>
+            context.Products.Where(p => EF.Functions.Term(p.Description, "rich", Pdb.Boost(2.3f)));
+
+        yield return context =>
+            context.Products.Where(p =>
+                EF.Functions.Term(p.Description, "rich", Pdb.Fuzzy(2), Pdb.Boost(2.3f))
+            );
     }
 
     [Test]
-    public async Task Term_WithFuzzy_ExecutesSuccessfully()
+    [MethodDataSource(nameof(Queries))]
+    public async Task Term_ExecutesSuccessfully(
+        Func<TestDbContext, IQueryable<Product>> queryFactory
+    )
     {
         await using var context = DbFixture.CreateContext();
 
-        var results = await context
-            .Products.Where(p => EF.Functions.Term(p.Description, "rich", Fuzzy.With(2)))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Term_WithBoost_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Where(p => EF.Functions.Term(p.Description, "rich", Boost.With(2.3f)))
-            .ToListAsync();
-
-        results.ShouldNotBeNull();
-    }
-
-    [Test]
-    public async Task Term_WithFuzzyAndBoost_ExecutesSuccessfully()
-    {
-        await using var context = DbFixture.CreateContext();
-
-        var results = await context
-            .Products.Where(p =>
-                EF.Functions.Term(p.Description, "rich", Fuzzy.With(2), Boost.With(2.3f))
-            )
-            .ToListAsync();
+        var results = await queryFactory(context).ToListAsync();
 
         results.ShouldNotBeNull();
     }

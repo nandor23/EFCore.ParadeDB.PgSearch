@@ -1,14 +1,10 @@
-using EFCore.ParadeDB.PgSearch.IntegrationTests.TestUtils;
 using Microsoft.EntityFrameworkCore;
 using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
 
-public sealed class SnippetTests
+public sealed class SnippetTests : TestBase
 {
-    [ClassDataSource<DbFixture>]
-    public required DbFixture DbFixture { get; init; }
-
     [Test]
     public async Task Snippet_ExecutesSuccessfully()
     {
@@ -68,21 +64,17 @@ public sealed class SnippetTests
 
         await Should.ThrowAsync<Exception>(async () =>
         {
-            await context
-                .Products.Select(p => EF.Functions.Snippet(p.Description))
-                .ToListAsync();
+            await context.Products.Select(p => EF.Functions.Snippet(p.Description)).ToListAsync();
         });
     }
-    
+
     [Test]
     public async Task Snippet_ReturnsNull_WhenNoMatch()
     {
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Where(p =>
-                EF.Functions.MatchDisjunction(p.Description, "your", Fuzzy.With(2))
-            )
+            .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "your", Pdb.Fuzzy(2)))
             .Select(p => new { p.Id, Description = EF.Functions.Snippet(p.Description) })
             .ToListAsync();
 

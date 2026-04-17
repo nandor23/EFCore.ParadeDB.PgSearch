@@ -2,6 +2,7 @@
   <Folder Name="/.solution/">
     <File Path=".gitignore" />
     <File Path=".editorconfig" />
+    <File Path="dotnet-tools.json" />
     <File Path="global.json" />
     <File Path=".csharpierignore" />
     <File Path="docker-compose.yml" />
@@ -15,24 +16,21 @@
   <Folder Name="/samples/">
     <Project
       Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj"
-      Type="Classic C#"
+      Type="C#"
     />
   </Folder>
   <Folder Name="/src/">
-    <Project
-      Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj"
-      Type="Classic C#"
-    />
+    <Project Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj" Type="C#" />
     <File Path="src\Directory.Build.props" />
   </Folder>
   <Folder Name="/tests/">
     <Project
       Path="tests\EFCore.ParadeDB.PgSearch.IntegrationTests\EFCore.ParadeDB.PgSearch.IntegrationTests.csproj"
-      Type="Classic C#"
+      Type="C#"
     />
     <Project
       Path="tests\EFCore.ParadeDB.PgSearch.Tests\EFCore.ParadeDB.PgSearch.Tests.csproj"
-      Type="Classic C#"
+      Type="C#"
     />
   </Folder>
 </Solution>
