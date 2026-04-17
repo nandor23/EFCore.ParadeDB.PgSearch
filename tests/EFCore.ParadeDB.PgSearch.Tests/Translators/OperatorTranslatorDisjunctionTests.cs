@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
 using EFCore.ParadeDB.PgSearch.Tests.TestUtils;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,24 @@ public sealed class OperatorTranslatorDisjunctionTests
     }
 
     [Test]
+    public void MatchDisjunction_WithVariableSearchTerm_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, searchTerm))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| @\w+
+            """
+        );
+    }
+
+    [Test]
     public void MatchDisjunction_WithMultipleValues_TranslatesToSql()
     {
         using var context = new TestDbContext();
@@ -29,6 +48,25 @@ public sealed class OperatorTranslatorDisjunctionTests
             .ToQueryString();
 
         sql.ShouldContain("p.description ||| ARRAY['running','shoes']");
+    }
+
+    [Test]
+    public void MatchDisjunction_WithMultipleVariableValues_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string first = "running";
+        string second = "shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, first, second))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| ARRAY\[\s*@\w+\s*,\s*@\w+\s*\]
+            """
+        );
     }
 
     [Test]
@@ -44,7 +82,7 @@ public sealed class OperatorTranslatorDisjunctionTests
 
         sql.ShouldMatch(
             """
-            p\.description \|\|\| @\w+
+            p\.description ||| @\w+
             """
         );
     }
@@ -64,6 +102,22 @@ public sealed class OperatorTranslatorDisjunctionTests
     }
 
     [Test]
+    public void MatchDisjunction_WithVariableSearchTermAndFuzzy_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, searchTerm, Pdb.Fuzzy(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch($"""p.description ||| @\w+::{Regex.Escape(Pdb.Fuzzy(2).ToString())}""");
+    }
+
+    [Test]
     public void MatchDisjunction_WithBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
@@ -78,6 +132,22 @@ public sealed class OperatorTranslatorDisjunctionTests
     }
 
     [Test]
+    public void MatchDisjunction_WithVariableSearchTermAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, searchTerm, Pdb.Boost(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch($"""p.description ||| @\w+::{Regex.Escape(Pdb.Boost(2).ToString())}""");
+    }
+
+    [Test]
     public void MatchDisjunction_WithFuzzyAndBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
@@ -87,13 +157,36 @@ public sealed class OperatorTranslatorDisjunctionTests
                 EF.Functions.MatchDisjunction(
                     p.Description,
                     "running shoes",
-                    Pdb.Fuzzy(1),
+                    Pdb.Fuzzy(2),
                     Pdb.Boost(3)
                 )
             )
             .ToQueryString();
 
-        sql.ShouldContain("p.description ||| 'running shoes'::pdb.fuzzy(1)::pdb.boost(3)");
+        sql.ShouldContain("p.description ||| 'running shoes'::pdb.fuzzy(2)::pdb.boost(3)");
+    }
+
+    [Test]
+    public void MatchDisjunction_WithVariableSearchTermFuzzyAndBoost_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, searchTerm, Pdb.Fuzzy(2), Pdb.Boost(3))
+            )
+            .ToQueryString();
+
+        var fuzzySql = Regex.Escape(Pdb.Fuzzy(2).ToString());
+        var boostSql = Regex.Escape(Pdb.Boost(3).ToString());
+
+        var pattern = $"""
+            p\.description ||| @\w+::{fuzzySql}::{boostSql}
+            """;
+
+        sql.ShouldMatch(pattern);
     }
 
     [Test]
@@ -101,7 +194,10 @@ public sealed class OperatorTranslatorDisjunctionTests
         typeof(OperatorTestDataSources),
         nameof(OperatorTestDataSources.FuzzyBoostTestData)
     )]
-    public void MatchDisjunction_WhenCalledWithParameters_TranslatesToSql(Fuzzy fuzzy, Boost boost)
+    public void MatchDisjunction_WhenCalledWithVariableSearchTermAndModifierParameters_TranslatesToSql(
+        Fuzzy fuzzy,
+        Boost boost
+    )
     {
         using var context = new TestDbContext();
 
@@ -114,9 +210,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             .ToQueryString();
 
         sql.ShouldMatch(
-            $"""
-            "description" ||| @\w+::{fuzzy}::{boost}
-            """
+            $"""p.description ||| @\w+::{Regex.Escape(fuzzy.ToString())}::{Regex.Escape(boost.ToString())}"""
         );
     }
 }

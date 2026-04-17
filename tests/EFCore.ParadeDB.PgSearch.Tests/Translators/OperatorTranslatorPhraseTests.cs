@@ -19,6 +19,24 @@ public sealed class OperatorTranslatorPhraseTests
     }
 
     [Test]
+    public void Phrase_WithVariableSearchTerm_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerm))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### @\w+
+            """
+        );
+    }
+
+    [Test]
     public void Phrase_WithBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
@@ -31,7 +49,7 @@ public sealed class OperatorTranslatorPhraseTests
     }
 
     [Test]
-    public void Phrase_WhenCalledWithParameters_TranslatesToSql()
+    public void Phrase_WithVariableSearchTermAndBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -44,6 +62,36 @@ public sealed class OperatorTranslatorPhraseTests
         sql.ShouldMatch(
             """
             p\.description ### @\w+::pdb\.boost\(2\)
+            """
+        );
+    }
+
+    [Test]
+    public void Phrase_WithSlop_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, "running shoes", Pdb.Slop(2)))
+            .ToQueryString();
+
+        sql.ShouldContain("p.description ### 'running shoes'::pdb.slop(2)");
+    }
+
+    [Test]
+    public void Phrase_WithVariableSearchTermAndSlop_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string searchTerm = "running shoes";
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerm, Pdb.Slop(2)))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ### @\w+::pdb\.slop\(2\)
             """
         );
     }

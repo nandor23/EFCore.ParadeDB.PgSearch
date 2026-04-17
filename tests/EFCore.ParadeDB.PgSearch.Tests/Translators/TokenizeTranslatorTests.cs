@@ -24,7 +24,9 @@ public sealed class TokenizeTranslatorTests
         using var context = new TestDbContext();
 
         var sql = context
-            .Products.Select(p => EF.Functions.TokenizeAsArray(p.Description, Tokenizer.Ngram(2, 5)))
+            .Products.Select(p =>
+                EF.Functions.TokenizeAsArray(p.Description, Tokenizer.Ngram(2, 5))
+            )
             .ToQueryString();
 
         sql.ShouldContain("p.description::pdb.ngram(2,5)::text[]");
@@ -37,7 +39,10 @@ public sealed class TokenizeTranslatorTests
 
         var sql = context
             .Products.Select(p =>
-                EF.Functions.TokenizeAsArray(p.Description, Tokenizer.Unicode(TokenFilter.AsciiFolding))
+                EF.Functions.TokenizeAsArray(
+                    p.Description,
+                    Tokenizer.Unicode(TokenFilter.AsciiFolding)
+                )
             )
             .ToQueryString();
 

@@ -61,7 +61,7 @@ public sealed class TokenizeTests
     {
         return TokenizerBuilders().Select(build => build(AllFilters));
     }
-    
+
     /*[Test]
     [MethodDataSource(nameof(Tokenizers))]
     public async Task Tokenize_Predicate_ExecutesSuccessfully(Tokenizer tokenizer)

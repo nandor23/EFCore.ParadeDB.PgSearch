@@ -27,8 +27,7 @@ using (var scope = app.Services.CreateScope())
     var boost = Pdb.Boost(1);
 
     var result = dbContext
-        .Products
-        .Where(p => EF.Functions.MatchDisjunction(p.Description, "asd"))
+        .Products.Where(p => EF.Functions.MatchDisjunction(p.Description, "asd"))
         .Select(p => EF.Functions.Score(p.Description))
         .ToList();
 
