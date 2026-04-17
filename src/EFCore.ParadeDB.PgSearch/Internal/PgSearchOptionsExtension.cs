@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,7 +14,11 @@ internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
 
     public void ApplyServices(IServiceCollection services)
     {
-        services.AddScoped<IMethodCallTranslatorPlugin, PgSearchTranslatorPlugin>();
+        services.AddScoped<IMethodCallTranslatorPlugin, PgSearchMethodCallTranslatorPlugin>();
+        services.AddScoped<IMemberTranslatorPlugin, PgSearchMemberTranslatorPlugin>();
+
+        // Auto-registers HasPostgresExtension("pg_search") - no OnModelCreating needed
+        services.AddSingleton<IConventionSetPlugin, PgSearchConventionSetPlugin>();
     }
 
     public void Validate(IDbContextOptions options) { }

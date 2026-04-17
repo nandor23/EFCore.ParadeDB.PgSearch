@@ -26,23 +26,6 @@ builder.Services.AddDbContextPool<AppDbContext>(opt =>
 });
 ```
 
-Register the `pg_search` extension in the DbContext.
-
-```csharp
-public class AppDbContext : DbContext
-{
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options) { }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
-
-        modelBuilder.HasPostgresExtension("pg_search");
-    }
-}
-```
-
 A complete example is also available in the [samples directory](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/tree/main/samples/EFCore.ParadeDB.PgSearch.Api) demonstrating PgSearch configuration and BM25 index creation.
 
 ## Function Mappings
@@ -82,7 +65,7 @@ var products = await dbContext
 ### Translates to:
 
 ```sql
-SELECT p."Id", p."Description", COALESCE(pdb.score(p."Id"), 0) AS "Score"
-FROM "Products" AS p
-WHERE p."Description" ||| 'with shoes and'::pdb.fuzzy(1)::pdb.boost(2.3)
+SELECT p.id AS "Id", p.description AS "Description", pdb.score(p.id) AS "Score"
+FROM products AS p
+WHERE p.description ||| 'with shoes and'::pdb.fuzzy(1)::pdb.boost(2.3)
 ```
