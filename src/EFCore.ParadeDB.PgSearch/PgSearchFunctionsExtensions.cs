@@ -184,7 +184,7 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Boost boost
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
-    
+
     [DbFunction]
     public static bool Phrase<TProperty>(
         this DbFunctions _,
@@ -200,7 +200,7 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
-    
+
     [DbFunction]
     public static bool Phrase<TProperty>(
         this DbFunctions _,
@@ -240,7 +240,7 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Fuzzy fuzzy
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
-    
+
     [DbFunction]
     public static bool Term<TProperty>(
         this DbFunctions _,
@@ -256,7 +256,7 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Boost boost
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
-    
+
     [DbFunction]
     public static bool Term<TProperty>(
         this DbFunctions _,
@@ -272,7 +272,7 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
-    
+
     [DbFunction]
     public static bool Term<TProperty>(
         this DbFunctions _,
@@ -321,13 +321,6 @@ public static class PgSearchFunctionsExtensions
         string endTag,
         int maxNumChars
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Snippet)));
-
-    // TODO: Multidimensional arrays are not yet supported: https://github.com/npgsql/efcore.pg/issues/314
-    /*[DbFunction("snippet_positions", "paradedb", IsBuiltIn = false)]
-    public static int[][] SnippetPositions<TProperty>(this DbFunctions _, TProperty property)
-    {
-        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(SnippetPositions)));
-    }*/
 
     [DbFunction]
     public static bool Proximity<TProperty>(

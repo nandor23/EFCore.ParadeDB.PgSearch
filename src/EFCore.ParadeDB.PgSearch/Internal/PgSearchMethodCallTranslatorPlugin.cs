@@ -3,16 +3,15 @@ using Microsoft.EntityFrameworkCore.Query;
 
 namespace EFCore.ParadeDB.PgSearch.Internal;
 
-internal sealed class PgSearchTranslatorPlugin : IMethodCallTranslatorPlugin
+internal sealed class PgSearchMethodCallTranslatorPlugin : IMethodCallTranslatorPlugin
 {
-    public PgSearchTranslatorPlugin(ISqlExpressionFactory sqlExpressionFactory)
+    public PgSearchMethodCallTranslatorPlugin(ISqlExpressionFactory sqlExpressionFactory)
     {
         Translators =
         [
             new OperatorTranslator(sqlExpressionFactory),
             new ScoreTranslator(sqlExpressionFactory),
             new SnippetTranslator(sqlExpressionFactory),
-            // new SnippetPositionsTranslator(sqlExpressionFactory),
             new ProximityTranslator(sqlExpressionFactory),
             new ProximityRegexTranslator(sqlExpressionFactory),
             new TokenizeTranslator(sqlExpressionFactory),
