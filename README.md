@@ -49,8 +49,8 @@ var products = await dbContext
         EF.Functions.MatchDisjunction(
             p.Description,
             "with shoes and",
-            Fuzzy.With(1),
-            Boost.With(2.3f)
+            Pdb.Fuzzy(1),
+            Pdb.Boost(2.3f)
         )
     )
     .Select(p => new
