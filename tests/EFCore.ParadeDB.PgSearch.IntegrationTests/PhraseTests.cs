@@ -18,7 +18,19 @@ public sealed class PhraseTests : TestBase
     }
 
     [Test]
-    public async Task Phrase_WithArrayParameter_ExecutesSuccessfully()
+    public async Task Phrase_WithInlineArray_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, new[] { "these", "shoes" }))
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Phrase_WithArrayVariable_ExecutesSuccessfully()
     {
         await using var context = DbFixture.CreateContext();
 
@@ -56,7 +68,21 @@ public sealed class PhraseTests : TestBase
     }
 
     [Test]
-    public async Task Phrase_WithArrayParameterAndSlop_ExecutesSuccessfully()
+    public async Task Phrase_WithInlineArrayAndSlop_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        var results = await context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, new[] { "these", "shoes" }, Pdb.Slop(2))
+            )
+            .ToListAsync();
+
+        results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task Phrase_WithArrayVariableAndSlop_ExecutesSuccessfully()
     {
         await using var context = DbFixture.CreateContext();
 
