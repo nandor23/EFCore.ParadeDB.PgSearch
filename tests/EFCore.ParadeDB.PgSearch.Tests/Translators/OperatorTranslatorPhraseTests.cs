@@ -38,7 +38,7 @@ public sealed class OperatorTranslatorPhraseTests
     }
 
     [Test]
-    public void Phrase_WhenCalledWithArrayParameter_TranslatesToSql()
+    public void Phrase_WithArrayParameter_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -116,7 +116,7 @@ public sealed class OperatorTranslatorPhraseTests
     }
 
     [Test]
-    public void Phrase_WhenCalledWithArrayParameterAndSlop_TranslatesToSql()
+    public void Phrase_WithArrayParameterAndSlop_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

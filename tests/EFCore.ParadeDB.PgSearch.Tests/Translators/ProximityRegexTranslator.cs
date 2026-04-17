@@ -33,7 +33,7 @@ public sealed class ProximityRegexTranslator
     }
 
     [Test]
-    public void ProximityRegex_WhenCalledWithParameters_TranslatesToSql()
+    public void ProximityRegex_WithParameters_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

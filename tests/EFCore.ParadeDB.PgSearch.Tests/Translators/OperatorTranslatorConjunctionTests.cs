@@ -39,7 +39,7 @@ public sealed class OperatorTranslatorConjunctionTests
     }
 
     [Test]
-    public void MatchConjunction_WhenCalledWithArrayParameter_TranslatesToSql()
+    public void MatchConjunction_WithArrayParameter_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -163,7 +163,7 @@ public sealed class OperatorTranslatorConjunctionTests
         typeof(OperatorTestDataSources),
         nameof(OperatorTestDataSources.FuzzyBoostTestData)
     )]
-    public void MatchConjunction_WhenCalledWithVariableSearchTermAndModifierParameters_TranslatesToSql(
+    public void MatchConjunction_WithVariableSearchTermAndModifierParameters_TranslatesToSql(
         Fuzzy fuzzy,
         Boost boost
     )

@@ -33,7 +33,7 @@ public sealed class ProximityTranslatorTests
     }
 
     [Test]
-    public void Proximity_WhenCalledWithParameters_TranslatesToSql()
+    public void Proximity_WithParameters_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -53,7 +53,7 @@ public sealed class ProximityTranslatorTests
     }
 
     [Test]
-    public void Proximity_WhenCalledWithParametersAndOrdered_TranslatesToSqlWithOrderedOperator()
+    public void Proximity_WithParametersAndOrdered_TranslatesToSqlWithOrderedOperator()
     {
         using var context = new TestDbContext();
 
