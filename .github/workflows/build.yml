@@ -28,23 +28,21 @@ jobs:
           dotnet-version: ${{ matrix.dotnet }}
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore build.slnf
 
       - name: Build
-        run: dotnet build --configuration Release --framework ${{ matrix.framework }} --no-restore
+        run: dotnet build build.slnf --configuration Release --framework ${{ matrix.framework }} --no-restore
 
       - name: Test unit
         run: |
-          dotnet test \
-            --project tests/EFCore.ParadeDB.PgSearch.Tests \
-            --configuration Release \
-            --framework ${{ matrix.framework }} \
-            --no-restore
-    
+          dotnet test --project tests/EFCore.ParadeDB.PgSearch.IntegrationTests \
+          --no-build \
+          --configuration Release \
+          --framework ${{ matrix.framework }}
+
       - name: Test integration
         run: |
-          dotnet test \
-            --project tests/EFCore.ParadeDB.PgSearch.IntegrationTests \
+          dotnet test --project tests/EFCore.ParadeDB.PgSearch.IntegrationTests \
+            --no-build \
             --configuration Release \
-            --framework ${{ matrix.framework }} \
-            --no-restore
+            --framework ${{ matrix.framework }}

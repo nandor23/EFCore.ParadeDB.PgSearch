@@ -1,0 +1,10 @@
+{
+  "solution": {
+    "path": "EFCore.ParadeDB.PgSearch.slnx",
+    "projects": [
+      "src/EFCore.ParadeDB.PgSearch/EFCore.ParadeDB.PgSearch.csproj",
+      "tests/EFCore.ParadeDB.PgSearch.Tests/EFCore.ParadeDB.PgSearch.Tests.csproj",
+      "tests/EFCore.ParadeDB.PgSearch.IntegrationTests/EFCore.ParadeDB.PgSearch.IntegrationTests.csproj"
+    ]
+  }
+}
