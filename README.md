@@ -65,7 +65,7 @@ var products = await dbContext
 ### Translates to:
 
 ```sql
-SELECT p."Id", p."Description", COALESCE(pdb.score(p."Id"), 0) AS "Score"
-FROM "Products" AS p
-WHERE p."Description" ||| 'with shoes and'::pdb.fuzzy(1)::pdb.boost(2.3)
+SELECT p.id AS "Id", p.description AS "Description", pdb.score(p.id) AS "Score"
+FROM products AS p
+WHERE p.description ||| 'with shoes and'::pdb.fuzzy(1)::pdb.boost(2.3)
 ```

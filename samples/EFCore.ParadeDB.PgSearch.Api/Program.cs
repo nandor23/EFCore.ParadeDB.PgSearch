@@ -29,7 +29,7 @@ using (var scope = app.Services.CreateScope())
 
     var result = dbContext
         .Products.Where(p => EF.Functions.Phrase(p.Description, "asd", Pdb.Const(1)))
-        .Select(p => EF.Functions.Score(p.Description))
+        .Select(p => EF.Functions.Score(p.Id))
         .ToList();
 
     Console.WriteLine(result);
