@@ -4,10 +4,10 @@ using Shouldly;
 
 namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 
-public sealed class ProximityRegexTranslator
+public sealed class ProximityRegexTranslatorTests
 {
     [Test]
-    public void ProximityRegex_TranslatesToSql()
+    public void ProximityRegex_WithInlineArguments_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -19,7 +19,7 @@ public sealed class ProximityRegexTranslator
     }
 
     [Test]
-    public void ProximityRegex_WithMatchLimit_TranslatesToSql()
+    public void ProximityRegex_WithInlineArgumentsAndMatchLimit_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -33,7 +33,7 @@ public sealed class ProximityRegexTranslator
     }
 
     [Test]
-    public void ProximityRegex_WhenCalledWithParameters_TranslatesToSql()
+    public void ProximityRegex_WithVariableArguments_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -55,7 +55,7 @@ public sealed class ProximityRegexTranslator
     }
 
     [Test]
-    public void ProximityRegex_WithMatchLimitAndParameters_TranslatesToSql()
+    public void ProximityRegex_WithVariableArgumentsAndMatchLimit_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

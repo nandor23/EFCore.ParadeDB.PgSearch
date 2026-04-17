@@ -7,7 +7,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class SnippetTranslatorTests
 {
     [Test]
-    public void Snippet_TranslatesToSql()
+    public void Snippet_WithDefaultArguments_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -17,7 +17,7 @@ public sealed class SnippetTranslatorTests
     }
 
     [Test]
-    public void Snippet_WithMaxNumChars_TranslatesToSql()
+    public void Snippet_WithInlineMaxNumChars_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -47,7 +47,7 @@ public sealed class SnippetTranslatorTests
     }
 
     [Test]
-    public void Snippet_WithTags_TranslatesToSql()
+    public void Snippet_WithInlineTags_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -78,7 +78,7 @@ public sealed class SnippetTranslatorTests
     }
 
     [Test]
-    public void Snippet_WithTagsAndMaxNumChars_TranslatesToSql()
+    public void Snippet_WithInlineTagsAndMaxNumChars_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

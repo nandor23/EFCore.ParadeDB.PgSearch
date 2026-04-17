@@ -7,7 +7,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class TokenizeTranslatorTests
 {
     [Test]
-    public void TokenizeAsArray_WithLiteral_TranslatesToSql()
+    public void TokenizeAsArray_WithLiteralTokenizer_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -19,7 +19,7 @@ public sealed class TokenizeTranslatorTests
     }
 
     [Test]
-    public void TokenizeAsArray_WithNgram_TranslatesToSql()
+    public void TokenizeAsArray_WithNgramTokenizer_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -33,7 +33,7 @@ public sealed class TokenizeTranslatorTests
     }
 
     [Test]
-    public void TokenizeAsArray_WithUnicodeAndFilter_TranslatesToSql()
+    public void TokenizeAsArray_WithUnicodeTokenizerAndAsciiFolding_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -50,7 +50,7 @@ public sealed class TokenizeTranslatorTests
     }
 
     [Test]
-    public void TokenizeAsArray_WithLinderaAndFilter_TranslatesToSql()
+    public void TokenizeAsArray_WithLinderaTokenizerAndTrim_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -67,7 +67,7 @@ public sealed class TokenizeTranslatorTests
     }
 
     [Test]
-    public void TokenizeAsArray_WithComplexTokenizer_TranslatesToSql()
+    public void TokenizeAsArray_WithNgramPrefixOnlyAndMultipleFilters_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

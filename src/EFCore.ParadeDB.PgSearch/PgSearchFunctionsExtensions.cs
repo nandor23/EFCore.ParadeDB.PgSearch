@@ -21,7 +21,7 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchDisjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
-        params string[] values
+        string[] values
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
 
@@ -38,8 +38,44 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchDisjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
         string value,
         [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Const @const
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Const @const
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
 
@@ -65,7 +101,7 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchConjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
-        params string[] value
+        string[] values
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
 
@@ -82,8 +118,44 @@ public static class PgSearchFunctionsExtensions
     public static bool MatchConjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
         string value,
         [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Const @const
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Const @const
     ) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
 
@@ -102,11 +174,39 @@ public static class PgSearchFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
+    public static bool Phrase<TProperty>(this DbFunctions _, TProperty property, string[] values) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
     public static bool Phrase<TProperty>(
         this DbFunctions _,
         TProperty property,
         string value,
         [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+    
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Const @const
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+    
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
@@ -118,7 +218,19 @@ public static class PgSearchFunctionsExtensions
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Slop slop
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
     public static bool Term<TProperty>(this DbFunctions _, TProperty property, string value) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+
+    [DbFunction]
+    public static bool Term<TProperty>(this DbFunctions _, TProperty property, string[] values) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
     [DbFunction]
@@ -128,6 +240,14 @@ public static class PgSearchFunctionsExtensions
         string value,
         [NotParameterized] Fuzzy fuzzy
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
     [DbFunction]
     public static bool Term<TProperty>(
@@ -135,6 +255,30 @@ public static class PgSearchFunctionsExtensions
         TProperty property,
         string value,
         [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Const @const
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+    
+    [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Const @const
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
     [DbFunction]
@@ -214,6 +358,11 @@ public static class PgSearchFunctionsExtensions
         int matchLimit
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
 
+    /*
+     TODO https://docs.paradedb.com/documentation/full-text/phrase#using-a-custom-tokenizer
+     If the tokenizer produces an empty result, the query throws an exception.
+     TODO Keep this internal for now; expose publicly only if that behavior changes.
+   */
     /*[DbFunction]
     public static string Tokenize<TProperty>(
         this DbFunctions _,

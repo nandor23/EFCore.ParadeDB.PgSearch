@@ -7,7 +7,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class ProximityTranslatorTests
 {
     [Test]
-    public void Proximity_TranslatesToSql()
+    public void Proximity_WithInlineArguments_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -19,7 +19,7 @@ public sealed class ProximityTranslatorTests
     }
 
     [Test]
-    public void Proximity_WhenOrdered_TranslatesToSqlWithOrderedOperator()
+    public void Proximity_WithInlineArgumentsAndOrdered_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -33,7 +33,7 @@ public sealed class ProximityTranslatorTests
     }
 
     [Test]
-    public void Proximity_WhenCalledWithParameters_TranslatesToSql()
+    public void Proximity_WithVariableArguments_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -53,7 +53,7 @@ public sealed class ProximityTranslatorTests
     }
 
     [Test]
-    public void Proximity_WhenCalledWithParametersAndOrdered_TranslatesToSqlWithOrderedOperator()
+    public void Proximity_WithVariableArgumentsAndOrdered_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

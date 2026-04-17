@@ -30,15 +30,9 @@ public sealed class TokenizeTests : TestBase
         yield return filters => Tokenizer.Simple(filters);
         yield return filters => Tokenizer.RegexPattern(@"\w+", filters);
         yield return filters => Tokenizer.ChineseCompatible(filters);
-        yield return filters => Tokenizer.Lindera(LinderaLanguage.Chinese, filters);
         yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, filters);
-        yield return filters => Tokenizer.Lindera(LinderaLanguage.Korean, filters);
-        yield return filters => Tokenizer.Lindera(LinderaLanguage.Chinese, true, filters);
-        yield return filters => Tokenizer.Lindera(LinderaLanguage.Chinese, false, filters);
         yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, true, filters);
         yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, false, filters);
-        yield return filters => Tokenizer.Lindera(LinderaLanguage.Korean, true, filters);
-        yield return filters => Tokenizer.Lindera(LinderaLanguage.Korean, false, filters);
         yield return filters => Tokenizer.Icu(filters);
         yield return filters => Tokenizer.SourceCode(filters);
     }
@@ -116,5 +110,69 @@ public sealed class TokenizeTests : TestBase
             .ToListAsync();
 
         results.ShouldNotBeNull();
+    }
+
+    [Test]
+    public async Task TokenizeAsArray_WithRemoveStopwords_AllLanguages_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        foreach (var language in Enum.GetValues<StopwordsLanguage>())
+        {
+            var results = await context
+                .Products.Select(p =>
+                    EF.Functions.TokenizeAsArray(
+                        p.Description,
+                        Tokenizer.Unicode(TokenFilter.RemoveStopwords(language))
+                    )
+                )
+                .ToListAsync();
+
+            results.ShouldNotBeNull();
+        }
+    }
+
+    [Test]
+    public async Task TokenizeAsArray_WithStemmer_AllLanguages_ExecutesSuccessfully()
+    {
+        await using var context = DbFixture.CreateContext();
+
+        foreach (var language in Enum.GetValues<StemmerLanguage>())
+        {
+            var results = await context
+                .Products.Select(p =>
+                    EF.Functions.TokenizeAsArray(
+                        p.Description,
+                        Tokenizer.Unicode(TokenFilter.Stemmer(language))
+                    )
+                )
+                .ToListAsync();
+
+            results.ShouldNotBeNull();
+        }
+    }
+
+    [Test]
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task TokenizeAsArray_WithLindera_AllLanguages_ExecutesSuccessfully(
+        bool keepWhitespace
+    )
+    {
+        await using var context = DbFixture.CreateContext();
+
+        foreach (var language in Enum.GetValues<LinderaLanguage>())
+        {
+            var results = await context
+                .Products.Select(p =>
+                    EF.Functions.TokenizeAsArray(
+                        p.Description,
+                        Tokenizer.Lindera(language, keepWhitespace)
+                    )
+                )
+                .ToListAsync();
+
+            results.ShouldNotBeNull();
+        }
     }
 }
