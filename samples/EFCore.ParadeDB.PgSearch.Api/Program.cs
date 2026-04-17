@@ -10,6 +10,7 @@ builder.Services.AddDbContextPool<AppDbContext>(options =>
 {
     options
         .UseNpgsql(builder.Configuration.GetConnectionString("AppDatabase"), o => o.UsePgSearch())
+        .EnableSensitiveDataLogging()
         .UseSnakeCaseNamingConvention();
 });
 
@@ -27,7 +28,7 @@ using (var scope = app.Services.CreateScope())
     var boost = Pdb.Boost(1);
 
     var result = dbContext
-        .Products.Where(p => EF.Functions.Phrase(p.Description, value))
+        .Products.Where(p => EF.Functions.Phrase(p.Description, value, Pdb.Slop(1)))
         .Select(p => EF.Functions.Score(p.Description))
         .ToList();
 

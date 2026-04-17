@@ -226,6 +226,11 @@ public static class PgSearchFunctionsExtensions
         int matchLimit
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
 
+     /*
+      TODO https://docs.paradedb.com/documentation/full-text/phrase#using-a-custom-tokenizer
+      If the tokenizer produces an empty result, the query throws an exception.
+      TODO Keep this internal for now; expose publicly only if that behavior changes.
+    */
     /*[DbFunction]
     public static string Tokenize<TProperty>(
         this DbFunctions _,
