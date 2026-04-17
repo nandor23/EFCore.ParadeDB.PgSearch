@@ -100,7 +100,9 @@ public sealed class MatchTests : TestBase
         await using var context = DbFixture.CreateContext();
 
         var results = await context
-            .Products.Where(p => EF.Functions.MatchConjunction(p.Description, new[] {"these", "shoes"}))
+            .Products.Where(p =>
+                EF.Functions.MatchConjunction(p.Description, new[] { "these", "shoes" })
+            )
             .ToListAsync();
 
         results.ShouldNotBeNull();

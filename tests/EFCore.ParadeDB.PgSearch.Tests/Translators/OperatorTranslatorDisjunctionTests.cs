@@ -39,7 +39,7 @@ public sealed class OperatorTranslatorDisjunctionTests
     }
 
     [Test]
-    public void MatchDisjunction_WithArrayParameter_TranslatesToSql()
+    public void MatchDisjunction_WithArrayVariable_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -52,6 +52,24 @@ public sealed class OperatorTranslatorDisjunctionTests
         sql.ShouldMatch(
             """
             p\.description ||| @\w+
+            """
+        );
+    }
+
+    [Test]
+    public void MatchDisjunctionWithInlineArray_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchDisjunction(p.Description, new[] { "running", "shoes" })
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| ARRAY\['running','shoes'\]
             """
         );
     }

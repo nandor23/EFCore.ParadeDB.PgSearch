@@ -38,7 +38,7 @@ public sealed class OperatorTranslatorPhraseTests
     }
 
     [Test]
-    public void Phrase_WithArrayParameter_TranslatesToSql()
+    public void Phrase_WithArrayVariable_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -50,7 +50,23 @@ public sealed class OperatorTranslatorPhraseTests
 
         sql.ShouldMatch(
             """
-            p\.description ### @\w+
+            p\.description ||| @\w+
+            """
+        );
+    }
+
+    [Test]
+    public void Phrase_WithInlineArray_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Phrase(p.Description, new[] { "running", "shoes" }))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description ||| ARRAY\['running','shoes'\]
             """
         );
     }
@@ -126,8 +142,6 @@ public sealed class OperatorTranslatorPhraseTests
             .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerms, Pdb.Slop(2)))
             .ToQueryString();
 
-        sql.ShouldMatch(
-            $"""p.description ### @\w+::{Regex.Escape(Pdb.Slop(2).ToString())}"""
-        );
+        sql.ShouldMatch($"""p.description ### @\w+::{Regex.Escape(Pdb.Slop(2).ToString())}""");
     }
 }

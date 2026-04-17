@@ -1,6 +1,3 @@
 namespace EFCore.ParadeDB.PgSearch.IntegrationTests;
 
-public class TokenFilterTests
-{
-    
-}
+public class TokenFilterTests { }

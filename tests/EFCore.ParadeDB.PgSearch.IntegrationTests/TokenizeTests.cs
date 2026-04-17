@@ -111,7 +111,7 @@ public sealed class TokenizeTests : TestBase
 
         results.ShouldNotBeNull();
     }
-    
+
     [Test]
     public async Task TokenizeAsArray_WithRemoveStopwords_AllLanguages_ExecutesSuccessfully()
     {
@@ -151,11 +151,13 @@ public sealed class TokenizeTests : TestBase
             results.ShouldNotBeNull();
         }
     }
-    
+
     [Test]
     [Arguments(true)]
     [Arguments(false)]
-    public async Task TokenizeAsArray_WithLindera_AllLanguages_ExecutesSuccessfully(bool keepWhitespace)
+    public async Task TokenizeAsArray_WithLindera_AllLanguages_ExecutesSuccessfully(
+        bool keepWhitespace
+    )
     {
         await using var context = DbFixture.CreateContext();
 

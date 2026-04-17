@@ -39,6 +39,40 @@ public sealed class OperatorTranslatorTermTests
     }
 
     [Test]
+    public void Term_WithArrayVariable_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        string[] searchTerms = ["running", "shoes"];
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, searchTerms))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === @\w+
+            """
+        );
+    }
+
+    [Test]
+    public void Term_WithInlineArray_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p => EF.Functions.Term(p.Description, new[] { "running", "shoes" }))
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description === ARRAY\['running','shoes'\]
+            """
+        );
+    }
+
+    [Test]
     public void Term_WithFuzzy_TranslatesToSql()
     {
         using var context = new TestDbContext();

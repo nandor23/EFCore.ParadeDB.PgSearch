@@ -39,7 +39,7 @@ public sealed class OperatorTranslatorConjunctionTests
     }
 
     [Test]
-    public void MatchConjunction_WithArrayParameter_TranslatesToSql()
+    public void MatchConjunction_WithArrayVariable_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -52,6 +52,24 @@ public sealed class OperatorTranslatorConjunctionTests
         sql.ShouldMatch(
             """
             p\.description &&& @\w+
+            """
+        );
+    }
+
+    [Test]
+    public void MatchConjunction_WithInlineArray_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.MatchConjunction(p.Description, new[] { "running", "shoes" })
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch(
+            """
+            p\.description &&& ARRAY\['running','shoes'\]
             """
         );
     }
@@ -163,7 +181,7 @@ public sealed class OperatorTranslatorConjunctionTests
         typeof(OperatorTestDataSources),
         nameof(OperatorTestDataSources.FuzzyBoostTestData)
     )]
-    public void MatchConjunction_WithVariableSearchTermAndModifierParameters_TranslatesToSql(
+    public void MatchConjunction_WithVariableSearchTermAndModifiers_TranslatesToSql(
         Fuzzy fuzzy,
         Boost boost
     )
