@@ -9,7 +9,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class OperatorTranslatorTermTests
 {
     [Test]
-    public void Term_TranslatesToSql()
+    public void Term_WithInlineSearchTerm_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -147,7 +147,7 @@ public sealed class OperatorTranslatorTermTests
     }
 
     [Test]
-    public void Term_WithVariableSearchTermFuzzyAndBoost_TranslatesToSql()
+    public void Term_WithVariableSearchTermAndFuzzyAndBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

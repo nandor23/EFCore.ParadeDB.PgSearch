@@ -9,7 +9,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class OperatorTranslatorDisjunctionTests
 {
     [Test]
-    public void MatchDisjunction_TranslatesToSql()
+    public void MatchDisjunction_WithInlineSearchTerm_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -57,7 +57,7 @@ public sealed class OperatorTranslatorDisjunctionTests
     }
 
     [Test]
-    public void MatchDisjunctionWithInlineArray_TranslatesToSql()
+    public void MatchDisjunction_WithInlineArray_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -101,7 +101,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldMatch($"""p.description ||| @\w+::{Regex.Escape(Pdb.Fuzzy(2).ToString())}""");
+        sql.ShouldMatch("""p.description ||| @\w+::pdb\.fuzzy\(2\)""");
     }
 
     [Test]
@@ -131,7 +131,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldMatch($"""p.description ||| @\w+::{Regex.Escape(Pdb.Boost(2).ToString())}""");
+        sql.ShouldMatch("""p.description ||| @\w+::pdb\.boost\(2\)""");
     }
 
     [Test]
@@ -154,7 +154,7 @@ public sealed class OperatorTranslatorDisjunctionTests
     }
 
     [Test]
-    public void MatchDisjunction_WithVariableSearchTermFuzzyAndBoost_TranslatesToSql()
+    public void MatchDisjunction_WithVariableSearchTermAndFuzzyAndBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -166,14 +166,7 @@ public sealed class OperatorTranslatorDisjunctionTests
             )
             .ToQueryString();
 
-        var fuzzySql = Regex.Escape(Pdb.Fuzzy(2).ToString());
-        var boostSql = Regex.Escape(Pdb.Boost(3).ToString());
-
-        var pattern = $"""
-            p\.description ||| @\w+::{fuzzySql}::{boostSql}
-            """;
-
-        sql.ShouldMatch(pattern);
+        sql.ShouldMatch("""p\.description ||| @\w+::pdb\.fuzzy\(2\)::pdb\.boost\(3\)""");
     }
 
     [Test]

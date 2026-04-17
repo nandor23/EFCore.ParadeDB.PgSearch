@@ -24,11 +24,11 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.Migrate();
 
-    var value = "description_simple";
+    var value = new[] { "asd" };
     var boost = Pdb.Boost(1);
 
     var result = dbContext
-        .Products.Where(p => EF.Functions.Term(p.Description, new[] {"asd"}))
+        .Products.Where(p => EF.Functions.Phrase(p.Description, new[] { "asd" }, Pdb.Slop(1)))
         .Select(p => EF.Functions.Score(p.Description))
         .ToList();
 

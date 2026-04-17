@@ -7,7 +7,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class AliasTranslatorTests
 {
     [Test]
-    public void Alias_TranslatesToSql()
+    public void Alias_WithInlineAlias_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -19,7 +19,7 @@ public sealed class AliasTranslatorTests
     }
 
     [Test]
-    public void Alias_WhenCalledWithParameters_TranslatesToSqlWithoutParameterizingAliasName()
+    public void Alias_WithVariableAlias_TranslatesToSql()
     {
         using var context = new TestDbContext();
 

@@ -8,7 +8,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class OperatorTranslatorPhraseTests
 {
     [Test]
-    public void Phrase_TranslatesToSql()
+    public void Phrase_WithInlineSearchTerm_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -50,7 +50,7 @@ public sealed class OperatorTranslatorPhraseTests
 
         sql.ShouldMatch(
             """
-            p\.description ||| @\w+
+            p\.description ### @\w+
             """
         );
     }
@@ -66,7 +66,7 @@ public sealed class OperatorTranslatorPhraseTests
 
         sql.ShouldMatch(
             """
-            p\.description ||| ARRAY\['running','shoes'\]
+            p\.description ### ARRAY\['running','shoes'\]
             """
         );
     }
@@ -132,7 +132,7 @@ public sealed class OperatorTranslatorPhraseTests
     }
 
     [Test]
-    public void Phrase_WithArrayParameterAndSlop_TranslatesToSql()
+    public void Phrase_WithArrayVariableAndSlop_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -142,6 +142,20 @@ public sealed class OperatorTranslatorPhraseTests
             .Products.Where(p => EF.Functions.Phrase(p.Description, searchTerms, Pdb.Slop(2)))
             .ToQueryString();
 
-        sql.ShouldMatch($"""p.description ### @\w+::{Regex.Escape(Pdb.Slop(2).ToString())}""");
+        sql.ShouldMatch("""p\.description ### @\w+::pdb\.slop\(2\)""");
+    }
+
+    [Test]
+    public void Phrase_WithInlineArrayAndSlop_TranslatesToSql()
+    {
+        using var context = new TestDbContext();
+
+        var sql = context
+            .Products.Where(p =>
+                EF.Functions.Phrase(p.Description, new[] { "running", "shoes" }, Pdb.Slop(2))
+            )
+            .ToQueryString();
+
+        sql.ShouldMatch("""p\.description ### ARRAY\['running','shoes'\]::pdb\.slop\(2\)""");
     }
 }

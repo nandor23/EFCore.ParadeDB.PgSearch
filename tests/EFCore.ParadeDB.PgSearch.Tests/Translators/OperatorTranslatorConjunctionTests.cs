@@ -9,7 +9,7 @@ namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
 public sealed class OperatorTranslatorConjunctionTests
 {
     [Test]
-    public void MatchConjunction_TranslatesToSql()
+    public void MatchConjunction_WithInlineSearchTerm_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -101,7 +101,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldMatch($"""p.description &&& @\w+::{Regex.Escape(Pdb.Fuzzy(2).ToString())}""");
+        sql.ShouldMatch("""p.description &&& @\w+::pdb\.fuzzy\(2\)""");
     }
 
     [Test]
@@ -131,7 +131,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        sql.ShouldMatch($"""p.description &&& @\w+::{Regex.Escape(Pdb.Boost(2).ToString())}""");
+        sql.ShouldMatch("""p.description &&& @\w+::pdb\.boost\(2\)""");
     }
 
     [Test]
@@ -154,7 +154,7 @@ public sealed class OperatorTranslatorConjunctionTests
     }
 
     [Test]
-    public void MatchConjunction_WithVariableSearchTermFuzzyAndBoost_TranslatesToSql()
+    public void MatchConjunction_WithVariableSearchTermAndFuzzyAndBoost_TranslatesToSql()
     {
         using var context = new TestDbContext();
 
@@ -166,14 +166,7 @@ public sealed class OperatorTranslatorConjunctionTests
             )
             .ToQueryString();
 
-        var fuzzySql = Regex.Escape(Pdb.Fuzzy(2).ToString());
-        var boostSql = Regex.Escape(Pdb.Boost(3).ToString());
-
-        var pattern = $"""
-            p\.description &&& @\w+::{fuzzySql}::{boostSql}
-            """;
-
-        sql.ShouldMatch(pattern);
+        sql.ShouldMatch("""p\.description &&& @\w+::pdb\.fuzzy\(2\)::pdb\.boost\(3\)""");
     }
 
     [Test]
@@ -181,7 +174,7 @@ public sealed class OperatorTranslatorConjunctionTests
         typeof(OperatorTestDataSources),
         nameof(OperatorTestDataSources.FuzzyBoostTestData)
     )]
-    public void MatchConjunction_WithVariableSearchTermAndModifiers_TranslatesToSql(
+    public void MatchConjunction_WithVariableSearchTermAndModifierParameters_TranslatesToSql(
         Fuzzy fuzzy,
         Boost boost
     )
