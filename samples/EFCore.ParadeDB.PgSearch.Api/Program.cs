@@ -1,5 +1,6 @@
 using EFCore.ParadeDB.PgSearch;
 using EFCore.ParadeDB.PgSearch.Api.Persistence;
+using EFCore.ParadeDB.PgSearch.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
