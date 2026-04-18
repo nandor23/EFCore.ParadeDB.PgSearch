@@ -5,8 +5,6 @@
   <br>
 </h1>
 
-
-
 <h4 align="center">Entity Framework Core extension for <a href="https://www.paradedb.com" target="_blank">ParadeDB</a> pg_search</h4>
 
 <p align="center">
