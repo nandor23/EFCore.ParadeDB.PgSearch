@@ -1,11 +1,19 @@
 <h1 align="center">
-    <img alt="Logo" src="logo/pgsearch-logo.svg" width="140"/>
-    <br>
-    EFCore.ParadeDB.PgSearch
+    <img alt="Logo" src="logo/pgsearch-logo.svg" width="150"/>
+  <br>
+  EFCore.ParadeDB.PgSearch
+  <br>
 </h1>
 
-[![Build](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/build.yml)
-[![License](https://img.shields.io/github/license/nandor23/EFCore.ParadeDB.PgSearch)](https://opensource.org/license/mit)
+
+
+<h4 align="center">Entity Framework Core extension for <a href="https://www.paradedb.com" target="_blank">ParadeDB</a> pg_search</h4>
+
+<p align="center">
+  <a href="https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/ci.yml"><img src="https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/ci.yml/badge.svg?branch=main" alt="Build"></a>
+  <img src="https://img.shields.io/nuget/dt/EFCore.ParadeDB.PgSearch?color=%235c6bc0" alt="NuGet Downloads">
+  <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/github/license/nandor23/EFCore.ParadeDB.PgSearch?color=%231e8e7e" alt="License"></a>
+</p>
 
 EFCore.ParadeDB.PgSearch adds [ParadeDB](https://www.paradedb.com/)'s pg_search extension support to [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/index.html?tabs=onconfiguring). 
 It exposes ParadeDB search functions through **EF.Functions** API for LINQ-based full-text search queries. BM25 index creation must be done via raw SQL. See the [EF Core documentation](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing?tabs=dotnet-core-cli#adding-raw-sql) for more details on adding raw SQL to migrations.
