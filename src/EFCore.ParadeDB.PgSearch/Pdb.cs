@@ -1,4 +1,4 @@
-using EFCore.ParadeDB.PgSearch.Internal.Modifiers;
+using EFCore.ParadeDB.PgSearch.Modifiers;
 
 namespace EFCore.ParadeDB.PgSearch;
 

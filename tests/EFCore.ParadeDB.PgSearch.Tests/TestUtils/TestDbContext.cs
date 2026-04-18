@@ -1,3 +1,4 @@
+using EFCore.ParadeDB.PgSearch.Extensions;
 using EFCore.ParadeDB.PgSearch.Tests.TestModels;
 using Microsoft.EntityFrameworkCore;
 

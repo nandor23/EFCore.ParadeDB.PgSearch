@@ -14,7 +14,8 @@
   <Folder Name="/.solution/actions/">
     <File Path=".github\workflows\build.yml" />
     i
-    <File Path=".github\workflows\ci.yml" /><File Path=".github\workflows\publish.yml" />
+    <File Path=".github\workflows\ci.yml" />
+    <File Path=".github\workflows\publish.yml" />
   </Folder>
   <Folder Name="/samples/">
     <Project Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj" />
