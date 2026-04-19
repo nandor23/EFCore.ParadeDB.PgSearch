@@ -130,7 +130,7 @@ public sealed class TokenizerTests
     {
         Tokenizer.Icu().ToString().ShouldBe("pdb.icu");
     }
-    
+
     [Test]
     public void Jieba_ProducesCorrectSql()
     {

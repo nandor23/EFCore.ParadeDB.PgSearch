@@ -115,7 +115,7 @@ public sealed class Tokenizer
     public static Tokenizer Icu(params TokenFilter[] filters) => new("icu", [], filters);
 
     public static Tokenizer Jieba(params TokenFilter[] filters) => new("jieba", [], filters);
-    
+
     public static Tokenizer SourceCode(params TokenFilter[] filters) =>
         new("source_code", [], filters);
 
