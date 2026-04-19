@@ -5,8 +5,16 @@ Entity Framework Core extension for [ParadeDB](https://www.paradedb.com) pg_sear
 [![Build](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/nandor23/EFCore.ParadeDB.PgSearch?color=%231e8e7e)](https://opensource.org/license/mit)
 
-EFCore.ParadeDB.PgSearch adds [ParadeDB](https://www.paradedb.com/)'s pg_search extension support to [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/index.html?tabs=onconfiguring).
-It exposes ParadeDB search functions through **EF.Functions** API for LINQ-based full-text search queries. BM25 index creation must be done via raw SQL. See the [EF Core documentation](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing?tabs=dotnet-core-cli#adding-raw-sql) for more details on adding raw SQL to migrations.
+EFCore.ParadeDB.PgSearch adds support for ParadeDB's pg_search extension to [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/index.html?tabs=onconfiguring), exposing ParadeDB search functions through the **EF.Functions** API for LINQ-based full-text search queries.
+BM25 index creation must be defined using raw SQL. See the [EF Core documentation](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing?tabs=dotnet-core-cli#adding-raw-sql) for details on adding raw SQL to migrations.
+
+## Requirements & Compatibility
+
+| Component  | Supported                     |
+|------------|-------------------------------|
+| .NET       | 8, 9, 10                      |
+| ParadeDB   | 0.23.0+                       |
+| PostgreSQL | 15+ (with ParadeDB extension) |
 
 ## Configuration
 
