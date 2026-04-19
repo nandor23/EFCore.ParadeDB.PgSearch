@@ -59,6 +59,29 @@ public sealed class TokenizerTests
     }
 
     [Test]
+    [Arguments(2, 5, "pdb.edge_ngram(2,5)")]
+    [Arguments(1, 3, "pdb.edge_ngram(1,3)")]
+    public void EdgeNgram_ProducesCorrectSql(int min, int max, string expected)
+    {
+        Tokenizer.EdgeNgram(min, max).ToString().ShouldBe(expected);
+    }
+
+    [Test]
+    [Arguments(TokenChars.Letter, "pdb.edge_ngram(2,5, 'token_chars=letter')")]
+    [Arguments(
+        TokenChars.Letter | TokenChars.Digit,
+        "pdb.edge_ngram(2,5, 'token_chars=letter,digit')"
+    )]
+    [Arguments(
+        TokenChars.Letter | TokenChars.Digit | TokenChars.Punctuation,
+        "pdb.edge_ngram(2,5, 'token_chars=letter,digit,punctuation')"
+    )]
+    public void EdgeNgram_WithTokenChars_ProducesCorrectSql(TokenChars tokenChars, string expected)
+    {
+        Tokenizer.EdgeNgram(2, 5, tokenChars).ToString().ShouldBe(expected);
+    }
+
+    [Test]
     public void Simple_ProducesCorrectSql()
     {
         Tokenizer.Simple().ToString().ShouldBe("pdb.simple");
@@ -106,6 +129,12 @@ public sealed class TokenizerTests
     public void Icu_ProducesCorrectSql()
     {
         Tokenizer.Icu().ToString().ShouldBe("pdb.icu");
+    }
+    
+    [Test]
+    public void Jieba_ProducesCorrectSql()
+    {
+        Tokenizer.Jieba().ToString().ShouldBe("pdb.jieba");
     }
 
     [Test]

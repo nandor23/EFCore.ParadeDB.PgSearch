@@ -28,6 +28,38 @@ public sealed class TokenizeTests : TestBase
         yield return filters => Tokenizer.Ngram(2, 5, filters);
         yield return filters => Tokenizer.NgramPrefixOnly(2, 5, filters);
         yield return filters => Tokenizer.NgramPositions(3, filters);
+        yield return filters => Tokenizer.EdgeNgram(2, 5, filters);
+        yield return filters => Tokenizer.EdgeNgram(2, 5, TokenChars.Letter, filters);
+        yield return filters =>
+            Tokenizer.EdgeNgram(2, 5, TokenChars.Letter | TokenChars.Digit, filters);
+        yield return filters =>
+            Tokenizer.EdgeNgram(
+                2,
+                5,
+                TokenChars.Letter | TokenChars.Digit | TokenChars.Punctuation,
+                filters
+            );
+        yield return filters =>
+            Tokenizer.EdgeNgram(
+                2,
+                5,
+                TokenChars.Letter
+                    | TokenChars.Digit
+                    | TokenChars.Punctuation
+                    | TokenChars.Whitespace,
+                filters
+            );
+        yield return filters =>
+            Tokenizer.EdgeNgram(
+                2,
+                5,
+                TokenChars.Letter
+                    | TokenChars.Digit
+                    | TokenChars.Punctuation
+                    | TokenChars.Whitespace
+                    | TokenChars.Symbol,
+                filters
+            );
         yield return filters => Tokenizer.Simple(filters);
         yield return filters => Tokenizer.RegexPattern(@"\w+", filters);
         yield return filters => Tokenizer.ChineseCompatible(filters);
@@ -35,6 +67,7 @@ public sealed class TokenizeTests : TestBase
         yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, true, filters);
         yield return filters => Tokenizer.Lindera(LinderaLanguage.Japanese, false, filters);
         yield return filters => Tokenizer.Icu(filters);
+        yield return filters => Tokenizer.Jieba(filters);
         yield return filters => Tokenizer.SourceCode(filters);
     }
 
