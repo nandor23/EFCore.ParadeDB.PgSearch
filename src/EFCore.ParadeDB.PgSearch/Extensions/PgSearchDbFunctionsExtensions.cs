@@ -332,25 +332,6 @@ public static class PgSearchDbFunctionsExtensions
         bool ordered = false
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Proximity)));
 
-    [DbFunction]
-    public static bool ProximityRegex<TProperty>(
-        this DbFunctions _,
-        TProperty property,
-        [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
-        string token,
-        int maxDistance
-    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
-
-    [DbFunction]
-    public static bool ProximityRegex<TProperty>(
-        this DbFunctions _,
-        TProperty property,
-        [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
-        string token,
-        int maxDistance,
-        int matchLimit
-    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
-
     /*
      TODO https://docs.paradedb.com/documentation/full-text/phrase#using-a-custom-tokenizer
      If the tokenizer produces an empty result, the query throws an exception.

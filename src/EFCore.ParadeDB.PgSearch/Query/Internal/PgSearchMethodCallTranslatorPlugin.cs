@@ -13,7 +13,6 @@ internal sealed class PgSearchMethodCallTranslatorPlugin : IMethodCallTranslator
             new ScoreTranslator(sqlExpressionFactory),
             new SnippetTranslator(sqlExpressionFactory),
             new ProximityTranslator(sqlExpressionFactory),
-            new ProximityRegexTranslator(sqlExpressionFactory),
             new TokenizeTranslator(sqlExpressionFactory),
             new AliasTranslator(sqlExpressionFactory),
         ];
