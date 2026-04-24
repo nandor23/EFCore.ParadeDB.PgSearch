@@ -33,7 +33,7 @@ Console.WriteLine(new string('=', 60));
 
 string[] queries =
 [
-    "run'",
+    "run",
     "runn",
     "running",
     "wire",
@@ -48,18 +48,28 @@ string[] queries =
 foreach (var query in queries)
 {
     Console.WriteLine($"\nUser types: '{query}' ->");
-    
-    var results = await db.Database
-        .SqlQuery<AutocompleteResult>($"""
-                                       SELECT a.id, a.description, a.category, a.rating, a.in_stock,
-                                              pdb.score(a.id) AS search_score
-                                       FROM autocomplete_items AS a
-                                       WHERE a.id @@@ pdb.parse({query}, lenient => true)
-                                       ORDER BY pdb.score(a.id) DESC
-                                       LIMIT 5
-                                       """)
-        .ToListAsync();
 
+    var parseQuery = $"description_ngram:{query}";
+
+    var results = db
+        .AutocompleteItems
+        .FromSqlInterpolated($"""
+                              SELECT * FROM autocomplete_items
+                              WHERE id @@@ pdb.parse({parseQuery})
+                              """)
+        .Select(x => new
+        {
+            x.Id,
+            x.Description,
+            x.Category,
+            x.Rating,
+            x.InStock,
+            SearchScore = EF.Functions.Score(x.Id),
+        })
+        .OrderByDescending(x => x.SearchScore)
+        .Take(5)
+        .ToList();
+    
     if (results.Count == 0)
     {
         Console.WriteLine("  (no results)");
@@ -69,17 +79,9 @@ foreach (var query in queries)
     foreach (var item in results)
     {
         var desc = item.Description.Length > 50 ? item.Description[..47] + "..." : item.Description;
-        Console.WriteLine($"  [{item.Category}] {desc} (score: {item.SearchScore:F2})");
+
+        Console.WriteLine($"  - {desc} (score: {item.SearchScore:F2})");
     }
 }
 
 Console.WriteLine("\nDone.");
-
-public record AutocompleteResult(
-    int Id,
-    string Description,
-    string Category,
-    decimal Rating,
-    bool InStock,
-    double SearchScore
-);
