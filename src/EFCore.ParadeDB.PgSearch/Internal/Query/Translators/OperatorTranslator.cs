@@ -34,6 +34,7 @@ internal sealed class OperatorTranslator : IMethodCallTranslator
             nameof(PgSearchDbFunctionsExtensions.MatchConjunction) => PdbOperatorType.Conjunction,
             nameof(PgSearchDbFunctionsExtensions.Phrase) => PdbOperatorType.Phrase,
             nameof(PgSearchDbFunctionsExtensions.Term) => PdbOperatorType.Term,
+            nameof(PgSearchDbFunctionsExtensions.Match) => PdbOperatorType.Function,
             _ => null,
         };
 

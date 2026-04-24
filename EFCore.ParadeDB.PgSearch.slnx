@@ -16,8 +16,8 @@
     <File Path=".github\workflows\ci.yml" />
     <File Path=".github\workflows\publish.yml" />
   </Folder>
-  <Folder Name="/samples/">
-    <Project Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj" />
+  <Folder Name="/examples/">
+    <Project Path="examples/Autocomplete/Autocomplete.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj" />
