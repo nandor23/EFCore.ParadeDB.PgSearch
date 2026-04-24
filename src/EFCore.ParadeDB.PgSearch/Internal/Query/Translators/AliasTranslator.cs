@@ -1,19 +1,19 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using EFCore.ParadeDB.PgSearch.Extensions;
-using EFCore.ParadeDB.PgSearch.Storage.Internal;
+using EFCore.ParadeDB.PgSearch.Internal.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.ParadeDB.PgSearch.Query.Internal.Translators;
+namespace EFCore.ParadeDB.PgSearch.Internal.Query.Translators;
 
-internal sealed class TokenizeTranslator : IMethodCallTranslator
+internal sealed class AliasTranslator : IMethodCallTranslator
 {
     private readonly ISqlExpressionFactory _sqlExpressionFactory;
 
-    public TokenizeTranslator(ISqlExpressionFactory sqlExpressionFactory)
+    public AliasTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
         _sqlExpressionFactory = sqlExpressionFactory;
     }
@@ -25,24 +25,17 @@ internal sealed class TokenizeTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        bool? asArray = method.Name switch
-        {
-            // nameof(PgSearchFunctionsExtensions.Tokenize) => false,
-            nameof(PgSearchDbFunctionsExtensions.TokenizeAsArray) => true,
-            _ => null,
-        };
-
-        if (asArray is null)
+        if (method.Name != nameof(PgSearchDbFunctionsExtensions.Alias))
         {
             return null;
         }
 
-        if (arguments[2] is not SqlConstantExpression { Value: Tokenizer tokenizer })
+        if (arguments[2] is not SqlConstantExpression { Value: string alias })
         {
             return null;
         }
 
-        var typeMapping = new TokenizerTypeMapping(tokenizer, asArray.Value);
+        var typeMapping = new AliasTypeMapping(alias);
 
         return _sqlExpressionFactory.MakeUnary(
             ExpressionType.Convert,

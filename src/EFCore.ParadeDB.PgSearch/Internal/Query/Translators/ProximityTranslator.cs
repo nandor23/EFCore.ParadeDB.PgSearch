@@ -1,12 +1,12 @@
 using System.Reflection;
 using EFCore.ParadeDB.PgSearch.Extensions;
-using EFCore.ParadeDB.PgSearch.Query.Internal.Expressions;
+using EFCore.ParadeDB.PgSearch.Internal.Query.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
-namespace EFCore.ParadeDB.PgSearch.Query.Internal.Translators;
+namespace EFCore.ParadeDB.PgSearch.Internal.Query.Translators;
 
 #pragma warning disable EF1001
 internal sealed class ProximityTranslator : IMethodCallTranslator

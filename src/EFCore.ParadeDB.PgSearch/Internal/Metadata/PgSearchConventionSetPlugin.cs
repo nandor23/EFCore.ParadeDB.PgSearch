@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 
-namespace EFCore.ParadeDB.PgSearch.Metadata.Internal;
+namespace EFCore.ParadeDB.PgSearch.Internal.Metadata;
 
 internal sealed class PgSearchConventionSetPlugin : IConventionSetPlugin
 {

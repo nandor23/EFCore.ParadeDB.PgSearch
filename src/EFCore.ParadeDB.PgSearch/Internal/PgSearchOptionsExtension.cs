@@ -1,11 +1,11 @@
-using EFCore.ParadeDB.PgSearch.Metadata.Internal;
-using EFCore.ParadeDB.PgSearch.Query.Internal;
+using EFCore.ParadeDB.PgSearch.Internal.Metadata;
+using EFCore.ParadeDB.PgSearch.Internal.Query;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EFCore.ParadeDB.PgSearch.Infrastructure.Internal;
+namespace EFCore.ParadeDB.PgSearch.Internal;
 
 internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
 {

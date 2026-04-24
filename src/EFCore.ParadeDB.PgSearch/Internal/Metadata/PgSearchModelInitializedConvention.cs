@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
-namespace EFCore.ParadeDB.PgSearch.Metadata.Internal;
+namespace EFCore.ParadeDB.PgSearch.Internal.Metadata;
 
 internal sealed class PgSearchModelInitializedConvention : IModelInitializedConvention
 {
