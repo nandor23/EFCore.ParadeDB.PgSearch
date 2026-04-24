@@ -1,9 +1,12 @@
 using System.Collections.Frozen;
-using EFCore.ParadeDB.PgSearch.Storage.Internal;
+
+using EFCore.ParadeDB.PgSearch.Internal.Storage;
+
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
-namespace EFCore.ParadeDB.PgSearch.Query.Internal.Expressions;
+namespace EFCore.ParadeDB.PgSearch.Internal.Query.Expressions;
 
 #pragma warning disable EF1001
 internal sealed class PdbBoolExpression : PgUnknownBinaryExpression

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace EFCore.ParadeDB.PgSearch.Storage.Internal;
+namespace EFCore.ParadeDB.PgSearch.Internal.Storage;
 
 internal sealed class TokenizerTypeMapping : RelationalTypeMapping
 {
