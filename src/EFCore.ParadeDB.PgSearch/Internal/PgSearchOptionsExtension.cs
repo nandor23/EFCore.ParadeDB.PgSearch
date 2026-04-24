@@ -1,6 +1,5 @@
 using EFCore.ParadeDB.PgSearch.Internal.Metadata;
 using EFCore.ParadeDB.PgSearch.Internal.Query;
-
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions.Infrastructure;
 using Microsoft.EntityFrameworkCore.Query;

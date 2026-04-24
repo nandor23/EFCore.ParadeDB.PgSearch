@@ -1,9 +1,6 @@
 using System.Collections.Frozen;
-
 using EFCore.ParadeDB.PgSearch.Internal.Storage;
-
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-
 using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
 namespace EFCore.ParadeDB.PgSearch.Internal.Query.Expressions;

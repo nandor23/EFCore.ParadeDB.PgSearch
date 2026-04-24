@@ -1,11 +1,9 @@
 using System.Linq.Expressions;
 using System.Reflection;
-
 using EFCore.ParadeDB.PgSearch.Extensions;
 using EFCore.ParadeDB.PgSearch.Internal.Query.Expressions;
 using EFCore.ParadeDB.PgSearch.Internal.Storage;
 using EFCore.ParadeDB.PgSearch.Modifiers;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Query;

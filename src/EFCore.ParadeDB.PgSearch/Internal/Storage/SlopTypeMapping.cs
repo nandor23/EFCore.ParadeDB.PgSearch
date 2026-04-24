@@ -1,5 +1,4 @@
 using EFCore.ParadeDB.PgSearch.Modifiers;
-
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace EFCore.ParadeDB.PgSearch.Internal.Storage;
