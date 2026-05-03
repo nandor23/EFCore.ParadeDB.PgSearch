@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 
 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-var connectionString = config.GetConnectionString("Default")!;
+var connectionString = config.GetConnectionString("Default");
 
 var options = new DbContextOptionsBuilder<AppDbContext>()
     .UseNpgsql(connectionString, o => o.UsePgSearch())
@@ -14,21 +14,16 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
 
 await using var db = new AppDbContext(options);
 
-Console.WriteLine(new string('=', 60));
-Console.WriteLine("EF ParadeDB Autocomplete Example");
-Console.WriteLine("Fast as-you-type search");
-Console.WriteLine(new string('=', 60));
-
 await db.Database.EnsureDeletedAsync();
 await db.Database.MigrateAsync();
 
-var count = await db.AutocompleteItems.CountAsync();
-Console.WriteLine($"Loaded {count} products from autocomplete_items table");
-
+Console.WriteLine(new string('=', 60));
+Console.WriteLine("Autocomplete Example");
+Console.WriteLine(new string('=', 60));
 Console.WriteLine();
-Console.WriteLine(new string('=', 60));
-Console.WriteLine("Autocomplete");
-Console.WriteLine(new string('=', 60));
+
+var count = await db.AutocompleteItems.CountAsync();
+Console.WriteLine($"Loaded {count} items");
 
 string[] queries =
 [
@@ -46,16 +41,17 @@ string[] queries =
 
 foreach (var query in queries)
 {
-    Console.WriteLine($"\nUser types: '{query}' ->");
+    Console.WriteLine($"\nUser types: '{query}'");
 
     var parseQuery = $"description_ngram:{query}";
 
     var results = db
-        .AutocompleteItems
-        .FromSqlInterpolated($"""
-                              SELECT * FROM autocomplete_items
-                              WHERE id @@@ pdb.parse({parseQuery})
-                              """)
+        .AutocompleteItems.FromSqlInterpolated(
+            $"""
+            SELECT * FROM autocomplete_items
+            WHERE id @@@ pdb.parse({parseQuery})
+            """
+        )
         .Select(x => new
         {
             x.Id,
@@ -68,7 +64,7 @@ foreach (var query in queries)
         .OrderByDescending(x => x.SearchScore)
         .Take(5)
         .ToList();
-    
+
     if (results.Count == 0)
     {
         Console.WriteLine("  (no results)");
@@ -83,4 +79,6 @@ foreach (var query in queries)
     }
 }
 
-Console.WriteLine("\nDone.");
+Console.WriteLine("");
+Console.WriteLine(new string('=', 60));
+Console.WriteLine("Done.");

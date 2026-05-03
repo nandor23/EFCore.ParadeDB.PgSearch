@@ -12,6 +12,8 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new AutocompleteItemConfiguration());
+        modelBuilder.Entity<AutocompleteItem>().Property(e => e.Id).ValueGeneratedNever();
+
+        modelBuilder.Entity<AutocompleteItem>().Property(e => e.Category).HasMaxLength(100);
     }
 }
