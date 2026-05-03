@@ -58,6 +58,9 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 
 ## Examples
 
+- [Faceted Search](examples/FacetedSearch/Program.cs)
+- [Autocomplete](examples/Autocomplete/Program.cs)
+
 ## Usage Example
 
 ```csharp
