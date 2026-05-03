@@ -5,7 +5,6 @@
     <File Path="dotnet-tools.json" />
     <File Path="global.json" />
     <File Path=".csharpierignore" />
-    <File Path="docker-compose.yml" />
     <File Path="build.slnf" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
@@ -16,8 +15,12 @@
     <File Path=".github\workflows\ci.yml" />
     <File Path=".github\workflows\publish.yml" />
   </Folder>
-  <Folder Name="/samples/">
-    <Project Path="samples\EFCore.ParadeDB.PgSearch.Api\EFCore.ParadeDB.PgSearch.Api.csproj" />
+  <Folder Name="/examples/">
+    <File Path="examples\README.md" />
+    <Project Path="examples/Autocomplete/Autocomplete.csproj" />
+  </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts\run_paradedb.sh" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src\EFCore.ParadeDB.PgSearch\EFCore.ParadeDB.PgSearch.csproj" />
