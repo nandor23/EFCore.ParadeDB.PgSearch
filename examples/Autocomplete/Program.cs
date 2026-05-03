@@ -1,5 +1,4 @@
-﻿using Autocomplete;
-using Autocomplete.Data;
+﻿using Autocomplete.Data;
 using EFCore.ParadeDB.PgSearch.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +19,6 @@ Console.WriteLine("EF ParadeDB Autocomplete Example");
 Console.WriteLine("Fast as-you-type search");
 Console.WriteLine(new string('=', 60));
 
-await db.Database.EnsureDeletedAsync();
 await db.Database.MigrateAsync();
 
 var count = await db.AutocompleteItems.CountAsync();
