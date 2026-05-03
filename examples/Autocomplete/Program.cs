@@ -19,6 +19,7 @@ Console.WriteLine("EF ParadeDB Autocomplete Example");
 Console.WriteLine("Fast as-you-type search");
 Console.WriteLine(new string('=', 60));
 
+await db.Database.EnsureDeletedAsync();
 await db.Database.MigrateAsync();
 
 var count = await db.AutocompleteItems.CountAsync();
