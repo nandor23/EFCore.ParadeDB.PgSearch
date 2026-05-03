@@ -10,10 +10,6 @@ namespace EFCore.ParadeDB.PgSearch.Extensions;
 public static class PgSearchDbFunctionsExtensions
 {
     [DbFunction]
-    public static bool Match<TProperty>(this DbFunctions _, TProperty property, string value) =>
-        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Match)));
-
-    [DbFunction]
     public static bool MatchDisjunction<TProperty>(
         this DbFunctions _,
         TProperty property,

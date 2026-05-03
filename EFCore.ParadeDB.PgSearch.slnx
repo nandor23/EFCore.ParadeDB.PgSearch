@@ -17,6 +17,7 @@
     <File Path=".github\workflows\publish.yml" />
   </Folder>
   <Folder Name="/examples/">
+    <File Path="examples\README.md" />
     <Project Path="examples/Autocomplete/Autocomplete.csproj" />
   </Folder>
   <Folder Name="/src/">
