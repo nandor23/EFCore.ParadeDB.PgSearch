@@ -34,7 +34,7 @@ namespace FacetedSearch.Migrations
                     id,
                     description,
                     rating,
-                    (category::pdb.literal('alias=category')),
+                    (category::pdb.literal),
                     (metadata::pdb.unicode_words('columnar=true'))
                 )
                 WITH (key_field = 'id');
