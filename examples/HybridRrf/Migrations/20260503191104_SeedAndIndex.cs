@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FacetedSearch.Migrations
+namespace HybridRrf.Migrations
 {
     /// <inheritdoc />
     public partial class SeedAndIndex : Migration
@@ -10,6 +10,8 @@ namespace FacetedSearch.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS vector;");
+
             migrationBuilder.Sql(
                 """
                 CALL paradedb.create_bm25_test_table(

@@ -13,27 +13,29 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
     .UseSnakeCaseNamingConvention()
     .Options;
 
-await using var db = new AppDbContext(options);
+await using var dbContext = new AppDbContext(options);
 
-await db.Database.EnsureDeletedAsync();
-await db.Database.MigrateAsync();
+await dbContext.Database.EnsureDeletedAsync();
+await dbContext.Database.MigrateAsync();
 
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Faceted Search Example");
 Console.WriteLine(new string('=', 60));
 
-var count = await db.MockItems.CountAsync();
-Console.WriteLine($"Loaded {count} items");
+var count = await dbContext.MockItems.CountAsync();
+Console.WriteLine($"\nLoaded {count} items");
 
 var searchQuery = "shoes";
 Console.WriteLine($"\nQuery: '{searchQuery}'");
 Console.WriteLine("\n--- Facets + Rows (Top K) ---");
 
-var results = await db.MockItems
-    .FromSqlInterpolated($"""
-                          SELECT * FROM mock_items
-                          WHERE id @@@ paradedb.match('description', {searchQuery})
-                          """)
+var results = await dbContext
+    .MockItems.FromSqlInterpolated(
+        $"""
+        SELECT * FROM mock_items
+        WHERE id @@@ paradedb.match('description', {searchQuery})
+        """
+    )
     .Select(x => new
     {
         x.Id,
@@ -50,14 +52,19 @@ var results = await db.MockItems
 Console.WriteLine("Top results:");
 foreach (var item in results)
 {
-    var color = item.Metadata?.RootElement.TryGetProperty("color", out var c) == true ? c.GetString() : "N/A";
+    var color =
+        item.Metadata?.RootElement.TryGetProperty("color", out var c) == true
+            ? c.GetString()
+            : "N/A";
     var stock = item.InStock ? "In Stock" : "Out of Stock";
     var desc = item.Description.Length > 50 ? item.Description[..50] : item.Description;
-    Console.WriteLine($"  - {desc}... [{item.Category}] (rating: {item.Rating}, {stock}, color: {color})");
+    Console.WriteLine(
+        $"  - {desc}... [{item.Category}] (rating: {item.Rating}, {stock}, color: {color})"
+    );
 }
 
-await db.Database.OpenConnectionAsync();
-await using var command = (NpgsqlCommand)db.Database.GetDbConnection().CreateCommand();
+await dbContext.Database.OpenConnectionAsync();
+await using var command = (NpgsqlCommand)dbContext.Database.GetDbConnection().CreateCommand();
 
 command.CommandText = """
     SELECT
@@ -82,19 +89,21 @@ if (await reader.ReadAsync())
         {
             return;
         }
-        
+
         var json = JsonDocument.Parse(reader.GetString(col));
 
         if (!json.RootElement.TryGetProperty("buckets", out var buckets))
         {
             return;
         }
-        
+
         Console.WriteLine($"{label} ({buckets.GetArrayLength()} buckets)");
 
         foreach (var bucket in buckets.EnumerateArray())
         {
-            Console.WriteLine($"  - {bucket.GetProperty("key")}: {bucket.GetProperty("doc_count")}");
+            Console.WriteLine(
+                $"  - {bucket.GetProperty("key")}: {bucket.GetProperty("doc_count")}"
+            );
         }
     }
 
@@ -103,6 +112,6 @@ if (await reader.ReadAsync())
     PrintFacets("metadata.color_terms", 2);
 }
 
-Console.WriteLine("");
+Console.WriteLine();
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Done.");

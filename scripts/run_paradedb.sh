@@ -22,6 +22,8 @@ USER="${PARADEDB_USER:-postgres}"
 PASSWORD="${PARADEDB_PASSWORD:-postgres}"
 DB="${PARADEDB_DB:-postgres}"
 
+DATABASE_URL="${DATABASE_URL:-postgresql://${USER}:${PASSWORD}@localhost:${PORT}/${DB}}"
+
 if ! command -v docker >/dev/null 2>&1; then
   echo "docker is required to run ParadeDB" >&2
   if [[ "$RUNNING" == "1" ]]; then exit 1; else return 1; fi
@@ -55,7 +57,7 @@ if ! docker exec "${CONTAINER_NAME}" pg_isready -U "${USER}" -d "${DB}" >/dev/nu
 fi
 
 echo "ParadeDB is running in container ${CONTAINER_NAME}."
-echo "DATABASE_URL is set to: ${DATABASE_URL}"
+echo "Connection: ${DATABASE_URL}"
 
 if [[ "$RUNNING" == "0" ]]; then
   echo "You can now use the examples in your current shell."

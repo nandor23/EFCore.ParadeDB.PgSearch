@@ -12,18 +12,17 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
     .UseSnakeCaseNamingConvention()
     .Options;
 
-await using var db = new AppDbContext(options);
+await using var dbContext = new AppDbContext(options);
 
-await db.Database.EnsureDeletedAsync();
-await db.Database.MigrateAsync();
+await dbContext.Database.EnsureDeletedAsync();
+await dbContext.Database.MigrateAsync();
 
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Autocomplete Example");
 Console.WriteLine(new string('=', 60));
-Console.WriteLine();
 
-var count = await db.AutocompleteItems.CountAsync();
-Console.WriteLine($"Loaded {count} items");
+var count = await dbContext.AutocompleteItems.CountAsync();
+Console.WriteLine($"\nLoaded {count} items");
 
 string[] queries =
 [
@@ -45,7 +44,7 @@ foreach (var query in queries)
 
     var parseQuery = $"description_ngram:{query}";
 
-    var results = db
+    var results = dbContext
         .AutocompleteItems.FromSqlInterpolated(
             $"""
             SELECT * FROM autocomplete_items
@@ -79,6 +78,6 @@ foreach (var query in queries)
     }
 }
 
-Console.WriteLine("");
+Console.WriteLine();
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Done.");
