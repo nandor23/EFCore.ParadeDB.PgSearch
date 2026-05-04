@@ -20,10 +20,9 @@ await dbContext.Database.MigrateAsync();
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Autocomplete Example");
 Console.WriteLine(new string('=', 60));
-Console.WriteLine();
 
 var count = await dbContext.AutocompleteItems.CountAsync();
-Console.WriteLine($"Loaded {count} items");
+Console.WriteLine($"\nLoaded {count} items");
 
 string[] queries =
 [
@@ -79,6 +78,6 @@ foreach (var query in queries)
     }
 }
 
-Console.WriteLine("");
+Console.WriteLine();
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Done.");

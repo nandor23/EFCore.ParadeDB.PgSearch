@@ -23,7 +23,7 @@ Console.WriteLine("Faceted Search Example");
 Console.WriteLine(new string('=', 60));
 
 var count = await dbContext.MockItems.CountAsync();
-Console.WriteLine($"Loaded {count} items");
+Console.WriteLine($"\nLoaded {count} items");
 
 var searchQuery = "shoes";
 Console.WriteLine($"\nQuery: '{searchQuery}'");
@@ -112,6 +112,6 @@ if (await reader.ReadAsync())
     PrintFacets("metadata.color_terms", 2);
 }
 
-Console.WriteLine("");
+Console.WriteLine();
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Done.");
