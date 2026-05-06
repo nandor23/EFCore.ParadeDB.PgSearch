@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shared;
 
-namespace QuickStart.Data;
+namespace Rag.Data;
 
 public class AppDbContext : DbContext
 {

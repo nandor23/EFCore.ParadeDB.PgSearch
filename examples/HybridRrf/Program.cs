@@ -33,6 +33,7 @@ await Demo(dbContext, "wireless earbuds", QueryEmbeddings.Values);
 Console.WriteLine("\n" + new string('=', 70));
 Console.WriteLine("All results produced by a single SQL query per search.");
 Console.WriteLine(new string('=', 70));
+return;
 
 static async Task Demo(AppDbContext db, string query, Dictionary<string, float[]> embeddings)
 {
