@@ -22,6 +22,7 @@
     <Project Path="examples/HybridRrf/HybridRrf.csproj" />
     <Project Path="examples/MoreLikeThis/MoreLikeThis.csproj" />
     <Project Path="examples/QuickStart/QuickStart.csproj" />
+    <Project Path="examples/Rag/Rag.csproj" />
     <Project Path="examples\Shared\Shared.csproj" />
   </Folder>
   <Folder Name="/scripts/">

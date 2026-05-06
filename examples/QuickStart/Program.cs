@@ -1,12 +1,9 @@
 ﻿using EFCore.ParadeDB.PgSearch.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
 using QuickStart.Data;
 
-var config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
+var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 var connectionString = config.GetConnectionString("Default");
 
@@ -36,13 +33,14 @@ await DemoFilteredSearch(dbContext);
 Console.WriteLine();
 Console.WriteLine(new string('=', 60));
 Console.WriteLine("Done!");
+return;
 
 static async Task DemoBasicSearch(AppDbContext db)
 {
     Console.WriteLine("\n--- Basic Search: 'shoes' ---");
 
-    var results = await db.MockItems
-        .Where(x => EF.Functions.MatchConjunction(x.Description, "shoes"))
+    var results = await db
+        .MockItems.Where(x => EF.Functions.MatchConjunction(x.Description, "shoes"))
         .Take(5)
         .ToListAsync();
 
@@ -54,13 +52,9 @@ static async Task DemoScoredSearch(AppDbContext db)
 {
     Console.WriteLine("\n--- Scored Search: 'running' ---");
 
-    var results = await db.MockItems
-        .Where(x => EF.Functions.MatchConjunction(x.Description, "running"))
-        .Select(x => new
-        {
-            Item = x,
-            Score = EF.Functions.Score(x.Id)
-        })
+    var results = await db
+        .MockItems.Where(x => EF.Functions.MatchConjunction(x.Description, "running"))
+        .Select(x => new { Item = x, Score = EF.Functions.Score(x.Id) })
         .OrderByDescending(x => x.Score)
         .Take(5)
         .ToListAsync();
@@ -75,13 +69,9 @@ static async Task DemoPhraseSearch(AppDbContext db)
 {
     Console.WriteLine("\n--- Phrase Search: 'running shoes' ---");
 
-    var results = await db.MockItems
-        .Where(x => EF.Functions.Phrase(x.Description, "running shoes"))
-        .Select(x => new
-        {
-            Item = x,
-            Score = EF.Functions.Score(x.Id)
-        })
+    var results = await db
+        .MockItems.Where(x => EF.Functions.Phrase(x.Description, "running shoes"))
+        .Select(x => new { Item = x, Score = EF.Functions.Score(x.Id) })
         .OrderByDescending(x => x.Score)
         .Take(5)
         .ToListAsync();
@@ -96,12 +86,12 @@ static async Task DemoSnippetHighlighting(AppDbContext db)
 {
     Console.WriteLine("\n--- Snippet Highlighting: 'shoes' ---");
 
-    var results = await db.MockItems
-        .Where(x => EF.Functions.MatchConjunction(x.Description, "shoes"))
+    var results = await db
+        .MockItems.Where(x => EF.Functions.MatchConjunction(x.Description, "shoes"))
         .Select(x => new
         {
             Score = EF.Functions.Score(x.Id),
-            Snippet = EF.Functions.Snippet(x.Description, "<b>", "</b>")
+            Snippet = EF.Functions.Snippet(x.Description, "<b>", "</b>"),
         })
         .OrderByDescending(x => x.Score)
         .Take(3)
@@ -115,16 +105,11 @@ static async Task DemoFilteredSearch(AppDbContext db)
 {
     Console.WriteLine("\n--- Filtered Search: 'shoes' + in_stock + rating >= 4 ---");
 
-    var results = await db.MockItems
-        .Where(x =>
-            EF.Functions.MatchConjunction(x.Description, "shoes") &&
-            x.InStock &&
-            x.Rating >= 4)
-        .Select(x => new
-        {
-            Item = x,
-            Score = EF.Functions.Score(x.Id)
-        })
+    var results = await db
+        .MockItems.Where(x =>
+            EF.Functions.MatchConjunction(x.Description, "shoes") && x.InStock && x.Rating >= 4
+        )
+        .Select(x => new { Item = x, Score = EF.Functions.Score(x.Id) })
         .OrderByDescending(x => x.Score)
         .Take(5)
         .ToListAsync();
