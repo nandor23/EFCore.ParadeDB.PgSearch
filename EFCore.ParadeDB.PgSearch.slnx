@@ -20,6 +20,7 @@
     <Project Path="examples/Autocomplete/Autocomplete.csproj" />
     <Project Path="examples/FacetedSearch/FacetedSearch.csproj" />
     <Project Path="examples/HybridRrf/HybridRrf.csproj" />
+    <Project Path="examples/MoreLikeThis/MoreLikeThis.csproj" />
     <Project Path="examples\Shared\Shared.csproj" />
   </Folder>
   <Folder Name="/scripts/">
