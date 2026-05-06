@@ -1,13 +1,9 @@
 ﻿using EFCore.ParadeDB.PgSearch.Extensions;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
 using MoreLikeThis.Data;
 
-var config = new ConfigurationBuilder()
-    .AddJsonFile("appsettings.json")
-    .Build();
+var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
 var connectionString = config.GetConnectionString("Default");
 
@@ -54,21 +50,27 @@ static async Task DemoSimilarToSingleProduct(AppDbContext db)
 
     var sourceId = 3;
 
+    var fields = new[] { "description" };
+
     var source = await db.MockItems.SingleAsync(x => x.Id == sourceId);
 
     Console.WriteLine();
     Console.WriteLine($"Source product (id={sourceId}):");
     Console.WriteLine($"  '{source.Description}' [{source.Category}]");
 
-    var similar = await db.MockItems
-        .FromSqlInterpolated($"""
+    var similar = await db
+        .MockItems.FromSqlInterpolated(
+            $"""
             SELECT *
             FROM mock_items
-            WHERE id @@@ pdb.more_like_this({sourceId}, ARRAY['description'])
-            ORDER BY pdb.score(id) DESC
-            LIMIT 5
-            """)
-        .AsNoTracking()
+            WHERE id @@@ pdb.more_like_this(
+                {sourceId},
+                {fields}
+            )
+            """
+        )
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .Take(5)
         .ToListAsync();
 
     Console.WriteLine();
@@ -77,9 +79,8 @@ static async Task DemoSimilarToSingleProduct(AppDbContext db)
     foreach (var item in similar)
     {
         var marker = item.Id == sourceId ? " (source)" : "";
-        Console.WriteLine(
-            $"  {item.Id}: {Trim(item.Description)}... [{item.Category}]{marker}"
-        );
+
+        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]{marker}");
     }
 }
 
@@ -87,10 +88,12 @@ static async Task DemoSimilarToMultipleProducts(AppDbContext db)
 {
     PrintHeader("Demo 2: Similar to multiple products (browsing history)");
 
-    var browsedIds = new[] { 3, 12, 29 };
+    int[] browsedIds = [3, 12, 29];
+    var fields = new[] { "description" };
 
-    var browsed = await db.MockItems
-        .Where(x => browsedIds.Contains(x.Id))
+    var browsed = await db
+        .MockItems
+        .Where(x => browsedIds.AsEnumerable().Contains(x.Id))
         .OrderBy(x => x.Id)
         .AsNoTracking()
         .ToListAsync();
@@ -100,25 +103,25 @@ static async Task DemoSimilarToMultipleProducts(AppDbContext db)
 
     foreach (var item in browsed)
     {
-        Console.WriteLine(
-            $"  {item.Id}: {Trim(item.Description)}... [{item.Category}]"
-        );
+        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]");
     }
 
-    var similar = await db.MockItems
-        .FromSqlInterpolated($"""
-            SELECT *
-            FROM mock_items
-            WHERE (
-                id @@@ pdb.more_like_this(3, ARRAY['description'])
-                OR id @@@ pdb.more_like_this(12, ARRAY['description'])
-                OR id @@@ pdb.more_like_this(29, ARRAY['description'])
-            )
-            AND id NOT IN (3, 12, 29)
-            ORDER BY pdb.score(id) DESC
-            LIMIT 5
-            """)
-        .AsNoTracking()
+    var similar = await db
+        .MockItems
+        .FromSqlInterpolated(
+            $"""
+             SELECT *
+             FROM mock_items
+             WHERE (
+                 id @@@ pdb.more_like_this({browsedIds[0]}, {fields})
+                 OR id @@@ pdb.more_like_this({browsedIds[1]}, {fields})
+                 OR id @@@ pdb.more_like_this({browsedIds[2]}, {fields})
+             )
+             AND NOT (id = ANY({browsedIds}))
+             """
+        )
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .Take(5)
         .ToListAsync();
 
     Console.WriteLine();
@@ -126,9 +129,7 @@ static async Task DemoSimilarToMultipleProducts(AppDbContext db)
 
     foreach (var item in similar)
     {
-        Console.WriteLine(
-            $"  {item.Id}: {Trim(item.Description)}... [{item.Category}]"
-        );
+        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]");
     }
 }
 
@@ -142,15 +143,17 @@ static async Task DemoSimilarByDocument(AppDbContext db)
     Console.WriteLine();
     Console.WriteLine($"User wants: '{userDescription}'");
 
-    var similar = await db.MockItems
-        .FromSqlInterpolated($"""
-            SELECT *
-            FROM mock_items
-            WHERE id @@@ pdb.more_like_this({document})
-            ORDER BY pdb.score(id) DESC
-            LIMIT 5
-            """)
-        .AsNoTracking()
+    var similar = await db
+        .MockItems
+        .FromSqlInterpolated(
+            $"""
+             SELECT *
+             FROM mock_items
+             WHERE id @@@ pdb.more_like_this({document})
+             """
+        )
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .Take(5)
         .ToListAsync();
 
     Console.WriteLine();
@@ -158,9 +161,7 @@ static async Task DemoSimilarByDocument(AppDbContext db)
 
     foreach (var item in similar)
     {
-        Console.WriteLine(
-            $"  {item.Id}: {Trim(item.Description)}... [{item.Category}]"
-        );
+        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]");
     }
 }
 
@@ -175,15 +176,20 @@ static async Task DemoTuningParameters(AppDbContext db)
     Console.WriteLine();
     Console.WriteLine($"Source: '{source.Description}'");
 
-    var defaultResults = await db.MockItems
-        .FromSqlInterpolated($"""
-            SELECT *
-            FROM mock_items
-            WHERE id @@@ pdb.more_like_this({sourceId}, ARRAY['description'])
-            ORDER BY pdb.score(id) DESC
-            LIMIT 3
-            """)
+    var fields = new[] { "description" };
+
+    var defaultResults = await db
+        .MockItems
+        .FromSqlInterpolated(
+            $"""
+             SELECT *
+             FROM mock_items
+             WHERE id @@@ pdb.more_like_this({sourceId}, {fields})
+             """
+        )
         .AsNoTracking()
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .Take(3)
         .ToListAsync();
 
     Console.WriteLine();
@@ -194,8 +200,9 @@ static async Task DemoTuningParameters(AppDbContext db)
         Console.WriteLine($"  {item.Id}: {Trim(item.Description)}...");
     }
 
-    var tunedResults = await db.MockItems
-        .FromSqlInterpolated($"""
+    var tunedResults = await db
+        .MockItems.FromSqlInterpolated(
+            $"""
             SELECT *
             FROM mock_items
             WHERE id @@@ pdb.more_like_this(
@@ -206,7 +213,8 @@ static async Task DemoTuningParameters(AppDbContext db)
             )
             ORDER BY pdb.score(id) DESC
             LIMIT 3
-            """)
+            """
+        )
         .AsNoTracking()
         .ToListAsync();
 
@@ -224,23 +232,26 @@ static async Task DemoCombinedWithFilters(AppDbContext db)
     PrintHeader("Demo 5: MoreLikeThis + ORM filters");
 
     var sourceId = 15;
+    var fields = new[] { "description" };
 
     var source = await db.MockItems.SingleAsync(x => x.Id == sourceId);
 
     Console.WriteLine();
     Console.WriteLine($"Source: '{source.Description}' (rating: {source.Rating})");
 
-    var results = await db.MockItems
-        .FromSqlInterpolated($"""
-            SELECT *
-            FROM mock_items
-            WHERE id @@@ pdb.more_like_this({sourceId}, ARRAY['description'])
-            AND in_stock = TRUE
-            AND rating >= 4
-            ORDER BY pdb.score(id) DESC
-            LIMIT 5
-            """)
-        .AsNoTracking()
+    var results = await db
+        .MockItems
+        .FromSqlInterpolated(
+            $"""
+             SELECT *
+             FROM mock_items
+             WHERE id @@@ pdb.more_like_this({sourceId}, {fields})
+             """
+        )
+        .Where(x => x.InStock)
+        .Where(x => x.Rating >= 4)
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .Take(5)
         .ToListAsync();
 
     Console.WriteLine();
@@ -262,21 +273,27 @@ static async Task DemoMultifieldSimilarity(AppDbContext db)
 
     var sourceId = 3;
 
+    var descriptionFields = new[] { "description" };
+    var descriptionAndCategoryFields = new[] { "description", "category" };
+
     var source = await db.MockItems.SingleAsync(x => x.Id == sourceId);
 
     Console.WriteLine();
     Console.WriteLine($"Source: '{source.Description}' [{source.Category}]");
 
-    var byDescription = await db.MockItems
-        .FromSqlInterpolated($"""
-            SELECT *
-            FROM mock_items
-            WHERE id @@@ pdb.more_like_this({sourceId}, ARRAY['description'])
-            AND id <> {sourceId}
-            ORDER BY pdb.score(id) DESC
-            LIMIT 3
-            """)
+    var byDescription = await db
+        .MockItems
+        .FromSqlInterpolated(
+            $"""
+             SELECT *
+             FROM mock_items
+             WHERE id @@@ pdb.more_like_this({sourceId}, {descriptionFields})
+             """
+        )
         .AsNoTracking()
+        .Where(x => x.Id != sourceId)
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .Take(3)
         .ToListAsync();
 
     Console.WriteLine();
@@ -284,24 +301,25 @@ static async Task DemoMultifieldSimilarity(AppDbContext db)
 
     foreach (var item in byDescription)
     {
-        Console.WriteLine(
-            $"  {item.Id}: {Trim(item.Description, 40)}... [{item.Category}]"
-        );
+        Console.WriteLine($"  {item.Id}: {Trim(item.Description, 40)}... [{item.Category}]");
     }
 
-    var byBoth = await db.MockItems
-        .FromSqlInterpolated($"""
-            SELECT *
-            FROM mock_items
-            WHERE id @@@ pdb.more_like_this(
-                {sourceId},
-                ARRAY['description', 'category']
-            )
-            AND id <> {sourceId}
-            ORDER BY pdb.score(id) DESC
-            LIMIT 3
-            """)
+    var byBoth = await db
+        .MockItems
+        .FromSqlInterpolated(
+            $"""
+             SELECT *
+             FROM mock_items
+             WHERE id @@@ pdb.more_like_this(
+                 {sourceId},
+                 {descriptionAndCategoryFields}
+             )
+             """
+        )
         .AsNoTracking()
+        .Where(x => x.Id != sourceId)
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .Take(3)
         .ToListAsync();
 
     Console.WriteLine();
@@ -309,15 +327,11 @@ static async Task DemoMultifieldSimilarity(AppDbContext db)
 
     foreach (var item in byBoth)
     {
-        Console.WriteLine(
-            $"  {item.Id}: {Trim(item.Description, 40)}... [{item.Category}]"
-        );
+        Console.WriteLine($"  {item.Id}: {Trim(item.Description, 40)}... [{item.Category}]");
     }
 }
 
 static string Trim(string value, int maxLength = 50)
 {
-    return value.Length <= maxLength
-        ? value
-        : value[..maxLength];
+    return value.Length <= maxLength ? value : value[..maxLength];
 }

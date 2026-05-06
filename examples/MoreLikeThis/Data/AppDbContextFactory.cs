@@ -1,5 +1,4 @@
 using EFCore.ParadeDB.PgSearch.Extensions;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;

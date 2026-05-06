@@ -53,14 +53,14 @@ static async Task<List<(string Description, double RrfScore)>> HybridSearch(
     var embeddingStr = $"[{string.Join(",", queryEmbedding)}]";
 
     var conn = (NpgsqlConnection)db.Database.GetDbConnection();
-    
+
     if (conn.State != System.Data.ConnectionState.Open)
     {
         await conn.OpenAsync();
     }
 
     await using var cmd = conn.CreateCommand();
-    
+
     cmd.CommandText = """
         WITH fulltext AS (
             SELECT id, ROW_NUMBER() OVER (ORDER BY paradedb.score(id) DESC) AS rank
@@ -129,7 +129,7 @@ static async Task LoadEmbeddingsAsync(AppDbContext db)
     var lines = await File.ReadAllLinesAsync(csvPath);
 
     var conn = (NpgsqlConnection)db.Database.GetDbConnection();
-    
+
     if (conn.State != System.Data.ConnectionState.Open)
     {
         await conn.OpenAsync();
