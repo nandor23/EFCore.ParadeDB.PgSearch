@@ -95,7 +95,6 @@ static async Task DemoSimilarToMultipleProducts(AppDbContext db)
         .MockItems
         .Where(x => browsedIds.AsEnumerable().Contains(x.Id))
         .OrderBy(x => x.Id)
-        .AsNoTracking()
         .ToListAsync();
 
     Console.WriteLine();
@@ -187,7 +186,6 @@ static async Task DemoTuningParameters(AppDbContext db)
              WHERE id @@@ pdb.more_like_this({sourceId}, {fields})
              """
         )
-        .AsNoTracking()
         .OrderByDescending(x => EF.Functions.Score(x.Id))
         .Take(3)
         .ToListAsync();
@@ -203,19 +201,19 @@ static async Task DemoTuningParameters(AppDbContext db)
     var tunedResults = await db
         .MockItems.FromSqlInterpolated(
             $"""
-            SELECT *
-            FROM mock_items
-            WHERE id @@@ pdb.more_like_this(
-                {sourceId},
-                ARRAY['description'],
-                min_doc_frequency => 2,
-                max_query_terms => 5
-            )
-            ORDER BY pdb.score(id) DESC
-            LIMIT 3
-            """
+             SELECT *
+             FROM mock_items
+             WHERE id @@@ pdb.more_like_this(
+                 {sourceId},
+                 ARRAY['description'],
+                 min_doc_frequency => 2,
+                 max_query_terms => 5
+             )
+             """
         )
-        .AsNoTracking()
+        .OrderByDescending(x => EF.Functions.Score(x.Id))
+        .ThenBy(x => x.Id)
+        .Take(3)
         .ToListAsync();
 
     Console.WriteLine();
@@ -290,7 +288,6 @@ static async Task DemoMultifieldSimilarity(AppDbContext db)
              WHERE id @@@ pdb.more_like_this({sourceId}, {descriptionFields})
              """
         )
-        .AsNoTracking()
         .Where(x => x.Id != sourceId)
         .OrderByDescending(x => EF.Functions.Score(x.Id))
         .Take(3)
@@ -316,7 +313,6 @@ static async Task DemoMultifieldSimilarity(AppDbContext db)
              )
              """
         )
-        .AsNoTracking()
         .Where(x => x.Id != sourceId)
         .OrderByDescending(x => EF.Functions.Score(x.Id))
         .Take(3)
