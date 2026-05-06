@@ -80,7 +80,7 @@ static async Task DemoSimilarToSingleProduct(AppDbContext db)
     {
         var marker = item.Id == sourceId ? " (source)" : "";
 
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]{marker}");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description)}... [{item.Category}]{marker}");
     }
 }
 
@@ -102,7 +102,7 @@ static async Task DemoSimilarToMultipleProducts(AppDbContext db)
 
     foreach (var item in browsed)
     {
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description)}... [{item.Category}]");
     }
 
     var similar = await db
@@ -128,7 +128,7 @@ static async Task DemoSimilarToMultipleProducts(AppDbContext db)
 
     foreach (var item in similar)
     {
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description)}... [{item.Category}]");
     }
 }
 
@@ -160,7 +160,7 @@ static async Task DemoSimilarByDocument(AppDbContext db)
 
     foreach (var item in similar)
     {
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}... [{item.Category}]");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description)}... [{item.Category}]");
     }
 }
 
@@ -195,7 +195,7 @@ static async Task DemoTuningParameters(AppDbContext db)
 
     foreach (var item in defaultResults)
     {
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}...");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description)}...");
     }
 
     var tunedResults = await db
@@ -205,7 +205,7 @@ static async Task DemoTuningParameters(AppDbContext db)
              FROM mock_items
              WHERE id @@@ pdb.more_like_this(
                  {sourceId},
-                 ARRAY['description'],
+                 {fields},
                  min_doc_frequency => 2,
                  max_query_terms => 5
              )
@@ -221,7 +221,7 @@ static async Task DemoTuningParameters(AppDbContext db)
 
     foreach (var item in tunedResults)
     {
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description)}...");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description)}...");
     }
 }
 
@@ -260,7 +260,7 @@ static async Task DemoCombinedWithFilters(AppDbContext db)
         var stock = item.InStock ? "In Stock" : "Out of Stock";
 
         Console.WriteLine(
-            $"  {item.Id}: {Trim(item.Description, 40)}... (rating: {item.Rating}, {stock})"
+            $"  {item.Id}: {Truncate(item.Description, 40)}... (rating: {item.Rating}, {stock})"
         );
     }
 }
@@ -298,7 +298,7 @@ static async Task DemoMultifieldSimilarity(AppDbContext db)
 
     foreach (var item in byDescription)
     {
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description, 40)}... [{item.Category}]");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description, 40)}... [{item.Category}]");
     }
 
     var byBoth = await db
@@ -323,11 +323,11 @@ static async Task DemoMultifieldSimilarity(AppDbContext db)
 
     foreach (var item in byBoth)
     {
-        Console.WriteLine($"  {item.Id}: {Trim(item.Description, 40)}... [{item.Category}]");
+        Console.WriteLine($"  {item.Id}: {Truncate(item.Description, 40)}... [{item.Category}]");
     }
 }
 
-static string Trim(string value, int maxLength = 50)
+static string Truncate(string value, int maxLength = 50)
 {
     return value.Length <= maxLength ? value : value[..maxLength];
 }
