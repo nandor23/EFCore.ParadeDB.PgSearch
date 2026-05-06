@@ -1,9 +1,13 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+
 using EFCore.ParadeDB.PgSearch.Extensions;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+
+using Rag;
 using Rag.Data;
 
 var config = new ConfigurationBuilder()
@@ -183,13 +187,16 @@ static async Task Rag(AppDbContext db, string query, string? apiKey, string mode
     Console.WriteLine(answer);
 }
 
-public sealed class ProductResult
+namespace Rag
 {
-    public int Id { get; set; }
-    public string Description { get; set; } = string.Empty;
-    public string Category { get; set; } = string.Empty;
-    public int Rating { get; set; }
-    public bool InStock { get; set; }
-    public JsonDocument? Metadata { get; set; }
-    public float Score { get; set; }
+    public sealed class ProductResult
+    {
+        public int Id { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
+        public int Rating { get; set; }
+        public bool InStock { get; set; }
+        public JsonDocument? Metadata { get; set; }
+        public float Score { get; set; }
+    }
 }
