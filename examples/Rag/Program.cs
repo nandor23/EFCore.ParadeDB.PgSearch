@@ -1,12 +1,9 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-
 using EFCore.ParadeDB.PgSearch.Extensions;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
 using Rag;
 using Rag.Data;
 

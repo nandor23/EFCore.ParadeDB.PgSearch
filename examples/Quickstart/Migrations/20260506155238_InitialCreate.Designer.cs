@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-using QuickStart.Data;
+using Quickstart.Data;
 
 #nullable disable
 
-namespace QuickStart.Migrations
+namespace Quickstart.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20260506155238_InitialCreate")]

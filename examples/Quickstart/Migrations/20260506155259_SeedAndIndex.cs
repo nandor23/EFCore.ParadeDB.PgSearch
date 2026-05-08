@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace QuickStart.Migrations
+namespace Quickstart.Migrations
 {
     /// <inheritdoc />
     public partial class SeedAndIndex : Migration
