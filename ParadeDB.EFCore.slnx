@@ -11,7 +11,6 @@
     <File Path="README.md" />
   </Folder>
   <Folder Name="/.solution/actions/">
-    i
     <File Path=".github\workflows\ci.yml" />
     <File Path=".github\workflows\publish.yml" />
   </Folder>

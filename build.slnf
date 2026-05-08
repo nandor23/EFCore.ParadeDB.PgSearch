@@ -1,10 +1,10 @@
 {
   "solution": {
-    "path": "EFCore.ParadeDB.PgSearch.slnx",
+    "path": "ParadeDB.EFCore.slnx",
     "projects": [
-      "src/EFCore.ParadeDB.PgSearch/EFCore.ParadeDB.PgSearch.csproj",
-      "tests/EFCore.ParadeDB.PgSearch.Tests/EFCore.ParadeDB.PgSearch.Tests.csproj",
-      "tests/EFCore.ParadeDB.PgSearch.IntegrationTests/EFCore.ParadeDB.PgSearch.IntegrationTests.csproj"
+      "src/ParadeDB.EFCore/ParadeDB.EFCore.csproj",
+      "tests/ParadeDB.EFCore.Tests/ParadeDB.EFCore.Tests.csproj",
+      "tests/ParadeDB.EFCore.IntegrationTests/ParadeDB.EFCore.IntegrationTests.csproj"
     ]
   }
 }
