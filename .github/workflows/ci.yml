@@ -35,14 +35,14 @@ jobs:
 
       - name: Test unit
         run: |
-          dotnet test --project tests/EFCore.ParadeDB.PgSearch.IntegrationTests \
-          --no-build \
-          --configuration Release \
-          --framework ${{ matrix.framework }}
+          dotnet test --project tests/ParadeDB.EFCore.Tests/ParadeDB.EFCore.Tests.csproj \
+            --no-build \
+            --configuration Release \
+            --framework ${{ matrix.framework }}
 
       - name: Test integration
         run: |
-          dotnet test --project tests/EFCore.ParadeDB.PgSearch.IntegrationTests \
+          dotnet test --project tests/ParadeDB.EFCore.IntegrationTests/ParadeDB.EFCore.IntegrationTests.csproj \
             --no-build \
             --configuration Release \
             --framework ${{ matrix.framework }}
