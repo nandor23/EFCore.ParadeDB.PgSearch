@@ -12,7 +12,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
         var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseNpgsql(config.GetConnectionString("Default"), o => o.UsePgSearch())
+            .UseNpgsql(config.GetConnectionString("Default"), o => o.UseParadeDb())
             .UseSnakeCaseNamingConvention()
             .Options;
 

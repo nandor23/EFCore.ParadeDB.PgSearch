@@ -3,9 +3,9 @@ using ParadeDB.EFCore.Internal.Query.Translators;
 
 namespace ParadeDB.EFCore.Internal.Query;
 
-internal sealed class PgSearchMethodCallTranslatorPlugin : IMethodCallTranslatorPlugin
+internal sealed class ParadeDbMethodCallTranslatorPlugin : IMethodCallTranslatorPlugin
 {
-    public PgSearchMethodCallTranslatorPlugin(ISqlExpressionFactory sqlExpressionFactory)
+    public ParadeDbMethodCallTranslatorPlugin(ISqlExpressionFactory sqlExpressionFactory)
     {
         Translators =
         [

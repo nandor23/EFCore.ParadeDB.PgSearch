@@ -23,7 +23,7 @@ internal sealed class SnippetTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearchDbFunctionsExtensions.Snippet))
+        if (method.Name != nameof(ParadeDbFunctionsExtensions.Snippet))
         {
             return null;
         }

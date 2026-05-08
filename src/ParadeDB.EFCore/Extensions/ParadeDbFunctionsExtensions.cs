@@ -7,7 +7,7 @@ using ParadeDB.EFCore.Modifiers;
 namespace ParadeDB.EFCore.Extensions;
 
 [ExcludeFromCodeCoverage]
-public static class PgSearchDbFunctionsExtensions
+public static class ParadeDbFunctionsExtensions
 {
     [DbFunction]
     public static bool MatchDisjunction<TProperty>(

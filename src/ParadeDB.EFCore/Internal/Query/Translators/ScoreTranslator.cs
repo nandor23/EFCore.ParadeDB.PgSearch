@@ -23,7 +23,7 @@ internal sealed class ScoreTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearchDbFunctionsExtensions.Score))
+        if (method.Name != nameof(ParadeDbFunctionsExtensions.Score))
         {
             return null;
         }

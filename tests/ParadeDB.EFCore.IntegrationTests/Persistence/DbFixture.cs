@@ -24,7 +24,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
         await _container.StartAsync();
 
         _options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseNpgsql(_container.GetConnectionString(), o => o.UsePgSearch())
+            .UseNpgsql(_container.GetConnectionString(), o => o.UseParadeDb())
             .UseSnakeCaseNamingConvention()
             .Options;
 

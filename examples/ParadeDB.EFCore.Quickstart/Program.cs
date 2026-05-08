@@ -8,7 +8,7 @@ var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 var connectionString = config.GetConnectionString("Default");
 
 var options = new DbContextOptionsBuilder<AppDbContext>()
-    .UseNpgsql(connectionString, o => o.UsePgSearch())
+    .UseNpgsql(connectionString, o => o.UseParadeDb())
     .UseSnakeCaseNamingConvention()
     .Options;
 

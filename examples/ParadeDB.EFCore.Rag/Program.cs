@@ -17,7 +17,7 @@ var openRouterApiKey = config["OpenRouter:ApiKey"];
 var model = config["OpenRouter:Model"] ?? "anthropic/claude-3-haiku";
 
 var options = new DbContextOptionsBuilder<AppDbContext>()
-    .UseNpgsql(connectionString, o => o.UsePgSearch())
+    .UseNpgsql(connectionString, o => o.UseParadeDb())
     .UseSnakeCaseNamingConvention()
     .Options;
 
