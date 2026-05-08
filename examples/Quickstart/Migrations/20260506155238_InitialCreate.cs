@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace QuickStart.Migrations
+namespace Quickstart.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration

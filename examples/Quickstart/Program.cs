@@ -1,7 +1,7 @@
 ﻿using EFCore.ParadeDB.PgSearch.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using QuickStart.Data;
+using Quickstart.Data;
 
 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 

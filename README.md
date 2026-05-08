@@ -42,6 +42,15 @@ builder.Services.AddDbContextPool<AppDbContext>(opt =>
 
 A complete example is also available in the [samples directory](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/tree/main/samples/EFCore.ParadeDB.PgSearch.Api) demonstrating PgSearch configuration and BM25 index creation.
 
+## Examples
+
+- [Quickstart](examples/Quickstart/Program.cs)
+- [Faceted Search](examples/FacetedSearch/Program.cs)
+- [Autocomplete](examples/Autocomplete/Program.cs)
+- [More Like This](examples/MoreLikeThis/Program.cs)
+- [Hybrid Search (RRF)](examples/HybridRrf/Program.cs)
+- [RAG](examples/Rag/Program.cs)
+
 ## Function Mappings
 
 The following ParadeDB operations are available through the `EF.Functions` API:
@@ -55,37 +64,3 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 | [Proximity](https://docs.paradedb.com/documentation/full-text/proximity)    | `Proximity()`                              |
 | [BM25 scoring](https://docs.paradedb.com/documentation/sorting/score)       | `Score()`                                  |
 | [Tokenizers](https://docs.paradedb.com/documentation/tokenizers/overview)   | `TokenizeAsArray()`                                  |
-
-## Examples
-
-- [Faceted Search](examples/FacetedSearch/Program.cs)
-- [Autocomplete](examples/Autocomplete/Program.cs)
-
-## Usage Example
-
-```csharp
-var products = await dbContext
-    .Products.Where(p =>
-        EF.Functions.MatchDisjunction(
-            p.Description,
-            "with shoes and",
-            Pdb.Fuzzy(1),
-            Pdb.Boost(2.3f)
-        )
-    )
-    .Select(p => new
-    {
-        p.Id,
-        p.Description,
-        Score = EF.Functions.Score(p.Id),
-    })
-    .ToListAsync();
-```
-
-### Translates to:
-
-```sql
-SELECT p.id AS "Id", p.description AS "Description", pdb.score(p.id) AS "Score"
-FROM products AS p
-WHERE p.description ||| 'with shoes and'::pdb.fuzzy(1)::pdb.boost(2.3)
-```
