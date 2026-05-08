@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using ParadeDB.EFCore;
 using ParadeDB.EFCore.Extensions;
 using ParadeDB.EFCore.Tests.TestUtils;
 using Shouldly;
 
-namespace EFCore.ParadeDB.PgSearch.Tests.Translators;
+namespace ParadeDB.EFCore.Tests.Translators;
 
 public sealed class TokenizeTranslatorTests
 {

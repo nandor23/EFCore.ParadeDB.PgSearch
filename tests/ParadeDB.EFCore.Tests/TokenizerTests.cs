@@ -1,7 +1,6 @@
-using ParadeDB.EFCore;
 using Shouldly;
 
-namespace EFCore.ParadeDB.PgSearch.Tests;
+namespace ParadeDB.EFCore.Tests;
 
 public sealed class TokenizerTests
 {
