@@ -40,17 +40,6 @@ builder.Services.AddDbContextPool<AppDbContext>(opt =>
 });
 ```
 
-A complete example is also available in the [samples directory](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/tree/main/samples/EFCore.ParadeDB.PgSearch.Api) demonstrating PgSearch configuration and BM25 index creation.
-
-## Examples
-
-- [Quickstart](examples/Quickstart/Program.cs)
-- [Faceted Search](examples/FacetedSearch/Program.cs)
-- [Autocomplete](examples/Autocomplete/Program.cs)
-- [More Like This](examples/MoreLikeThis/Program.cs)
-- [Hybrid Search (RRF)](examples/HybridRrf/Program.cs)
-- [RAG](examples/Rag/Program.cs)
-
 ## Function Mappings
 
 The following ParadeDB operations are available through the `EF.Functions` API:
@@ -63,4 +52,13 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 | [Highlighting](https://docs.paradedb.com/documentation/full-text/highlight) | `Snippet()`                                |
 | [Proximity](https://docs.paradedb.com/documentation/full-text/proximity)    | `Proximity()`                              |
 | [BM25 scoring](https://docs.paradedb.com/documentation/sorting/score)       | `Score()`                                  |
-| [Tokenizers](https://docs.paradedb.com/documentation/tokenizers/overview)   | `TokenizeAsArray()`                                  |
+| [Tokenizers](https://docs.paradedb.com/documentation/tokenizers/overview)   | `TokenizeAsArray()`                        |
+
+## Examples
+
+- [Quickstart](examples/Quickstart/Program.cs)
+- [Faceted Search](examples/FacetedSearch/Program.cs)
+- [Autocomplete](examples/Autocomplete/Program.cs)
+- [More Like This](examples/MoreLikeThis/Program.cs)
+- [Hybrid Search (RRF)](examples/HybridRrf/Program.cs)
+- [RAG](examples/Rag/Program.cs)
