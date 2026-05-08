@@ -1,0 +1,40 @@
+﻿<Solution>
+  <Folder Name="/.solution/">
+    <File Path=".gitignore" />
+    <File Path=".editorconfig" />
+    <File Path="dotnet-tools.json" />
+    <File Path="global.json" />
+    <File Path=".csharpierignore" />
+    <File Path="build.slnf" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/.solution/actions/">
+    i
+    <File Path=".github\workflows\ci.yml" />
+    <File Path=".github\workflows\publish.yml" />
+  </Folder>
+  <Folder Name="/examples/">
+    <File Path="examples\Directory.Build.props" />
+    <File Path="examples\README.md" />
+    <Project Path="examples\ParadeDB.EFCore.Autocomplete\ParadeDB.EFCore.Autocomplete.csproj" />
+    <Project Path="examples\ParadeDB.EFCore.FacetedSearch\ParadeDB.EFCore.FacetedSearch.csproj" />
+    <Project Path="examples\ParadeDB.EFCore.HybridRrf\ParadeDB.EFCore.HybridRrf.csproj" />
+    <Project Path="examples\ParadeDB.EFCore.MoreLikeThis\ParadeDB.EFCore.MoreLikeThis.csproj" />
+    <Project Path="examples\ParadeDB.EFCore.Quickstart\ParadeDB.EFCore.Quickstart.csproj" />
+    <Project Path="examples\ParadeDB.EFCore.Rag\ParadeDB.EFCore.Rag.csproj" />
+    <Project Path="examples\ParadeDB.EFCore.Shared\ParadeDB.EFCore.Shared.csproj" />
+  </Folder>
+  <Folder Name="/scripts/">
+    <File Path="scripts\run_paradedb.sh" />
+  </Folder>
+  <Folder Name="/src/">
+    <File Path="src\Directory.Build.props" />
+    <Project Path="src\ParadeDB.EFCore\ParadeDB.EFCore.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ParadeDB.EFCore.Tests/ParadeDB.EFCore.Tests.csproj" />
+    <Project Path="tests\ParadeDB.EFCore.IntegrationTests\ParadeDB.EFCore.IntegrationTests.csproj" />
+  </Folder>
+</Solution>
