@@ -32,8 +32,6 @@ builder.Services.AddDbContextPool<AppDbContext>(opt =>
 });
 ```
 
-A complete example is also available in the [samples directory](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/tree/main/samples/EFCore.ParadeDB.PgSearch.Api) demonstrating PgSearch configuration and BM25 index creation.
-
 ## Function Mappings
 
 The following ParadeDB operations are available through the `EF.Functions` API:
@@ -46,6 +44,7 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 | [Highlighting](https://docs.paradedb.com/documentation/full-text/highlight) | `Snippet()`                                |
 | [Proximity](https://docs.paradedb.com/documentation/full-text/proximity)    | `Proximity()`                              |
 | [BM25 scoring](https://docs.paradedb.com/documentation/sorting/score)       | `Score()`                                  |
+| [Tokenizers](https://docs.paradedb.com/documentation/tokenizers/overview)   | `TokenizeAsArray()`                        |
 
 ## Usage Example
 
