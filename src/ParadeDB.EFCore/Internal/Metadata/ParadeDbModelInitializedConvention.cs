@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace ParadeDB.EFCore.Internal.Metadata;
 
-internal sealed class PgSearchModelInitializedConvention : IModelInitializedConvention
+internal sealed class ParadeDbModelInitializedConvention : IModelInitializedConvention
 {
     public void ProcessModelInitialized(
         IConventionModelBuilder modelBuilder,

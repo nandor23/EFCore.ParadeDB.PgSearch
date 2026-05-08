@@ -6,9 +6,9 @@ using ParadeDB.EFCore.Internal;
 
 namespace ParadeDB.EFCore.Extensions;
 
-public static class PgSearchDbContextOptionsBuilderExtensions
+public static class ParadeDbDbContextOptionsBuilderExtensions
 {
-    public static NpgsqlDbContextOptionsBuilder UsePgSearch(
+    public static NpgsqlDbContextOptionsBuilder UseParadeDb(
         this NpgsqlDbContextOptionsBuilder optionsBuilder
     )
     {
@@ -17,7 +17,7 @@ public static class PgSearchDbContextOptionsBuilderExtensions
         ).OptionsBuilder;
 
         ((IDbContextOptionsBuilderInfrastructure)coreOptionsBuilder).AddOrUpdateExtension(
-            new PgSearchOptionsExtension()
+            new ParadeDbOptionsExtension()
         );
 
         return optionsBuilder;

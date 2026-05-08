@@ -15,7 +15,7 @@ public sealed class TestDbContext : DbContext
         new DbContextOptionsBuilder<TestDbContext>()
             .UseNpgsql(
                 connectionString: "Host=localhost;Database=fake;Username=fake;Password=fake",
-                npgsqlOptionsAction: o => o.UsePgSearch()
+                npgsqlOptionsAction: o => o.UseParadeDb()
             )
             .UseSnakeCaseNamingConvention()
             .Options;

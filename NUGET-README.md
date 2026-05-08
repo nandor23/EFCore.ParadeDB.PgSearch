@@ -18,7 +18,8 @@ BM25 index creation must be defined using raw SQL. See the [EF Core documentatio
 
 ## Configuration
 
-Install the [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/10.0.0-rc.1#readme-body-tab) NuGet package and configure your DbContext by calling `UsePgSearch()` on the `NpgsqlDbContextOptionsBuilder` to enable pg_search function mappings.
+Install the [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/10.0.0-rc.1#readme-body-tab) 
+NuGet package and configure your DbContext by calling `UseParadeDb()` on the `NpgsqlDbContextOptionsBuilder` to enable pg_search function mappings.
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +28,7 @@ builder.Services.AddDbContextPool<AppDbContext>(opt =>
 {
     opt.UseNpgsql(
         builder.Configuration.GetConnectionString("AppDatabase"),
-        o => o.UsePgSearch()
+        o => o.UseParadeDb()
     );
 });
 ```

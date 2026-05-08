@@ -25,7 +25,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearchDbFunctionsExtensions.Proximity))
+        if (method.Name != nameof(ParadeDbFunctionsExtensions.Proximity))
         {
             return null;
         }

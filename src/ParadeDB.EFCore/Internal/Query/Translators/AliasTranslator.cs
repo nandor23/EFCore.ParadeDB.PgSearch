@@ -25,7 +25,7 @@ internal sealed class AliasTranslator : IMethodCallTranslator
         IDiagnosticsLogger<DbLoggerCategory.Query> logger
     )
     {
-        if (method.Name != nameof(PgSearchDbFunctionsExtensions.Alias))
+        if (method.Name != nameof(ParadeDbFunctionsExtensions.Alias))
         {
             return null;
         }

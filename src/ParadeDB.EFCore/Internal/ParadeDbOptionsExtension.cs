@@ -7,27 +7,27 @@ using ParadeDB.EFCore.Internal.Query;
 
 namespace ParadeDB.EFCore.Internal;
 
-internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
+internal sealed class ParadeDbOptionsExtension : IDbContextOptionsExtension
 {
-    public PgSearchOptionsExtension()
+    public ParadeDbOptionsExtension()
     {
-        Info = new PgSearchOptionsExtensionInfo(this);
+        Info = new ParadeDbOptionsExtensionInfo(this);
     }
 
     public void ApplyServices(IServiceCollection services)
     {
-        services.AddScoped<IMethodCallTranslatorPlugin, PgSearchMethodCallTranslatorPlugin>();
-        services.AddScoped<IMemberTranslatorPlugin, PgSearchMemberTranslatorPlugin>();
-        services.AddSingleton<IConventionSetPlugin, PgSearchConventionSetPlugin>();
+        services.AddScoped<IMethodCallTranslatorPlugin, ParadeDbMethodCallTranslatorPlugin>();
+        services.AddScoped<IMemberTranslatorPlugin, ParadeDbMemberTranslatorPlugin>();
+        services.AddSingleton<IConventionSetPlugin, ParadeDbConventionSetPlugin>();
     }
 
     public void Validate(IDbContextOptions options) { }
 
     public DbContextOptionsExtensionInfo Info { get; }
 
-    private sealed class PgSearchOptionsExtensionInfo : DbContextOptionsExtensionInfo
+    private sealed class ParadeDbOptionsExtensionInfo : DbContextOptionsExtensionInfo
     {
-        public PgSearchOptionsExtensionInfo(IDbContextOptionsExtension extension)
+        public ParadeDbOptionsExtensionInfo(IDbContextOptionsExtension extension)
             : base(extension) { }
 
         public override int GetServiceProviderHashCode() => 0;
@@ -37,10 +37,10 @@ internal sealed class PgSearchOptionsExtension : IDbContextOptionsExtension
 
         public override void PopulateDebugInfo(IDictionary<string, string> debugInfo)
         {
-            debugInfo["PgSearch"] = "Enabled";
+            debugInfo["ParadeDB"] = "Enabled";
         }
 
         public override bool IsDatabaseProvider => false;
-        public override string LogFragment => "using PgSearch ";
+        public override string LogFragment => "using ParadeDB ";
     }
 }
