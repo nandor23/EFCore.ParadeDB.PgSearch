@@ -56,9 +56,9 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 
 ## Examples
 
-- [Quickstart](examples/Quickstart/Program.cs)
-- [Faceted Search](examples/FacetedSearch/Program.cs)
-- [Autocomplete](examples/Autocomplete/Program.cs)
-- [More Like This](examples/MoreLikeThis/Program.cs)
-- [Hybrid Search (RRF)](examples/HybridRrf/Program.cs)
-- [RAG](examples/Rag/Program.cs)
+- [Quickstart](examples/ParadeDB.EFCore.Quickstart/Program.cs)
+- [Faceted Search](examples/ParadeDB.EFCore.FacetedSearch/Program.cs)
+- [Autocomplete](examples/ParadeDB.EFCore.Autocomplete/Program.cs)
+- [More Like This](examples/ParadeDB.EFCore.MoreLikeThis/Program.cs)
+- [Hybrid Search (RRF)](examples/ParadeDB.EFCore.HybridRrf/Program.cs)
+- [RAG](examples/ParadeDB.EFCore.Rag/Program.cs)

@@ -26,9 +26,9 @@ jobs:
         id: extract_tag
         run: echo "tag=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
-      - name: Pack EFCore.ParadeDB.PgSearch
+      - name: Pack ParadeDB.EntityFrameworkCore
         run: |
-          dotnet pack src/EFCore.ParadeDB.PgSearch \
+          dotnet pack src/ParadeDB.EFCore/ParadeDB.EFCore.csproj \
             --configuration Release \
             --output "$PACKAGES_OUTPUT_DIR" \
             -p:PackageVersion=${{ steps.extract_tag.outputs.tag }}
