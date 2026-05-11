@@ -1,11 +1,14 @@
-using Microsoft.EntityFrameworkCore.Query;
 using ParadeDB.EFCore.Internal.Query.Translators;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace ParadeDB.EFCore.Internal.Query;
 
-internal sealed class ParadeDbMethodCallTranslatorPlugin : IMethodCallTranslatorPlugin
+internal sealed class PgSearchMethodCallTranslatorPlugin : IMethodCallTranslatorPlugin
 {
-    public ParadeDbMethodCallTranslatorPlugin(ISqlExpressionFactory sqlExpressionFactory)
+    public PgSearchMethodCallTranslatorPlugin(
+        ISqlExpressionFactory sqlExpressionFactory,
+        ICurrentDbContext currentDbContext)
     {
         Translators =
         [
@@ -14,7 +17,10 @@ internal sealed class ParadeDbMethodCallTranslatorPlugin : IMethodCallTranslator
             new SnippetTranslator(sqlExpressionFactory),
             new ProximityTranslator(sqlExpressionFactory),
             new TokenizeTranslator(sqlExpressionFactory),
-            new AliasTranslator(sqlExpressionFactory),
+            new AliasTranslator(sqlExpressionFactory, currentDbContext),
+            new RegexTermTranslator(sqlExpressionFactory),
+            new RegexPhraseTranslator(sqlExpressionFactory),
+            new PhrasePrefixTranslator(sqlExpressionFactory),
         ];
     }
 

@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace ParadeDB.EFCore.Modifiers;
 
 public readonly struct Boost
@@ -6,5 +8,5 @@ public readonly struct Boost
 
     internal Boost(float factor) => _factor = factor;
 
-    public override string ToString() => $"pdb.boost({_factor})";
+    public override string ToString() => $"pdb.boost({_factor.ToString(CultureInfo.InvariantCulture)})";
 }

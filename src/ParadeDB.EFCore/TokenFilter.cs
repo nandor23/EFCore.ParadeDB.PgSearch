@@ -55,6 +55,10 @@ public sealed class TokenFilter
 
     public override string ToString() => $"'{_value}'";
 
+    public override bool Equals(object? obj) => obj is TokenFilter other && _value == other._value;
+
+    public override int GetHashCode() => _value.GetHashCode();
+
     public static readonly TokenFilter AlphaNumericOnly = new("alpha_num_only=true");
     public static readonly TokenFilter AsciiFolding = new("ascii_folding=true");
     public static readonly TokenFilter PreserveCase = new("lowercase=false");

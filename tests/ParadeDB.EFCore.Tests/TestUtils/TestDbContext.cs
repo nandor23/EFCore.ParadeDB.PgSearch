@@ -11,6 +11,13 @@ public sealed class TestDbContext : DbContext
 
     public DbSet<Product> Products => Set<Product>();
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Product>().OwnsOne(p => p.Details, d => d.ToJson());
+    }
+
     private static DbContextOptions<TestDbContext> CreateDefaultOptions() =>
         new DbContextOptionsBuilder<TestDbContext>()
             .UseNpgsql(

@@ -7,7 +7,7 @@ internal sealed class ParadeDbConventionSetPlugin : IConventionSetPlugin
 {
     public ConventionSet ModifyConventions(ConventionSet conventionSet)
     {
-        conventionSet.ModelInitializedConventions.Add(new ParadeDbModelInitializedConvention());
+        conventionSet.ModelFinalizingConventions.Add(new ParadeDbModelFinalizingConvention());
         return conventionSet;
     }
 }

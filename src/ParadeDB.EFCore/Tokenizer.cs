@@ -36,9 +36,27 @@ public sealed class Tokenizer
         _filters = filters;
     }
 
+    public string Name => _name;
+
+    public Tokenizer WithAlias(string alias)
+    {
+        var args = _args.Concat([ $"'alias={alias}'" ]).ToArray();
+        return new Tokenizer(_name, args, _filters);
+    }
+
     public override string ToString()
     {
+        return this.ToString(false);
+    }
+
+    public string ToString(bool searchTokenizer)
+    {
         var args = _args.Concat(_filters.Select(f => f.ToString())).ToList();
+        
+        if (searchTokenizer)
+        {
+            return args.Count == 0 ? _name : $"{_name}({string.Join(", ", args)})";
+        }
 
         return args.Count == 0 ? $"pdb.{_name}" : $"pdb.{_name}({string.Join(", ", args)})";
     }
@@ -113,6 +131,7 @@ public sealed class Tokenizer
             : Lindera(language, filters);
 
     public static Tokenizer Icu(params TokenFilter[] filters) => new("icu", [], filters);
+    public static Tokenizer Icu() => new("icu", []);
 
     public static Tokenizer Jieba(params TokenFilter[] filters) => new("jieba", [], filters);
 

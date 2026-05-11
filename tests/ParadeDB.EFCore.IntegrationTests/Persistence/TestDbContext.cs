@@ -16,6 +16,7 @@ public sealed class TestDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Product>().HasKey(p => p.Id);
+        modelBuilder.Entity<Product>().OwnsOne(p => p.Details, d => d.ToJson());
         modelBuilder.Entity<Item>().HasKey(p => p.Id);
     }
 }

@@ -16,9 +16,8 @@ public static class ParadeDbDbContextOptionsBuilderExtensions
             (IRelationalDbContextOptionsBuilderInfrastructure)optionsBuilder
         ).OptionsBuilder;
 
-        ((IDbContextOptionsBuilderInfrastructure)coreOptionsBuilder).AddOrUpdateExtension(
-            new ParadeDbOptionsExtension()
-        );
+        ((IDbContextOptionsBuilderInfrastructure)coreOptionsBuilder)
+            .AddOrUpdateExtension(new ParadeDbOptionsExtension());
 
         return optionsBuilder;
     }

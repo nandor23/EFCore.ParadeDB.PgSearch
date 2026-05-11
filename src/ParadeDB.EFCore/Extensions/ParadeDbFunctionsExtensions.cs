@@ -90,6 +90,16 @@ public static class ParadeDbFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
 
     [DbFunction]
+    public static bool MatchDisjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy,
+        [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchDisjunction)));
+
+    [DbFunction]
     public static bool MatchConjunction<TProperty>(
         this DbFunctions _,
         TProperty property,
@@ -170,6 +180,16 @@ public static class ParadeDbFunctionsExtensions
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
 
     [DbFunction]
+    public static bool MatchConjunction<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy,
+        [NotParameterized] Boost boost
+    ) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(MatchConjunction)));
+
+    [DbFunction]
     public static bool Phrase<TProperty>(this DbFunctions _, TProperty property, string value) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
@@ -223,6 +243,24 @@ public static class ParadeDbFunctionsExtensions
         TProperty property,
         string[] values,
         [NotParameterized] Slop slop
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string value,
+        [NotParameterized] Slop slop,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
+
+    [DbFunction]
+    public static bool Phrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Slop slop,
+        [NotParameterized] Boost boost
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Phrase)));
 
     [DbFunction]
@@ -291,6 +329,15 @@ public static class ParadeDbFunctionsExtensions
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
 
     [DbFunction]
+    public static bool Term<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        [NotParameterized] Fuzzy fuzzy,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Term)));
+
+    [DbFunction]
     public static float Score<TProperty>(this DbFunctions _, TProperty property) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Score)));
 
@@ -352,9 +399,118 @@ public static class ParadeDbFunctionsExtensions
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(TokenizeAsArray)));
 
     [DbFunction]
-    public static string Alias<TProperty>(
+    public static bool RegexTerm<TProperty>(this DbFunctions _, TProperty property, string pattern) =>
+        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexTerm)));
+
+    [DbFunction]
+    public static bool RegexTerm<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string pattern,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexTerm)));
+
+    [DbFunction]
+    public static bool RegexPhrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] patterns
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexPhrase)));
+
+    [DbFunction]
+    public static bool RegexPhrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] patterns,
+        uint slop
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexPhrase)));
+
+    [DbFunction]
+    public static bool RegexPhrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] patterns,
+        uint slop,
+        uint maxExpansions
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexPhrase)));
+
+    [DbFunction]
+    public static bool RegexPhrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] patterns,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexPhrase)));
+
+    [DbFunction]
+    public static bool RegexPhrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] patterns,
+        uint slop,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexPhrase)));
+
+    [DbFunction]
+    public static bool RegexPhrase<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] patterns,
+        uint slop,
+        uint maxExpansions,
+        [NotParameterized] Boost boost
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(RegexPhrase)));
+
+    [DbFunction]
+    public static bool PhrasePrefix<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        string[] values,
+        int? maxExpansions = null
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(PhrasePrefix)));
+
+    [DbFunction]
+    public static TProperty Alias<TProperty>(
         this DbFunctions _,
         TProperty property,
         [NotParameterized] string aliasName
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
+
+    [DbFunction]
+    public static TProperty Alias<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [NotParameterized] TokenizerType tokenizerType
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
+
+    [DbFunction]
+    public static TProperty Alias<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [NotParameterized] TokenizerType tokenizerType,
+        [NotParameterized] params TokenFilter[] tokenFilters
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
+
+    [DbFunction]
+    public static TProperty Alias<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [NotParameterized] TokenizerType tokenizerType,
+        [NotParameterized] int tokenizerIndex
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
+
+    [DbFunction]
+    public static TProperty Alias<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [NotParameterized] Tokenizer tokenizer
+    ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
+
+    [DbFunction]
+    public static TProperty Alias<TProperty>(
+        this DbFunctions _,
+        TProperty property,
+        [NotParameterized] Tokenizer tokenizer,
+        [NotParameterized] int tokenizerIndex
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Alias)));
 }

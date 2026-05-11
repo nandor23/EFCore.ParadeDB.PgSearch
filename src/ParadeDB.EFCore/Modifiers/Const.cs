@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace ParadeDB.EFCore.Modifiers;
 
 public readonly struct Const
@@ -6,5 +8,5 @@ public readonly struct Const
 
     internal Const(float value) => _value = value;
 
-    public override string ToString() => $"pdb.const({_value})";
+    public override string ToString() => $"pdb.const({_value.ToString(CultureInfo.InvariantCulture)})";
 }

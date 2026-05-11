@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using ParadeDB.EFCore.Extensions;
 
 namespace ParadeDB.EFCore.IntegrationTests.Persistence;
 
@@ -10,7 +11,7 @@ public sealed class TestDbContextFactory : IDesignTimeDbContextFactory<TestDbCon
     public TestDbContext CreateDbContext(string[] args)
     {
         var options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseNpgsql("Host=localhost;Database=factory;Username=factory;Password=factory")
+            .UseNpgsql("Host=localhost;Database=factory;Username=factory;Password=factory", o => o.UseParadeDb())
             .UseSnakeCaseNamingConvention()
             .Options;
 

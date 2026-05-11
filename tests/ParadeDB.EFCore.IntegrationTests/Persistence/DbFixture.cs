@@ -60,6 +60,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
                     Whether you're hitting the pavement or enjoying a leisurely walk, these shoes provide the support
                     and comfort you need.
                     """,
+                Details = new() { Summary = "Memory foam running shoes with breathable mesh", Tags = ["shoes", "running", "comfort"] },
             },
             new Product
             {
@@ -72,6 +73,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
                     while the slip-resistant rubber outsole ensures stability on various surfaces.
                     Perfect for both seasoned runners and beginners.
                     """,
+                Details = new() { Summary = "Lightweight jogging sneakers with cushioning", Tags = ["sneakers", "jogging", "lightweight"] },
             },
             new Product
             {
@@ -84,6 +86,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
                     for extended wear, and the long-lasting battery provides hours of uninterrupted listening.
                     Ideal for travel, work, or leisure.
                     """,
+                Details = new() { Summary = "Wireless headphones with noise cancellation", Tags = ["audio", "wireless", "headphones"] },
             },
             new Product
             {
@@ -96,6 +99,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
                     offer a personalized fit, while the foldable design makes them easy to store and transport.
                     Suitable for audiophiles and casual listeners alike.
                     """,
+                Details = new() { Summary = "Over-ear headphones with premium drivers", Tags = ["audio", "studio", "bass"] },
             },
             new Product
             {
@@ -108,6 +112,7 @@ public sealed class DbFixture : IAsyncInitializer, IAsyncDisposable
                     delivering a rich and full-bodied cup of coffee. Its sleek design and easy-to-use mechanism
                     make it a must-have for coffee enthusiasts.
                     """,
+                Details = new() { Summary = "French press coffee maker borosilicate glass", Tags = ["coffee", "kitchen", "brew"] },
             },
         };
 
