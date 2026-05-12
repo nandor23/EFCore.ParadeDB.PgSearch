@@ -10,7 +10,6 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>NUGET-README.md</PackageReadmeFile>
     <PackageIcon>paradedb-logo.png</PackageIcon>
-    <PackageIconUrl>https://github.com/paradedb/efcore-paradedb/blob/main/assets/paradedb-logo.png</PackageIconUrl>
     <PackageProjectUrl>https://www.paradedb.com</PackageProjectUrl>
     <RepositoryUrl>https://github.com/paradedb/efcore-paradedb</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
