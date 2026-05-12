@@ -1,59 +1,45 @@
+<!-- ParadeDB: Postgres for Search and Analytics -->
 <h1 align="center">
-    <img alt="Logo" src="assets/paradedb-logo.png" />
-  <br>
-  EFCore.ParadeDB.PgSearch
-  <br>
+  <a href="https://paradedb.com"><img src="https://github.com/paradedb/paradedb/raw/main/docs/logo/readme.svg" alt="ParadeDB"></a>
+<br>
 </h1>
 
-<h4 align="center">Entity Framework Core extension for <a href="https://www.paradedb.com" target="_blank">ParadeDB</a> pg_search</h4>
-
 <p align="center">
-  <a href="https://github.com/paradedb/efcore-paradedb/actions/workflows/ci.yml"><img src="https://github.com/paradedb/efcore-paradedb/actions/workflows/ci.yml/badge.svg?branch=main" alt="Build"></a>
-  <img src="https://img.shields.io/nuget/dt/ParadeDB.EntityFrameworkCore?color=%235c6bc0" alt="NuGet Downloads">
-  <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/github/license/paradedb/efcore-paradedb?color=%231e8e7e" alt="License"></a>
+  <b>Simple, Elastic-quality search for Postgres</b><br/>
 </p>
 
-EFCore.ParadeDB.PgSearch adds support for ParadeDB's pg_search extension to [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/index.html?tabs=onconfiguring), exposing ParadeDB search functions through the **EF.Functions** API for LINQ-based full-text search queries.
-BM25 index creation must be defined using raw SQL. See the [EF Core documentation](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing?tabs=dotnet-core-cli#adding-raw-sql) for details on adding raw SQL to migrations.
+<h3 align="center">
+  <a href="https://paradedb.com">Website</a> &bull;
+  <a href="https://docs.paradedb.com">Docs</a> &bull;
+  <a href="https://paradedb.com/slack/">Community</a> &bull;
+  <a href="https://paradedb.com/blog/">Blog</a> &bull;
+  <a href="https://docs.paradedb.com/changelog/">Changelog</a>
+</h3>
+
+<p align="center">
+  <a href="https://www.nuget.org/packages/ParadeDB.EntityFrameworkCore"><img src="https://img.shields.io/nuget/v/ParadeDB.EntityFrameworkCore" alt="NuGet Version"></a>&nbsp;
+  <a href="https://www.nuget.org/packages/ParadeDB.EntityFrameworkCore"><img src="https://img.shields.io/badge/.NET-8%20%7C%209%20%7C%2010-blue?logo=dotnet" alt=".NET Versions"></a>&nbsp;
+  <a href="https://www.nuget.org/packages/ParadeDB.EntityFrameworkCore"><img src="https://img.shields.io/nuget/dt/ParadeDB.EntityFrameworkCore" alt="NuGet Downloads"></a>&nbsp;
+  <a href="https://codecov.io/gh/paradedb/efcore-paradedb"><img src="https://codecov.io/gh/paradedb/efcore-paradedb/graph/badge.svg" alt="Codecov"></a>&nbsp;
+  <a href="https://github.com/paradedb/efcore-paradedb?tab=MIT-1-ov-file#readme"><img src="https://img.shields.io/github/license/paradedb/efcore-paradedb?color=blue" alt="License"></a>&nbsp;
+  <a href="https://paradedb.com/slack"><img src="https://img.shields.io/badge/Join%20Slack-purple?logo=slack" alt="Community"></a>&nbsp;
+  <a href="https://x.com/paradedb"><img src="https://img.shields.io/twitter/url?url=https%3A%2F%2Ftwitter.com%2Fparadedb&label=Follow%20%40paradedb" alt="Follow @paradedb"></a>
+</p>
+
+---
+
+## ParadeDB for Entity Framework Core
+
+The official [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/) integration for [ParadeDB](https://paradedb.com), built on top of [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/index.html), exposing ParadeDB search functions through the `EF.Functions` API for LINQ-based full-text search queries. Follow the [getting started guide](https://docs.paradedb.com/documentation/getting-started/environment#efcore) to begin.
 
 ## Requirements & Compatibility
 
 | Component  | Supported                     |
 | ---------- | ----------------------------- |
 | .NET       | 8, 9, 10                      |
+| EF Core    | 8, 9, 10                      |
 | ParadeDB   | 0.23.0+                       |
 | PostgreSQL | 15+ (with ParadeDB extension) |
-
-## Configuration
-
-Install the [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/10.0.0-rc.1#readme-body-tab)
-NuGet package and configure your DbContext by calling `UseParadeDb()` on the `NpgsqlDbContextOptionsBuilder` to enable pg_search function mappings.
-
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContextPool<AppDbContext>(opt =>
-{
-    opt.UseNpgsql(
-        builder.Configuration.GetConnectionString("AppDatabase"),
-        o => o.UseParadeDb()
-    );
-});
-```
-
-## Function Mappings
-
-The following ParadeDB operations are available through the `EF.Functions` API:
-
-| ParadeDB Operation                                                          | LINQ Methods                               |
-| --------------------------------------------------------------------------- | ------------------------------------------ |
-| [Match](https://docs.paradedb.com/documentation/full-text/match)            | `MatchDisjunction()`, `MatchConjunction()` |
-| [Phrase](https://docs.paradedb.com/documentation/full-text/phrase)          | `Phrase()`                                 |
-| [Term](https://docs.paradedb.com/documentation/full-text/term)              | `Term()`                                   |
-| [Highlighting](https://docs.paradedb.com/documentation/full-text/highlight) | `Snippet()`                                |
-| [Proximity](https://docs.paradedb.com/documentation/full-text/proximity)    | `Proximity()`                              |
-| [BM25 scoring](https://docs.paradedb.com/documentation/sorting/score)       | `Score()`                                  |
-| [Tokenizers](https://docs.paradedb.com/documentation/tokenizers/overview)   | `TokenizeAsArray()`                        |
 
 ## Examples
 
@@ -84,7 +70,7 @@ If you need commercial support, please [contact the ParadeDB team](mailto:sales@
 
 We would like to thank the following members of the Entity Framework Core community for the initial implementation of this project:
 
-- [Nandor Krizbai](https://github.com/nandor23) - .Net developer
+- [Nandor Krizbai](https://github.com/nandor23) - .NET developer
 
 ## License
 
