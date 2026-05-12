@@ -45,7 +45,7 @@ GitHub release do not already exist.
 The canonical support matrix lives in `README.md` under
 **Requirements & Compatibility** and should be kept up to date.
 
-Today, the maintained minimum ParadeDB version is `0.23.0`. Update the README
+Today, the maintained minimum ParadeDB version is `0.22.0`. Update the README
 matrix, CI image tags, and any version-gated examples in the same PR whenever
 that floor changes.
 
@@ -54,7 +54,7 @@ that floor changes.
 - .NET: 8, 9, 10
 - Entity Framework Core: via Npgsql.EntityFrameworkCore.PostgreSQL
 - PostgreSQL: 15+ with the ParadeDB extension
-- ParadeDB: 0.23.0+
+- ParadeDB: 0.22.0+
 
 ## Pre-Release Checklist
 

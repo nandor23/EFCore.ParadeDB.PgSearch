@@ -12,8 +12,9 @@ BM25 index creation must be defined using raw SQL. See the [EF Core documentatio
 
 | Component  | Supported                     |
 | ---------- | ----------------------------- |
-| .NET       | 8, 9, 10                      |
-| ParadeDB   | 0.23.0+                       |
+| .NET       | 8+                            |
+| EF Core    | 8+                            |
+| ParadeDB   | 0.22.0+                       |
 | PostgreSQL | 15+ (with ParadeDB extension) |
 
 ## Configuration
