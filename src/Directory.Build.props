@@ -5,19 +5,19 @@
   />
 
   <PropertyGroup>
-    <Authors>Nandor Krizbai</Authors>
-    <Copyright>Copyright (c) Nandor Krizbai</Copyright>
+    <Authors>ParadeDB</Authors>
+    <Copyright>Copyright (c) ParadeDB</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>NUGET-README.md</PackageReadmeFile>
-    <PackageIcon>pgsearch-logo.png</PackageIcon>
-    <PackageIconUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch/blob/main/logo/pgsearch-logo.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/nandor23/EFCore.ParadeDB.PgSearch</RepositoryUrl>
+    <PackageIcon>paradedb-logo.png</PackageIcon>
+    <PackageIconUrl>https://github.com/paradedb/efcore-paradedb/blob/main/assets/paradedb-logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://www.paradedb.com</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/paradedb/efcore-paradedb</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\NUGET-README.md" Pack="true" PackagePath="\" />
     <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
-    <None Include="..\..\logo\pgsearch-logo.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\assets\paradedb-logo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 </Project>

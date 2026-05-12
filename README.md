@@ -1,5 +1,5 @@
 <h1 align="center">
-    <img alt="Logo" src="logo/pgsearch-logo.svg" width="150"/>
+    <img alt="Logo" src="assets/paradedb-logo.png" />
   <br>
   EFCore.ParadeDB.PgSearch
   <br>
