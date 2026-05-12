@@ -68,7 +68,7 @@ var products = await dbContext
     .ToListAsync();
 ```
 
-### Translates to:
+### Translates to
 
 ```sql
 SELECT p.id AS "Id", p.description AS "Description", pdb.score(p.id) AS "Score"

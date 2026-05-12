@@ -108,7 +108,7 @@ public sealed class TokenizeTests : TestBase
     public async Task Tokenize_Predicate_WithAllFilters_ExecutesSuccessfully(Tokenizer tokenizer)
     {
         await using var context = DbFixture.CreateContext();
-        
+
         var results = await context
             .Products.Where(p =>
                 EF.Functions.Phrase(p.Description, EF.Functions.Tokenize(p.Description, tokenizer))
