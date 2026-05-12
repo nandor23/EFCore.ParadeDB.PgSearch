@@ -63,3 +63,29 @@ The following ParadeDB operations are available through the `EF.Functions` API:
 - [More Like This](examples/ParadeDB.EFCore.MoreLikeThis/Program.cs)
 - [Hybrid Search (RRF)](examples/ParadeDB.EFCore.HybridRrf/Program.cs)
 - [RAG](examples/ParadeDB.EFCore.Rag/Program.cs)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, running tests, linting, and the PR workflow.
+
+## Support
+
+If you're missing a feature or have found a bug, please open a
+[GitHub Issue](https://github.com/paradedb/efcore-paradedb/issues/new/choose).
+
+To get community support, you can:
+
+- Post a question in the [ParadeDB Slack Community](https://paradedb.com/slack)
+- Ask for help on our [GitHub Discussions](https://github.com/paradedb/paradedb/discussions)
+
+If you need commercial support, please [contact the ParadeDB team](mailto:sales@paradedb.com).
+
+## Acknowledgments
+
+We would like to thank the following members of the Entity Framework Core community for the initial implementation of this project:
+
+- [Nandor Krizbai](https://github.com/nandor23) - .Net developer
+
+## License
+
+ParadeDB for Entity Framework Core is licensed under the [MIT License](LICENSE).
