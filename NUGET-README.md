@@ -1,24 +1,24 @@
-# EFCore.ParadeDB.PgSearch
+# ParadeDB.EntityFrameworkCore
 
 Entity Framework Core extension for [ParadeDB](https://www.paradedb.com) pg_search
 
-[![Build](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/nandor23/EFCore.ParadeDB.PgSearch/actions/workflows/ci.yml)
-[![License](https://img.shields.io/github/license/nandor23/EFCore.ParadeDB.PgSearch?color=%231e8e7e)](https://opensource.org/license/mit)
+[![Build](https://github.com/paradedb/efcore-paradedb/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/paradedb/efcore-paradedb/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/paradedb/efcore-paradedb?color=%231e8e7e)](https://opensource.org/license/mit)
 
-EFCore.ParadeDB.PgSearch adds support for ParadeDB's pg_search extension to [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/index.html?tabs=onconfiguring), exposing ParadeDB search functions through the **EF.Functions** API for LINQ-based full-text search queries.
+ParadeDB.EntityFrameworkCore adds support for ParadeDB's pg_search extension to [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.npgsql.org/efcore/index.html?tabs=onconfiguring), exposing ParadeDB search functions through the **EF.Functions** API for LINQ-based full-text search queries.
 BM25 index creation must be defined using raw SQL. See the [EF Core documentation](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/managing?tabs=dotnet-core-cli#adding-raw-sql) for details on adding raw SQL to migrations.
 
 ## Requirements & Compatibility
 
 | Component  | Supported                     |
-|------------|-------------------------------|
+| ---------- | ----------------------------- |
 | .NET       | 8, 9, 10                      |
 | ParadeDB   | 0.23.0+                       |
 | PostgreSQL | 15+ (with ParadeDB extension) |
 
 ## Configuration
 
-Install the [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/10.0.0-rc.1#readme-body-tab) 
+Install the [Npgsql.EntityFrameworkCore.PostgreSQL](https://www.nuget.org/packages/Npgsql.EntityFrameworkCore.PostgreSQL/10.0.0-rc.1#readme-body-tab)
 NuGet package and configure your DbContext by calling `UseParadeDb()` on the `NpgsqlDbContextOptionsBuilder` to enable pg_search function mappings.
 
 ```csharp
@@ -38,7 +38,7 @@ builder.Services.AddDbContextPool<AppDbContext>(opt =>
 The following ParadeDB operations are available through the `EF.Functions` API:
 
 | ParadeDB Operation                                                          | LINQ Methods                               |
-|-----------------------------------------------------------------------------|--------------------------------------------|
+| --------------------------------------------------------------------------- | ------------------------------------------ |
 | [Match](https://docs.paradedb.com/documentation/full-text/match)            | `MatchDisjunction()`, `MatchConjunction()` |
 | [Phrase](https://docs.paradedb.com/documentation/full-text/phrase)          | `Phrase()`                                 |
 | [Term](https://docs.paradedb.com/documentation/full-text/term)              | `Term()`                                   |
@@ -68,7 +68,7 @@ var products = await dbContext
     .ToListAsync();
 ```
 
-### Translates to:
+### Translates to
 
 ```sql
 SELECT p.id AS "Id", p.description AS "Description", pdb.score(p.id) AS "Score"

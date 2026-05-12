@@ -6,6 +6,7 @@ Each example is a minimal, runnable .NET app with its own `appsettings.json`, mi
 ## 🚀 Getting Started
 
 Prerequisites
+
 - .NET 10 SDK
 - Docker (to run the ParadeDB Docker image)
 
@@ -129,4 +130,3 @@ This example builds a mini QA system. It searches your data for relevant context
 dotnet user-secrets set "OpenRouter:ApiKey" "sk-..." --project examples/ParadeDB.EFCore.Rag
 dotnet run --project examples/ParadeDB.EFCore.Rag
 ```
-
