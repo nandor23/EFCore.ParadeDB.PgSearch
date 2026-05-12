@@ -6,7 +6,7 @@
 
   <PropertyGroup>
     <Authors>ParadeDB</Authors>
-    <Copyright>Copyright (c) ParadeDB</Copyright>
+    <Copyright>Copyright (c) ParadeDB, Inc.</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>NUGET-README.md</PackageReadmeFile>
     <PackageIcon>paradedb-logo.png</PackageIcon>
