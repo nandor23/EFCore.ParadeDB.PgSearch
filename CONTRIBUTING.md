@@ -42,15 +42,13 @@ dotnet restore build.slnf
 Unit tests:
 
 ```bash
-dotnet test tests/ParadeDB.EFCore.Tests/ParadeDB.EFCore.Tests.csproj --configuration Release
+dotnet test --project tests/ParadeDB.EFCore.Tests/ParadeDB.EFCore.Tests.csproj --configuration Release
 ```
 
-Integration tests (require a running ParadeDB instance; the helper script
-starts one in Docker):
+Integration tests:
 
 ```bash
-bash scripts/run_paradedb.sh
-dotnet test tests/ParadeDB.EFCore.IntegrationTests/ParadeDB.EFCore.IntegrationTests.csproj --configuration Release
+dotnet test --project tests/ParadeDB.EFCore.IntegrationTests/ParadeDB.EFCore.IntegrationTests.csproj --configuration Release
 ```
 
 ### Linting and Formatting
