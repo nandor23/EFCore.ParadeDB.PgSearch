@@ -28,8 +28,8 @@
 
 ---
 
-> [!WARNING]
-> `efcore-paradedb` is a work in progress and is **not yet ready for public consumption**. APIs, packaging, and behavior may change without notice while we stabilize the integration. Pin to an exact version if you experiment with it, and watch the repository for release announcements.
+> [!NOTE]
+> `efcore-paradedb` is a work in progress and is not yet recommended for production use. APIs may evolve as we stabilize the integration — pin to an exact version if you're trying it out.
 
 ## ParadeDB for Entity Framework Core
 
