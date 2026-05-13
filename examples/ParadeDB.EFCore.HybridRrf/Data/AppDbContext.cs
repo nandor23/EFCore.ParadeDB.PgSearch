@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using ParadeDB.EFCore.Shared;
 
 namespace ParadeDB.EFCore.HybridRrf.Data;
 

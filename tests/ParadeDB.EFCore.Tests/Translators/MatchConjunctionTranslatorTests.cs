@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
-using ParadeDB.EFCore;
 using ParadeDB.EFCore.Extensions;
 using ParadeDB.EFCore.Modifiers;
 using ParadeDB.EFCore.Tests.TestUtils;

@@ -1,4 +1,3 @@
-using ParadeDB.EFCore;
 using Shouldly;
 
 namespace ParadeDB.EFCore.Tests.Modifiers;

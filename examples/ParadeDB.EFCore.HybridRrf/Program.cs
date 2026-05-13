@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 using ParadeDB.EFCore.Extensions;
@@ -55,7 +56,7 @@ static async Task<List<(string Description, double RrfScore)>> HybridSearch(
 
     var conn = (NpgsqlConnection)db.Database.GetDbConnection();
 
-    if (conn.State != System.Data.ConnectionState.Open)
+    if (conn.State != ConnectionState.Open)
     {
         await conn.OpenAsync();
     }
@@ -131,7 +132,7 @@ static async Task LoadEmbeddingsAsync(AppDbContext db)
 
     var conn = (NpgsqlConnection)db.Database.GetDbConnection();
 
-    if (conn.State != System.Data.ConnectionState.Open)
+    if (conn.State != ConnectionState.Open)
     {
         await conn.OpenAsync();
     }
