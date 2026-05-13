@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using ParadeDB.EFCore;
 using ParadeDB.EFCore.Extensions;
 using Shouldly;
 

@@ -1,4 +1,3 @@
-using ParadeDB.EFCore;
 using ParadeDB.EFCore.Modifiers;
 
 namespace ParadeDB.EFCore.Tests.TestUtils;
