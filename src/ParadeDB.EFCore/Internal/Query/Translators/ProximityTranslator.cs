@@ -43,7 +43,9 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         {
             return method.Name switch
             {
-                nameof(Pdb.Proximity) => _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]),
+                nameof(Pdb.Proximity) => _sqlExpressionFactory.ApplyDefaultTypeMapping(
+                    arguments[0]
+                ),
                 nameof(Pdb.ProximityRegex) => BuildPdbFunction("prox_regex", arguments),
                 nameof(Pdb.ProximityArray) => BuildPdbFunction("prox_array", arguments),
                 _ => null,
@@ -79,7 +81,9 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
     private SqlExpression BuildPdbFunction(string name, IReadOnlyList<SqlExpression> arguments)
     {
         var flattened = Flatten(arguments);
-        var mapped = flattened.Select(a => _sqlExpressionFactory.ApplyDefaultTypeMapping(a)).ToArray();
+        var mapped = flattened
+            .Select(a => _sqlExpressionFactory.ApplyDefaultTypeMapping(a))
+            .ToArray();
 
         return _sqlExpressionFactory.Function(
             schema: "pdb",
