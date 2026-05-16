@@ -65,7 +65,10 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         return null;
     }
 
-    private PdbProximityExpression BuildProximity(IReadOnlyList<SqlExpression> arguments, bool ordered)
+    private PdbProximityExpression BuildProximity(
+        IReadOnlyList<SqlExpression> arguments,
+        bool ordered
+    )
     {
         var left = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]);
         var distance = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]);
