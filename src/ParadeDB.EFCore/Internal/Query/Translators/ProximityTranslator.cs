@@ -57,10 +57,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
             return method.Name switch
             {
                 nameof(PdbQueryExtensions.Within) => BuildProximity(arguments, false),
-                nameof(PdbQueryExtensions.WithinOrdered) => BuildProximity(
-                    arguments,
-                    ordered: true
-                ),
+                nameof(PdbQueryExtensions.WithinOrdered) => BuildProximity(arguments, true),
                 _ => null,
             };
         }
@@ -68,7 +65,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         return null;
     }
 
-    private SqlExpression BuildProximity(IReadOnlyList<SqlExpression> arguments, bool ordered)
+    private PdbProximityExpression BuildProximity(IReadOnlyList<SqlExpression> arguments, bool ordered)
     {
         var left = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]);
         var distance = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]);
@@ -116,7 +113,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
 
             foreach (var item in enumerable)
             {
-                result.Add(_sqlExpressionFactory.Constant(item!));
+                result.Add(_sqlExpressionFactory.Constant(item));
             }
 
             return result;
