@@ -52,12 +52,15 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
             };
         }
 
-        if (declaring == typeof(PdbQueryExtensions))
+        if (declaring == typeof(PdbProximityQueryExtensions))
         {
             return method.Name switch
             {
-                nameof(PdbQueryExtensions.Within) => BuildProximity(arguments, false),
-                nameof(PdbQueryExtensions.WithinOrdered) => BuildProximity(arguments, true),
+                nameof(PdbProximityQueryExtensions.Within) => BuildProximity(arguments, false),
+                nameof(PdbProximityQueryExtensions.WithinOrdered) => BuildProximity(
+                    arguments,
+                    true
+                ),
                 _ => null,
             };
         }

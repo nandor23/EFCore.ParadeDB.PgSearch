@@ -7,7 +7,10 @@ internal sealed class ParadeDbEvaluatableExpressionFilterPlugin : IEvaluatableEx
 {
     public bool IsEvaluatableExpression(Expression expression)
     {
-        if (expression is MethodCallExpression call && call.Method.ReturnType == typeof(PdbQuery))
+        if (
+            expression is MethodCallExpression call
+            && typeof(PdbQuery).IsAssignableFrom(call.Method.ReturnType)
+        )
         {
             return false;
         }

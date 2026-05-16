@@ -2,17 +2,24 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace ParadeDB.EFCore.Extensions;
 
-public static class PdbQueryExtensions
+public static class PdbProximityQueryExtensions
 {
-    public static PdbQuery Within(this PdbQuery left, int distance, string right) =>
-        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Within)));
+    extension(PdbProximityQuery left)
+    {
+        public PdbProximityQuery Within(int distance, string right) =>
+            throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Within)));
 
-    public static PdbQuery Within(this PdbQuery left, int distance, PdbQuery right) =>
-        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Within)));
+        public PdbProximityQuery Within(int distance, PdbProximityQuery right) =>
+            throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Within)));
 
-    public static PdbQuery WithinOrdered(this PdbQuery left, int distance, string right) =>
-        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(WithinOrdered)));
+        public PdbProximityQuery WithinOrdered(int distance, string right) =>
+            throw new InvalidOperationException(
+                CoreStrings.FunctionOnClient(nameof(WithinOrdered))
+            );
 
-    public static PdbQuery WithinOrdered(this PdbQuery left, int distance, PdbQuery right) =>
-        throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(WithinOrdered)));
+        public PdbProximityQuery WithinOrdered(int distance, PdbProximityQuery right) =>
+            throw new InvalidOperationException(
+                CoreStrings.FunctionOnClient(nameof(WithinOrdered))
+            );
+    }
 }

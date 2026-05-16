@@ -5,21 +5,21 @@ namespace ParadeDB.EFCore;
 
 public static partial class Pdb
 {
-    public static PdbQuery Proximity(string token) =>
+    public static PdbProximityQuery Proximity(string token) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(Proximity)));
 
-    public static PdbQuery ProximityRegex(
+    public static PdbProximityQuery ProximityRegex(
         [StringSyntax(StringSyntaxAttribute.Regex)] string pattern
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
 
-    public static PdbQuery ProximityRegex(
+    public static PdbProximityQuery ProximityRegex(
         [StringSyntax(StringSyntaxAttribute.Regex)] string pattern,
         int maxExpansions
     ) => throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityRegex)));
 
-    public static PdbQuery ProximityArray(params string[] tokens) =>
+    public static PdbProximityQuery ProximityArray(params string[] tokens) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityArray)));
 
-    public static PdbQuery ProximityArray(params PdbQuery[] operands) =>
+    public static PdbProximityQuery ProximityArray(params PdbProximityQuery[] operands) =>
         throw new InvalidOperationException(CoreStrings.FunctionOnClient(nameof(ProximityArray)));
 }
