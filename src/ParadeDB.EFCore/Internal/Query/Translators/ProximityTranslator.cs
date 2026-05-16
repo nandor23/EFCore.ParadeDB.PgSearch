@@ -13,11 +13,11 @@ namespace ParadeDB.EFCore.Internal.Query.Translators;
 
 internal sealed class ProximityTranslator : IMethodCallTranslator
 {
-    private readonly ISqlExpressionFactory _sql;
+    private readonly ISqlExpressionFactory _sqlExpressionFactory;
 
-    public ProximityTranslator(ISqlExpressionFactory sql)
+    public ProximityTranslator(ISqlExpressionFactory sqlExpressionFactory)
     {
-        _sql = sql;
+        _sqlExpressionFactory = sqlExpressionFactory;
     }
 
     public SqlExpression? Translate(
@@ -34,8 +34,8 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
             && method.Name == nameof(ParadeDbFunctionsExtensions.Match)
         )
         {
-            var column = _sql.ApplyDefaultTypeMapping(arguments[1]);
-            var query = _sql.ApplyDefaultTypeMapping(arguments[2]);
+            var column = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]);
+            var query = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]);
             return new PdbBoolExpression(column, query, PdbOperatorType.Function);
         }
 
@@ -43,7 +43,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         {
             return method.Name switch
             {
-                nameof(Pdb.Proximity) => _sql.ApplyDefaultTypeMapping(arguments[0]),
+                nameof(Pdb.Proximity) => _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]),
                 nameof(Pdb.ProximityRegex) => BuildPdbFunction("prox_regex", arguments),
                 nameof(Pdb.ProximityArray) => BuildPdbFunction("prox_array", arguments),
                 _ => null,
@@ -54,7 +54,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
         {
             return method.Name switch
             {
-                nameof(PdbQueryExtensions.Within) => BuildProximity(arguments, ordered: false),
+                nameof(PdbQueryExtensions.Within) => BuildProximity(arguments, false),
                 nameof(PdbQueryExtensions.WithinOrdered) => BuildProximity(
                     arguments,
                     ordered: true
@@ -68,9 +68,9 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
 
     private SqlExpression BuildProximity(IReadOnlyList<SqlExpression> arguments, bool ordered)
     {
-        var left = _sql.ApplyDefaultTypeMapping(arguments[0]);
-        var distance = _sql.ApplyDefaultTypeMapping(arguments[1]);
-        var right = _sql.ApplyDefaultTypeMapping(arguments[2]);
+        var left = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[0]);
+        var distance = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[1]);
+        var right = _sqlExpressionFactory.ApplyDefaultTypeMapping(arguments[2]);
 
         var withDistance = new PdbProximityExpression(left, distance, ordered);
         return new PdbProximityExpression(withDistance, right, ordered);
@@ -79,9 +79,9 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
     private SqlExpression BuildPdbFunction(string name, IReadOnlyList<SqlExpression> arguments)
     {
         var flattened = Flatten(arguments);
-        var mapped = flattened.Select(a => _sql.ApplyDefaultTypeMapping(a)).ToArray();
+        var mapped = flattened.Select(a => _sqlExpressionFactory.ApplyDefaultTypeMapping(a)).ToArray();
 
-        return _sql.Function(
+        return _sqlExpressionFactory.Function(
             schema: "pdb",
             name: name,
             arguments: mapped,
@@ -112,7 +112,7 @@ internal sealed class ProximityTranslator : IMethodCallTranslator
 
             foreach (var item in enumerable)
             {
-                result.Add(_sql.Constant(item!));
+                result.Add(_sqlExpressionFactory.Constant(item!));
             }
 
             return result;
